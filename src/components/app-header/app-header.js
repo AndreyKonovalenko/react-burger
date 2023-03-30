@@ -19,7 +19,7 @@ class AppHeader extends React.Component {
   render() {
     const { isActive } = this.state;
     return (
-      <header className={styles.header}>
+      <header className={`${styles.header} pb-4 pt-4`}>
         <nav className={styles.nav}>
           <div className={`${styles.itemContainer} ${styles.decorator1}`}>
             <NavItem
@@ -36,7 +36,7 @@ class AppHeader extends React.Component {
           <div className={`${styles.itemContainer} ${styles.decorator2}`}>
             <Logo />
           </div>
-          <div className={` ${styles.itemContainer} ${styles.decorator3}`}>
+          <div className={`${styles.itemContainer} ${styles.decorator3}`}>
             <NavItem
               option={USER_ACCOUNT}
               onClick={this.handleNavBarSelect}

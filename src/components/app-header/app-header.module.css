@@ -4,17 +4,17 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: #1c1c21;
 }
 
 .nav {
   height: 56px;
-  width: 1200px;
+  width: 1280px;
   list-style-type: none;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  flex-grow: 1;
 }
 
 .itemContainer {

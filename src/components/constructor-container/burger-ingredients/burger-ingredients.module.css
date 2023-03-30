@@ -1,0 +1,26 @@
+.container {
+  width: 600px;
+  height: 1000px;
+}
+
+.heading {
+  color: #fff;
+}
+
+.typeContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.column {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.toolBar {
+  display: flex;
+}

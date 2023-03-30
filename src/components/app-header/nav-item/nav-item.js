@@ -11,20 +11,15 @@ const NavItem = ({ option, isActive, onClick }) => {
     switch (option) {
       case BURGER_CONSTRUCTOR:
         return (
-          <BurgerIcon
-            type={isActive === BURGER_CONSTRUCTOR ? 'primary' : 'secondary'}
-          />
+          <BurgerIcon type={isActive === option ? 'primary' : 'secondary'} />
         );
-
       case ORDER_FEED:
         return (
-          <ListIcon type={isActive === ORDER_FEED ? 'primary' : 'secondary'} />
+          <ListIcon type={isActive === option ? 'primary' : 'secondary'} />
         );
       case USER_ACCOUNT:
         return (
-          <ProfileIcon
-            type={isActive === USER_ACCOUNT ? 'primary' : 'secondary'}
-          />
+          <ProfileIcon type={isActive === option ? 'primary' : 'secondary'} />
         );
       default:
         console.log('Что-то пошло не так!');
