@@ -1,9 +1,38 @@
+.header {
+  height: 88px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
-.content { 
-height: 56px;
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
+.nav {
+  height: 56px;
+  width: 1200px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+}
 
+.itemContainer {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.decorator1 {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.decorator2 {
+  justify-content: center;
+}
+
+.decorator3 {
+  justify-content: flex-end;
 }

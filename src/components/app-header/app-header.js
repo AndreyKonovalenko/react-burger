@@ -1,19 +1,50 @@
-import React from "react";
-import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
+import React from 'react';
+import NavItem from './nav-item/nav-item';
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './app-header.module.css';
 
-import appHeaderStyles from "./app-header.module.css";
+export const BURGER_CONSTRUCTOR = 'Конструктор';
+export const ORDER_FEED = 'Лента заказов';
+export const USER_ACCOUNT = 'Личный кабинет';
 
 class AppHeader extends React.Component {
+  state = {
+    isActive: BURGER_CONSTRUCTOR,
+  };
+
+  handleNavBarSelect = (value) => {
+    this.setState({ isActive: value });
+  };
+
   render() {
+    const { isActive } = this.state;
     return (
-      <div
-        style={{ backgroundColor: "#0B5FFF", color: "white" }}
-        className="p-4"
-      >
-        <div className={appHeaderStyles.content}>
-          <Logo />
-        </div>
-      </div>
+      <header className={styles.header}>
+        <nav className={styles.nav}>
+          <div className={`${styles.itemContainer} ${styles.decorator1}`}>
+            <NavItem
+              option={BURGER_CONSTRUCTOR}
+              onClick={this.handleNavBarSelect}
+              isActive={isActive}
+            />
+            <NavItem
+              option={ORDER_FEED}
+              onClick={this.handleNavBarSelect}
+              isActive={isActive}
+            />
+          </div>
+          <div className={`${styles.itemContainer} ${styles.decorator2}`}>
+            <Logo />
+          </div>
+          <div className={` ${styles.itemContainer} ${styles.decorator3}`}>
+            <NavItem
+              option={USER_ACCOUNT}
+              onClick={this.handleNavBarSelect}
+              isActive={isActive}
+            />
+          </div>
+        </nav>
+      </header>
     );
   }
 }
