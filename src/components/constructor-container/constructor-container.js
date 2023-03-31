@@ -15,6 +15,10 @@ class ConstructorContainer extends React.Component {
 
   handleTabSelect = (vlue) => {
     this.setState({ current: vlue });
+    const element = document.getElementById(vlue);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   render() {
