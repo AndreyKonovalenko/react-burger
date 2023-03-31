@@ -1,5 +1,9 @@
 .container {
   width: 600px;
-  height: 752px;
-  background-color: #0b5fff;
+  height: 912px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
 }

@@ -1,28 +1,21 @@
 .container {
-  height: 752px;
+  height: 912px;
   width: 600px;
 }
 
-.heading {
-  color: #fff;
-}
-
 .scrollbar {
-  height: 752px;
+  height: 716px;
   overflow: scroll;
   overflow-x: hidden;
   scrollbar-color: #8585ad #2f2f37;
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
-.scrollbar::-webkit-scrollbar-track {
+.srollbar::-webkit-scrollbar-track {
   background: #2f2f37;
-  height: 688px;
 }
 .scrollbar::-webkit-scrollbar-thumb {
   background: #8585ad;
-  border: 3px solid #2f2f37;
-  border-radius: 6px;
 }
