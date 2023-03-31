@@ -1,27 +1,28 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from './ingredient/ingredient';
+import TabBar from './tab-bar/tab-bar';
+import Collection from './collection/collection';
 import styles from './burger-ingredients.module.css';
 
 import { BUN, SAUCE, MAIN } from '../constructor-container';
+
 const BurgerIngredients = ({ handleTabSelect, current, data }) => {
-  const splitter = (data, type) => {
-    const firstColumn = [];
-    const secondColumn = [];
-    data.forEach((element, index) => {
-      if (element.type === type) {
-        if (index % 2 === 0) {
-          firstColumn.push(<Ingredient key={element._id} data={element} />);
-        } else {
-          secondColumn.push(<Ingredient key={element._id} data={element} />);
-        }
+  const splitterToColumn = (data, type) => {
+    const left = [];
+    const right = [];
+    const filtered = data.filter((ingredient) => ingredient.type === type);
+    filtered.forEach((element, index) => {
+      if (index % 2 === 0) {
+        left.push(<Ingredient key={element._id} data={element} />);
+      } else {
+        right.push(<Ingredient key={element._id} data={element} />);
       }
     });
-    return { firstColumn, secondColumn };
+    return { left, right };
   };
 
-  const bun = splitter(data, 'bun');
-  const sauce = splitter(data, 'sauce');
-  const main = splitter(data, 'main');
+  const bun = splitterToColumn(data, 'bun');
+  const sauce = splitterToColumn(data, 'sauce');
+  const main = splitterToColumn(data, 'main');
 
   return (
     <div className={styles.container}>
@@ -30,38 +31,12 @@ const BurgerIngredients = ({ handleTabSelect, current, data }) => {
           Собирите бургер
         </span>
       </div>
-      <div className={styles.toolBar}>
-        <Tab value={BUN} active={current === BUN} onClick={handleTabSelect}>
-          {BUN}
-        </Tab>
-        <Tab value={SAUCE} active={current === SAUCE} onClick={handleTabSelect}>
-          {SAUCE}
-        </Tab>
-        <Tab value={MAIN} active={current === MAIN} onClick={handleTabSelect}>
-          {MAIN}
-        </Tab>
+      <TabBar current={current} onClick={handleTabSelect} />
+      <div className={styles.scrollbar}>
+        <Collection headline={BUN} columns={bun} />
+        <Collection headline={SAUCE} columns={sauce} />
+        <Collection headline={MAIN} columns={main} />
       </div>
-      <>
-        <span>{BUN}</span>
-        <div className={styles.typeContainer}>
-          <div className={styles.column}>{bun.firstColumn}</div>
-          <div className={styles.column}>{bun.secondColumn}</div>
-        </div>
-      </>
-      <>
-        <span>{SAUCE}</span>
-        <div className={styles.typeContainer}>
-          <div className={styles.column}>{sauce.firstColumn}</div>
-          <div className={styles.column}>{sauce.secondColumn}</div>
-        </div>
-      </>
-      <>
-        <span>{MAIN}</span>
-        <div className={styles.typeContainer}>
-          <div className={styles.column}>{main.firstColumn}</div>
-          <div className={styles.column}>{main.secondColumn}</div>
-        </div>
-      </>
     </div>
   );
 };

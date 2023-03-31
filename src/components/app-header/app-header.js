@@ -19,7 +19,7 @@ class AppHeader extends React.Component {
   render() {
     const { isActive } = this.state;
     return (
-      <header className={`${styles.header} pb-4 pt-4`}>
+      <header className={styles.header}>
         <nav className={styles.nav}>
           <div className={`${styles.itemContainer} ${styles.decorator1}`}>
             <NavItem

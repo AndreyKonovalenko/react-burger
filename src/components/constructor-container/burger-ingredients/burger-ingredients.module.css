@@ -1,26 +1,28 @@
 .container {
+  height: 752px;
   width: 600px;
-  height: 1000px;
 }
 
 .heading {
   color: #fff;
 }
 
-.typeContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-}
-.column {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+.scrollbar {
+  height: 752px;
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-color: #8585ad #2f2f37;
 }
 
-.toolBar {
-  display: flex;
+.scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: #2f2f37;
+  height: 688px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #2f2f37;
+  border-radius: 6px;
 }
