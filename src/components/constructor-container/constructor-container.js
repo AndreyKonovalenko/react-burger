@@ -44,7 +44,7 @@ class ConstructorContainer extends React.Component {
           current={current}
           data={data}
         />
-        <BurgerConstructor burger={burger} />
+        <BurgerConstructor burger={burger} data={data} />
       </main>
     );
   }

@@ -1,11 +1,15 @@
+import PropTypes from 'prop-types';
 import styles from './element-container.module.css';
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { data } from '../../../../utils/data';
+import {
+  ingredientPropTypes,
+  burgerPropTypes,
+} from '../../../../utils/prop-types';
 
-const ElementContainer = ({ burger }) => {
+const ElementContainer = ({ burger, data }) => {
   const { top, bottom, rest } = burger;
   const bunTop = data.find((element) => element._id === top);
   const bunBottom = data.find((element) => element._id === bottom);
@@ -19,7 +23,7 @@ const ElementContainer = ({ burger }) => {
         <ConstructorElement
           type='top'
           isLocked={true}
-          text={bunTop.name}
+          text={`${bunTop.name} (верх)`}
           price={200}
           thumbnail={bunTop.image}
         />
@@ -40,13 +44,18 @@ const ElementContainer = ({ burger }) => {
         <ConstructorElement
           type='bottom'
           isLocked={true}
-          text={bunBottom.name}
+          text={`${bunBottom.name} (низ)`}
           price={200}
           thumbnail={bunBottom.image}
         />
       </div>
     </div>
   );
+};
+
+ElementContainer.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+  burger: burgerPropTypes.isRequired,
 };
 
 export default ElementContainer;

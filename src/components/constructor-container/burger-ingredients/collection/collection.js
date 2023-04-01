@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './collection.module.css';
 const Collection = ({ headline, columns }) => {
   return (
@@ -11,6 +12,16 @@ const Collection = ({ headline, columns }) => {
       </div>
     </>
   );
+};
+
+const columnsPropTypes = PropTypes.shape({
+  left: PropTypes.node.isRequired,
+  right: PropTypes.node.isRequired,
+});
+
+Collection.propTypes = {
+  headline: PropTypes.string.isRequired,
+  columns: columnsPropTypes.isRequired,
 };
 
 export default Collection;

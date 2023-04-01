@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './nav-item.module.css';
 import {
   BurgerIcon,
@@ -10,17 +11,11 @@ const NavItem = ({ option, isActive, onClick }) => {
   const icontSelection = (option) => {
     switch (option) {
       case BURGER_CONSTRUCTOR:
-        return (
-          <BurgerIcon type={isActive === option ? 'primary' : 'secondary'} />
-        );
+        return <BurgerIcon type={isActive ? 'primary' : 'secondary'} />;
       case ORDER_FEED:
-        return (
-          <ListIcon type={isActive === option ? 'primary' : 'secondary'} />
-        );
+        return <ListIcon type={isActive ? 'primary' : 'secondary'} />;
       case USER_ACCOUNT:
-        return (
-          <ProfileIcon type={isActive === option ? 'primary' : 'secondary'} />
-        );
+        return <ProfileIcon type={isActive ? 'primary' : 'secondary'} />;
       default:
         console.log('Что-то пошло не так!');
     }
@@ -32,12 +27,18 @@ const NavItem = ({ option, isActive, onClick }) => {
       {icontSelection(option)}
       <p
         className={`${styles.text} text text_type_main-default${
-          isActive !== option ? ' text_color_inactive' : ''
+          !isActive ? ' text_color_inactive' : ''
         }`}>
         {option}
       </p>
     </div>
   );
+};
+
+NavItem.propTypes = {
+  option: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default NavItem;
