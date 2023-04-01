@@ -13,7 +13,6 @@ const ElementContainer = ({ burger }) => {
   rest.forEach((id) =>
     restIngredients.push(data.find((element) => element._id === id))
   );
-
   return (
     <div className={`${styles.container} mt-25`}>
       <div className={`${styles.itemContainer} pr-4`}>

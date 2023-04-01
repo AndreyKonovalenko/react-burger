@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
   Counter,
@@ -29,14 +28,6 @@ const Ingredient = ({ data }) => {
       </div>
     </div>
   );
-};
-const ingredientPropTypes = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image_large: PropTypes.string.isRequired,
-});
-Ingredient.propTypes = {
-  data: ingredientPropTypes.isRequired,
 };
 
 export default Ingredient;

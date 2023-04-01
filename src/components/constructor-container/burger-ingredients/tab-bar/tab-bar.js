@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BUN, SAUCE, MAIN } from '../../constructor-container';
 import styles from './tab-bar.module.css';
@@ -19,8 +18,4 @@ const TabBar = ({ current, onClick }) => {
   );
 };
 
-TabBar.propTypes = {
-  current: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 export default TabBar;
