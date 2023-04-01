@@ -28,7 +28,7 @@ const BurgerIngredients = ({ handleTabSelect, current, data }) => {
   return (
     <div className={styles.container}>
       <div className='pb-5 pt-10'>
-        <span className='text text_type_main-large'>Собирите бургер</span>
+        <span className='text text_type_main-large'>Соберите бургер</span>
       </div>
       <TabBar current={current} onClick={handleTabSelect} />
       <div className={styles.scrollbar}>
