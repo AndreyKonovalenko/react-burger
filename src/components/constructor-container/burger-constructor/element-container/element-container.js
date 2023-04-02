@@ -19,36 +19,42 @@ const ElementContainer = ({ burger, data }) => {
   );
   return (
     <div className={`${styles.container} mt-25`}>
-      <div className={`${styles.itemContainer} pr-4`}>
-        <ConstructorElement
-          type='top'
-          isLocked={true}
-          text={`${bunTop.name} (верх)`}
-          price={200}
-          thumbnail={bunTop.image}
-        />
-      </div>
-      <div className={`${styles.middle} pr-2`}>
-        {restIngredients.map((element) => (
-          <div key={element._id} className={styles.itemContainer}>
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={element.name}
-              price={element.price}
-              thumbnail={element.image}
-            />
-          </div>
-        ))}
-      </div>
-      <div className={`${styles.itemContainer} pr-4`}>
-        <ConstructorElement
-          type='bottom'
-          isLocked={true}
-          text={`${bunBottom.name} (низ)`}
-          price={200}
-          thumbnail={bunBottom.image}
-        />
-      </div>
+      {bunTop && (
+        <div className={`${styles.itemContainer} pr-4`}>
+          <ConstructorElement
+            type='top'
+            isLocked={true}
+            text={`${bunTop.name} (верх)`}
+            price={200}
+            thumbnail={bunTop.image}
+          />
+        </div>
+      )}
+      {restIngredients.length > 0 && (
+        <div className={`${styles.middle} pr-2`}>
+          {restIngredients.map((element) => (
+            <div key={element._id} className={styles.itemContainer}>
+              <DragIcon type='primary' />
+              <ConstructorElement
+                text={element.name}
+                price={element.price}
+                thumbnail={element.image}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      {bunBottom && (
+        <div className={`${styles.itemContainer} pr-4`}>
+          <ConstructorElement
+            type='bottom'
+            isLocked={true}
+            text={`${bunBottom.name} (низ)`}
+            price={200}
+            thumbnail={bunBottom.image}
+          />
+        </div>
+      )}
     </div>
   );
 };

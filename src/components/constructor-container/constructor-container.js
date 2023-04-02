@@ -9,20 +9,28 @@ import Modal from '../modal/modal';
 export const BUN = 'Булки';
 export const SAUCE = 'Соусы';
 export const MAIN = 'Начинки';
+// const defaultBurger = {
+//   top: '60d3b41abdacab0026a733c6',
+//   bottom: '60d3b41abdacab0026a733c6',
+//   rest: [
+//     '60d3b41abdacab0026a733c8',
+//     '60d3b41abdacab0026a733c8',
+//     '60d3b41abdacab0026a733c8',
+//   ],
+// };
+
+const defaultBurger = {
+  top: '',
+  bottom: '',
+  rest: ['60d3b41abdacab0026a733c8'],
+};
+
 const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
 const ConstructorContainer = () => {
   const [current, setCurrent] = useState(BUN);
   const [visible, setVisible] = useState(false);
-  const [burger, setBurger] = useState({
-    top: '60d3b41abdacab0026a733c6',
-    bottom: '60d3b41abdacab0026a733c6',
-    rest: [
-      '60d3b41abdacab0026a733c8',
-      '60d3b41abdacab0026a733c8',
-      '60d3b41abdacab0026a733c8',
-    ],
-  });
+  const [burger, setBurger] = useState(defaultBurger);
   const [data, setData] = useState(null);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
