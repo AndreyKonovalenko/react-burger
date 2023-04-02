@@ -6,16 +6,33 @@ import styles from './burger-ingredients.module.css';
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import { BUN, SAUCE, MAIN } from '../constructor-container';
 
-const BurgerIngredients = ({ handleTabSelect, current, data }) => {
+const BurgerIngredients = ({
+  handleTabSelect,
+  handleOpenModal,
+  current,
+  data,
+}) => {
   const splitterToColumn = (data, type) => {
     const left = [];
     const right = [];
     const filtered = data.filter((ingredient) => ingredient.type === type);
     filtered.forEach((element, index) => {
       if (index % 2 === 0) {
-        left.push(<Ingredient key={element._id} data={element} />);
+        left.push(
+          <Ingredient
+            key={element._id}
+            data={element}
+            handleOpenModal={handleOpenModal}
+          />
+        );
       } else {
-        right.push(<Ingredient key={element._id} data={element} />);
+        right.push(
+          <Ingredient
+            key={element._id}
+            data={element}
+            handleOpenModal={handleOpenModal}
+          />
+        );
       }
     });
     return { left, right };
@@ -43,6 +60,7 @@ const BurgerIngredients = ({ handleTabSelect, current, data }) => {
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
   handleTabSelect: PropTypes.func.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
   current: PropTypes.string.isRequired,
 };
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {
   CurrencyIcon,
   Counter,
@@ -5,10 +6,10 @@ import {
 import { ingredientPropTypes } from '../../../../utils/prop-types';
 import styles from './ingredient.module.css';
 
-const Ingredient = ({ data }) => {
+const Ingredient = ({ data, handleOpenModal }) => {
   const { name, image_large, price } = data;
   return (
-    <div className={styles.relative}>
+    <div className={styles.relative} onClick={handleOpenModal}>
       <Counter
         count={1}
         size='default'
@@ -33,6 +34,7 @@ const Ingredient = ({ data }) => {
 
 Ingredient.propTypes = {
   data: ingredientPropTypes.isRequired,
+  handleOpenModal: PropTypes.func.isRequired,
 };
 
 export default Ingredient;
