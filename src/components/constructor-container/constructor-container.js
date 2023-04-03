@@ -54,15 +54,22 @@ const ConstructorContainer = () => {
   };
 
   useEffect(() => {
-    console.log(ingredients);
     const fetchIngredients = async (url) => {
-      setIngredietns({ ...ingredients, isLoading: true });
+      setIngredietns((ingredients) => ({ ...ingredients, isLoading: true }));
       try {
         const res = await fetch(url);
         const data = await res.json();
-        setIngredietns({ data: data.data, isLoading: false });
+        setIngredietns((ingredients) => ({
+          ...ingredients,
+          data: data.data,
+          isLoading: false,
+        }));
       } catch (err) {
-        setIngredietns({ isLoading: false, isError: true });
+        setIngredietns((ingredients) => ({
+          ...ingredients,
+          isLoading: false,
+          isError: true,
+        }));
         console.log(err);
       }
     };
