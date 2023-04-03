@@ -31,7 +31,7 @@ const ConstructorContainer = () => {
   const [current, setCurrent] = useState(BUN);
   const [visible, setVisible] = useState(false);
   const [burger, setBurger] = useState(defaultBurger);
-  const [ingredients, setIngrediens] = useState({
+  const [ingredients, setIngredietns] = useState({
     data: null,
     isLoading: false,
     isError: false,
@@ -54,27 +54,21 @@ const ConstructorContainer = () => {
   };
 
   useEffect(() => {
+    console.log(ingredients);
     const fetchIngredients = async (url) => {
-      setIngrediens({ ...ingredients, isLoading: true });
+      setIngredietns({ ...ingredients, isLoading: true });
       try {
         const res = await fetch(url);
         const data = await res.json();
-        setIngrediens({ ...ingredients, data: data.data, isLoading: false });
+        setIngredietns({ data: data.data, isLoading: false });
       } catch (err) {
-        setIngrediens({ ...ingredients, isLoading: false, isError: true });
+        setIngredietns({ isLoading: false, isError: true });
         console.log(err);
       }
     };
 
-    if (ingredients.data === null && ingredients.isLoading === false) {
-      fetchIngredients(URL);
-    }
-  }, [
-    ingredients.data,
-    ingredients.isLoading,
-    ingredients.isError,
-    ingredients,
-  ]);
+    fetchIngredients(URL);
+  }, []);
 
   return (
     <main className={styles.main}>
