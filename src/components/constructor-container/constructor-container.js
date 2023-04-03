@@ -31,9 +31,12 @@ const ConstructorContainer = () => {
   const [current, setCurrent] = useState(BUN);
   const [visible, setVisible] = useState(false);
   const [burger, setBurger] = useState(defaultBurger);
-  const [data, setData] = useState(null);
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [ingredients, setIngrediens] = useState({
+    data: null,
+    isLoading: false,
+    isError: false,
+  });
+  const { data, isLoading, isError } = ingredients;
 
   const handleTabSelect = (value) => {
     setCurrent(value);
@@ -51,30 +54,31 @@ const ConstructorContainer = () => {
   };
 
   useEffect(() => {
-    console.log(data, isLoading);
-    const fetchData = (url) => {
-      setIsLoading(true);
-      fetch(url)
-        .then((res) => res.json())
-        .then((res) => {
-          setData(res.data);
-          setIsLoading(false);
-        })
-        .catch((e) => {
-          setHasError(true);
-          isLoading(false);
-          console.log(e);
-        });
+    const fetchIngredients = async (url) => {
+      setIngrediens({ ...ingredients, isLoading: true });
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        setIngrediens({ ...ingredients, data: data.data, isLoading: false });
+      } catch (err) {
+        setIngrediens({ ...ingredients, isLoading: false, isError: true });
+        console.log(err);
+      }
     };
 
-    if (data === null && isLoading === false) {
-      fetchData(URL);
+    if (ingredients.data === null && ingredients.isLoading === false) {
+      fetchIngredients(URL);
     }
-  }, [data, isLoading]);
+  }, [
+    ingredients.data,
+    ingredients.isLoading,
+    ingredients.isError,
+    ingredients,
+  ]);
 
   return (
     <main className={styles.main}>
-      {data && isLoading === false ? (
+      {data !== null && isLoading === false ? (
         <>
           <BurgerIngredients
             handleTabSelect={handleTabSelect}
