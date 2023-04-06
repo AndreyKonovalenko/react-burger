@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export const ingredientPropTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
@@ -16,7 +16,7 @@ export const ingredientPropTypes = PropTypes.shape({
 });
 
 export const burgerPropTypes = PropTypes.shape({
-  top: PropTypes.string.isRequired,
-  bottom: PropTypes.string.isRequired,
-  rest: PropTypes.arrayOf(PropTypes.string.isRequired),
+  top: PropTypes.string,
+  bottom: PropTypes.string,
+  rest: PropTypes.arrayOf(PropTypes.string),
 });

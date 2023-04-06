@@ -1,28 +1,31 @@
-import PropTypes from 'prop-types';
-import styles from './element-container.module.css';
+import PropTypes from "prop-types";
+import styles from "./element-container.module.css";
 import {
   ConstructorElement,
   DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   ingredientPropTypes,
   burgerPropTypes,
-} from '../../../../utils/prop-types';
+} from "../../../utils/prop-types";
 
 const ElementContainer = ({ burger, data }) => {
   const { top, bottom, rest } = burger;
   const bunTop = data.find((element) => element._id === top);
   const bunBottom = data.find((element) => element._id === bottom);
   const restIngredients = [];
-  rest.forEach((id) =>
-    restIngredients.push(data.find((element) => element._id === id))
-  );
+  if (rest) {
+    rest.forEach((id) =>
+      restIngredients.push(data.find((element) => element._id === id))
+    );
+  }
+
   return (
     <div className={`${styles.container} mt-25`}>
       {bunTop && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type='top'
+            type="top"
             isLocked={true}
             text={`${bunTop.name} (верх)`}
             price={200}
@@ -34,7 +37,7 @@ const ElementContainer = ({ burger, data }) => {
         <div className={`${styles.middle} pr-2`}>
           {restIngredients.map((element) => (
             <div key={element._id} className={styles.itemContainer}>
-              <DragIcon type='primary' />
+              <DragIcon type="primary" />
               <ConstructorElement
                 text={element.name}
                 price={element.price}
@@ -47,7 +50,7 @@ const ElementContainer = ({ burger, data }) => {
       {bunBottom && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type='bottom'
+            type="bottom"
             isLocked={true}
             text={`${bunBottom.name} (низ)`}
             price={200}

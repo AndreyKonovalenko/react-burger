@@ -1,11 +1,8 @@
-import PropTypes from 'prop-types';
-import ElementContainer from './element-container/element-container';
-import Checkout from './checkout/checkout';
-import styles from './burger-constructor.module.css';
-import {
-  ingredientPropTypes,
-  burgerPropTypes,
-} from '../../../utils/prop-types';
+import PropTypes from "prop-types";
+import ElementContainer from "./element-container/element-container";
+import Checkout from "./checkout/checkout";
+import styles from "./burger-constructor.module.css";
+import { burgerPropTypes, ingredientPropTypes } from "../../utils/prop-types";
 
 const BurgerConstructor = ({ burger, data }) => {
   return (
