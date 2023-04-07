@@ -5,7 +5,6 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import Modal from '../modal/modal';
 import ErrorBage from '../error-bage/error-bage';
-import useEscapeKey from '../hooks/use-escape-key';
 
 export const BUN = 'Булки';
 export const SAUCE = 'Соусы';
@@ -19,6 +18,7 @@ const App = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(null);
+  const [ingredient, setIngredient] = useState(null);
 
   const [burger, setBurger] = useState({
     top: null,
@@ -42,7 +42,14 @@ const App = () => {
     setVisible(false);
   }, []);
 
-  useEscapeKey(handleCloseModal);
+  const handleOnIngredientClick = useCallback(
+    (ingredient) => {
+      console.log(ingredient);
+      setIngredient(ingredient);
+      handleOpenModal();
+    },
+    [handleOpenModal]
+  );
 
   useEffect(() => {
     const fetchIngredients = async (url) => {
@@ -94,7 +101,7 @@ const App = () => {
           <>
             <BurgerIngredients
               handleTabSelect={handleTabSelect}
-              handleOpenModal={handleOpenModal}
+              handleOnIngredientClick={handleOnIngredientClick}
               handleCloseModal={handleCloseModal}
               visible={visible}
               current={current}
@@ -104,7 +111,7 @@ const App = () => {
           </>
         ) : null}
       </main>
-      {visible && <Modal onClose={handleCloseModal} />}
+      {visible && <Modal onClose={handleCloseModal} ingredient={ingredient} />}
     </div>
   );
 };
