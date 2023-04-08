@@ -23,8 +23,8 @@ const App = () => {
   const [ingredient, setIngredient] = useState(null);
 
   const [burger, setBurger] = useState({
-    top: null,
-    bottom: null,
+    top: '',
+    bottom: '',
     rest: [],
   });
 
@@ -82,7 +82,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (burger.top === null) {
+    if (burger.top === '') {
       if (data !== null) {
         const topId = data.find((element) => element.type === 'bun')._id;
         const bottomId = data.find((element) => element.type === 'bun')._id;
@@ -126,12 +126,12 @@ const App = () => {
         ) : null}
       </main>
       {visible && ingredient && (
-        <Modal onClose={handleCloseModal} hasTitle>
+        <Modal onClose={handleCloseModal} hasTitle={true}>
           <IngredientDetails ingredient={ingredient} />
         </Modal>
       )}
       {visible && order && (
-        <Modal onClose={handleCloseModal}>
+        <Modal onClose={handleCloseModal} hasTitle={false}>
           <OrederDetails order={order} />
         </Modal>
       )}
