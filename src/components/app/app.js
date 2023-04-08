@@ -5,6 +5,8 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import Modal from '../modal/modal';
 import ErrorBage from '../error-bage/error-bage';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrederDetails from '../order-details/order-details';
 
 export const BUN = 'Булки';
 export const SAUCE = 'Соусы';
@@ -26,6 +28,8 @@ const App = () => {
     rest: [],
   });
 
+  const [order, setOrder] = useState(null);
+
   const handleTabSelect = useCallback((value) => {
     setCurrent(value);
     const element = document.getElementById(value);
@@ -40,16 +44,22 @@ const App = () => {
 
   const handleCloseModal = useCallback(() => {
     setVisible(false);
+    setIngredient(null);
+    setOrder(null);
   }, []);
 
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
-      console.log(ingredient);
       setIngredient(ingredient);
       handleOpenModal();
     },
     [handleOpenModal]
   );
+
+  const handleOnCheckout = useCallback(() => {
+    setOrder({ orderId: '034536' });
+    handleOpenModal();
+  }, [handleOpenModal]);
 
   useEffect(() => {
     const fetchIngredients = async (url) => {
@@ -107,11 +117,24 @@ const App = () => {
               current={current}
               data={data}
             />
-            <BurgerConstructor burger={burger} data={data} />
+            <BurgerConstructor
+              burger={burger}
+              data={data}
+              onCheckout={handleOnCheckout}
+            />
           </>
         ) : null}
       </main>
-      {visible && <Modal onClose={handleCloseModal} ingredient={ingredient} />}
+      {visible && ingredient && (
+        <Modal onClose={handleCloseModal} hasTitle>
+          <IngredientDetails ingredient={ingredient} />
+        </Modal>
+      )}
+      {visible && order && (
+        <Modal onClose={handleCloseModal}>
+          <OrederDetails order={order} />
+        </Modal>
+      )}
     </div>
   );
 };

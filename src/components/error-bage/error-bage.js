@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 const ErrorBage = ({ isError }) => {
   return (
     <>
@@ -8,4 +9,8 @@ const ErrorBage = ({ isError }) => {
     </>
   );
 };
+ErrorBage.propTypes = {
+  isError: PropTypes.string.isRequired,
+};
+
 export default ErrorBage;

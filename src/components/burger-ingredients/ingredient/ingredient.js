@@ -10,7 +10,7 @@ const Ingredient = ({ data, handleOnIngredientClick }) => {
   const { name, image_large, price } = data;
   return (
     <div
-      className={styles.relative}
+      className={styles.wrapper}
       onClick={() => handleOnIngredientClick(data)}>
       <Counter
         count={1}

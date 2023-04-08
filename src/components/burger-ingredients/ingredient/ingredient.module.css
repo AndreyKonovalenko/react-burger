@@ -27,10 +27,14 @@
   text-align: center;
 }
 
-.relative {
+.wrapper {
   position: relative;
+  cursor: pointer;
 }
 
+.wrapper:hover {
+  background: #1c1c21;
+}
 .counter {
   position: absolute;
   right: 0;
