@@ -1,0 +1,15 @@
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.link {
+  text-decoration: none;
+}
+.option {
+  color: #fff;
+}

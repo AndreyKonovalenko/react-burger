@@ -1,0 +1,38 @@
+.header {
+  height: 88px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1c21;
+}
+
+.nav {
+  height: 56px;
+  width: 1280px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemContainer {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.decorator1 {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.decorator2 {
+  justify-content: center;
+}
+
+.decorator3 {
+  justify-content: flex-end;
+}
