@@ -7,6 +7,7 @@ import Modal from "../modal/modal";
 import ErrorBage from "../error-bage/error-bage";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrederDetails from "../order-details/order-details";
+import { getIngerdients } from "../../utils/burger-api";
 
 export const BUN = "Булки";
 export const SAUCE = "Соусы";
@@ -53,23 +54,10 @@ const App = () => {
   }, [handleOpenModal]);
 
   useEffect(() => {
-    const fetchIngredients = async (url) => {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Ошибка ${response.status}`);
-        }
-        const ingredients = await response.json();
-        setData(ingredients.data);
-        setIsError(null);
-      } catch (err) {
-        setIsError(err.message);
-        setData(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchIngredients(URL);
+    getIngerdients(URL)
+      .then(setData())
+      .catch((error) => setIsError(error.message))
+      .finnally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
