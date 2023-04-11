@@ -1,13 +1,16 @@
-import { useState, useCallback, useRef } from "react";
-import PropTypes from "prop-types";
-import Ingredient from "./ingredient/ingredient";
-import TabBar from "./tab-bar/tab-bar";
-import Collection from "./collection/collection";
-import styles from "./burger-ingredients.module.css";
-import { ingredientPropTypes } from "../../utils/prop-types";
-import { BUN, SAUCE, MAIN } from "../app/app";
+import { useState, useCallback, useRef, useContext } from 'react';
+import PropTypes from 'prop-types';
+import Ingredient from './ingredient/ingredient';
+import TabBar from './tab-bar/tab-bar';
+import Collection from './collection/collection';
+import styles from './burger-ingredients.module.css';
+import { ingredientPropTypes } from '../../utils/prop-types';
+import { IngredientsContext } from '../../services/ingredientsContex';
+import { BUN, SAUCE, MAIN } from '../app/app';
 
-const BurgerIngredients = ({ handleOnIngredientClick, data }) => {
+const BurgerIngredients = ({ handleOnIngredientClick }) => {
+  const data = useContext(IngredientsContext);
+  console.log(data);
   const [current, setCurrent] = useState(BUN);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -16,16 +19,16 @@ const BurgerIngredients = ({ handleOnIngredientClick, data }) => {
     setCurrent(value);
     switch (value) {
       case BUN:
-        bunRef.current.scrollIntoView({ behavior: "smooth" });
+        bunRef.current.scrollIntoView({ behavior: 'smooth' });
         break;
       case SAUCE:
-        sauceRef.current.scrollIntoView({ behavior: "smooth" });
+        sauceRef.current.scrollIntoView({ behavior: 'smooth' });
         break;
       case MAIN:
-        mainRef.current.scrollIntoView({ behavior: "smooth" });
+        mainRef.current.scrollIntoView({ behavior: 'smooth' });
         break;
       default:
-        bunRef.current.scrollIntoView({ behavior: "smooth" });
+        bunRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, []);
 
@@ -55,14 +58,14 @@ const BurgerIngredients = ({ handleOnIngredientClick, data }) => {
     return { left, right };
   };
 
-  const bun = splitterToColumn(data, "bun");
-  const sauce = splitterToColumn(data, "sauce");
-  const main = splitterToColumn(data, "main");
+  const bun = splitterToColumn(data, 'bun');
+  const sauce = splitterToColumn(data, 'sauce');
+  const main = splitterToColumn(data, 'main');
 
   return (
     <div className={styles.container}>
-      <div className="pb-5 pt-10">
-        <span className="text text_type_main-large">Соберите бургер</span>
+      <div className='pb-5 pt-10'>
+        <span className='text text_type_main-large'>Соберите бургер</span>
       </div>
       <TabBar current={current} onClick={handleTabSelect} />
       <div className={styles.scrollbar}>

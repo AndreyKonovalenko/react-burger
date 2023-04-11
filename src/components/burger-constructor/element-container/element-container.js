@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styles from './element-container.module.css';
 import {
@@ -8,8 +9,10 @@ import {
   ingredientPropTypes,
   burgerPropTypes,
 } from '../../../utils/prop-types';
+import { IngredientsContext } from '../../../services/ingredientsContex';
 
-const ElementContainer = ({ burger, data }) => {
+const ElementContainer = ({ burger }) => {
+  const data = useContext(IngredientsContext);
   const { top, bottom, rest } = burger;
   const bunTop = data.find((element) => element._id === top);
   const bunBottom = data.find((element) => element._id === bottom);

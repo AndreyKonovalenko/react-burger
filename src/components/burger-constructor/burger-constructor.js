@@ -4,10 +4,10 @@ import Checkout from './checkout/checkout';
 import styles from './burger-constructor.module.css';
 import { burgerPropTypes, ingredientPropTypes } from '../../utils/prop-types';
 
-const BurgerConstructor = ({ burger, data, onCheckout }) => {
+const BurgerConstructor = ({ burger, onCheckout }) => {
   return (
     <div className={styles.container}>
-      <ElementContainer burger={burger} data={data} />
+      <ElementContainer burger={burger} />
       <Checkout onCheckout={onCheckout} />
     </div>
   );
