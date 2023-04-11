@@ -1,19 +1,18 @@
-import { useState, useEffect, useCallback } from "react";
-import styles from "./app.module.css";
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import Modal from "../modal/modal";
-import ErrorBage from "../error-bage/error-bage";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrederDetails from "../order-details/order-details";
-import { getIngerdients } from "../../utils/burger-api";
+import { useState, useEffect, useCallback } from 'react';
+import styles from './app.module.css';
+import AppHeader from '../app-header/app-header';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import Modal from '../modal/modal';
+import ErrorBage from '../error-bage/error-bage';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import OrederDetails from '../order-details/order-details';
+import { getIngerdients } from '../../utils/burger-api';
 
-export const BUN = "Булки";
-export const SAUCE = "Соусы";
-export const MAIN = "Начинки";
+export const BUN = 'Булки';
+export const SAUCE = 'Соусы';
+export const MAIN = 'Начинки';
 
-const URL = "https://norma.nomoreparties.space/api/ingredients";
 const App = () => {
   const [visible, setVisible] = useState(false);
 
@@ -23,8 +22,8 @@ const App = () => {
   const [ingredient, setIngredient] = useState(null);
 
   const [burger, setBurger] = useState({
-    top: "",
-    bottom: "",
+    top: '',
+    bottom: '',
     rest: [],
   });
 
@@ -49,25 +48,32 @@ const App = () => {
   );
 
   const handleOnCheckout = useCallback(() => {
-    setOrder({ orderId: "034536" });
+    setOrder({ orderId: '034536' });
     handleOpenModal();
   }, [handleOpenModal]);
 
   useEffect(() => {
-    getIngerdients(URL)
-      .then(setData())
-      .catch((error) => setIsError(error.message))
-      .finnally(() => setLoading(false));
+    const getData = async () => {
+      try {
+        const response = await getIngerdients();
+        setData(response);
+      } catch (error) {
+        setIsError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
   }, []);
 
   useEffect(() => {
-    if (burger.top === "") {
+    if (burger.top === '') {
       if (data !== null) {
-        const topId = data.find((element) => element.type === "bun")._id;
-        const bottomId = data.find((element) => element.type === "bun")._id;
+        const topId = data.find((element) => element.type === 'bun')._id;
+        const bottomId = data.find((element) => element.type === 'bun')._id;
         const restIds = [];
         for (const element of data) {
-          if (element.type === "sause" || element.type === "main") {
+          if (element.type === 'sause' || element.type === 'main') {
             restIds.push(element._id);
           }
         }
