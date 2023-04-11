@@ -1,20 +1,19 @@
-import { useState, useEffect, useCallback } from 'react';
-import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import ErrorBage from '../error-bage/error-bage';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrederDetails from '../order-details/order-details';
+import { useState, useEffect, useCallback } from "react";
+import styles from "./app.module.css";
+import AppHeader from "../app-header/app-header";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import Modal from "../modal/modal";
+import ErrorBage from "../error-bage/error-bage";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrederDetails from "../order-details/order-details";
 
-export const BUN = 'Булки';
-export const SAUCE = 'Соусы';
-export const MAIN = 'Начинки';
+export const BUN = "Булки";
+export const SAUCE = "Соусы";
+export const MAIN = "Начинки";
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients';
+const URL = "https://norma.nomoreparties.space/api/ingredients";
 const App = () => {
-  const [current, setCurrent] = useState(BUN);
   const [visible, setVisible] = useState(false);
 
   const [data, setData] = useState(null);
@@ -23,20 +22,12 @@ const App = () => {
   const [ingredient, setIngredient] = useState(null);
 
   const [burger, setBurger] = useState({
-    top: '',
-    bottom: '',
+    top: "",
+    bottom: "",
     rest: [],
   });
 
   const [order, setOrder] = useState(null);
-
-  const handleTabSelect = useCallback((value) => {
-    setCurrent(value);
-    const element = document.getElementById(value);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
 
   const handleOpenModal = useCallback(() => {
     setVisible(true);
@@ -57,7 +48,7 @@ const App = () => {
   );
 
   const handleOnCheckout = useCallback(() => {
-    setOrder({ orderId: '034536' });
+    setOrder({ orderId: "034536" });
     handleOpenModal();
   }, [handleOpenModal]);
 
@@ -82,13 +73,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (burger.top === '') {
+    if (burger.top === "") {
       if (data !== null) {
-        const topId = data.find((element) => element.type === 'bun')._id;
-        const bottomId = data.find((element) => element.type === 'bun')._id;
+        const topId = data.find((element) => element.type === "bun")._id;
+        const bottomId = data.find((element) => element.type === "bun")._id;
         const restIds = [];
         for (const element of data) {
-          if (element.type === 'sause' || element.type === 'main') {
+          if (element.type === "sause" || element.type === "main") {
             restIds.push(element._id);
           }
         }
@@ -110,11 +101,9 @@ const App = () => {
         {!loading && data ? (
           <>
             <BurgerIngredients
-              handleTabSelect={handleTabSelect}
               handleOnIngredientClick={handleOnIngredientClick}
               handleCloseModal={handleCloseModal}
               visible={visible}
-              current={current}
               data={data}
             />
             <BurgerConstructor

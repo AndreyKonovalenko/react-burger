@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BUN, SAUCE, MAIN } from '../../app/app';
-import styles from './tab-bar.module.css';
+import PropTypes from "prop-types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BUN, SAUCE, MAIN } from "../../app/app";
+import styles from "./tab-bar.module.css";
 
 const TabBar = ({ current, onClick }) => {
   return (

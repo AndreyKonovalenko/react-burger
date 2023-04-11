@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import styles from './order-details.module.css';
-import DoneImage from '../../images/graphics.svg';
+import PropTypes from "prop-types";
+import styles from "./order-details.module.css";
+import DoneImage from "../../images/graphics.svg";
 
 const OrederDetails = ({ order }) => {
   const { orderId } = order;
@@ -12,17 +12,17 @@ const OrederDetails = ({ order }) => {
         </p>
       </div>
       <div>
-        <p className='text text_type_main-medium'>идентификатор заказа</p>
+        <p className="text text_type_main-medium">идентификатор заказа</p>
       </div>
       <div className={`${styles.iconContainer} mb-7 mt-8`}>
-        <img src={DoneImage} alt='done' />
+        <img src={DoneImage} alt="done" />
       </div>
       <div className={styles.messageContainer}>
         <div>
-          <p className='text text_type_main-small'>Ваш заказ начали готовить</p>
+          <p className="text text_type_main-small">Ваш заказ начали готовить</p>
         </div>
         <div>
-          <p className='text text_type_main-default text_color_inactive'>
+          <p className="text text_type_main-default text_color_inactive">
             Дождитесь готовности на орбитальной станции
           </p>
         </div>
@@ -31,7 +31,14 @@ const OrederDetails = ({ order }) => {
   );
 };
 
-OrederDetails.propTypes = {
-  order: PropTypes.object.isRequired,
-};
+// const orderPropTyps = PropTypes.shape({
+//   top: PropTypes.string.isRequired,
+//   bottom: PropTypes.string.isRequired,
+//   rest: PropTypes.arrayOf(PropTypes.string),
+// });
+
+// OrederDetails.propTypes = {
+//   order: orderPropTyps.isRequired,
+// };
+
 export default OrederDetails;
