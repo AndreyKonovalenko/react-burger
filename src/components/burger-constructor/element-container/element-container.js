@@ -17,13 +17,24 @@ const ElementContainer = () => {
   const { data } = useContext(IngredientsContext);
   const { burgerState, burgerDispatcher } = useContext(BurgerContext);
   const { bun, mainAndSauce } = burgerState;
-  console.log(bun, mainAndSauce);
 
-  const bunElement = bun ? data.find((element) => element._id === bun) : null;
+  const combinedDispatcher = (id) => {
+    burgerDispatcher({
+      type: actionTypes.REMOVE_MAIN_AND_SAUCE,
+      payload: id,
+    });
+    burgerDispatcher({ type: actionTypes.CALCULATE_TOTAL });
+  };
+  const bunElement = bun
+    ? data.find((element) => element._id === bun.ingredientId)
+    : null;
   const restIngredients =
     mainAndSauce.length > 0
-      ? mainAndSauce.map((id) => {
-          const ingredient = data.find((element) => element._id === id);
+      ? mainAndSauce.map((mAsElement) => {
+          const ingredient = data.find(
+            (element) => element._id === mAsElement.ingredientId
+          );
+
           return (
             <div key={uniqid()} className={styles.itemContainer}>
               <DragIcon type='primary' />
@@ -31,12 +42,7 @@ const ElementContainer = () => {
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
-                handleClose={() =>
-                  burgerDispatcher({
-                    type: actionTypes.REMOVE_MAIN_AND_SAUCE,
-                    payload: ingredient._id,
-                  })
-                }
+                handleClose={() => combinedDispatcher(mAsElement.id)}
               />
             </div>
           );
@@ -51,7 +57,7 @@ const ElementContainer = () => {
             type='top'
             isLocked={true}
             text={`${bunElement.name} (верх)`}
-            price={200}
+            price={bunElement.price}
             thumbnail={bunElement.image}
           />
         </div>
@@ -63,7 +69,7 @@ const ElementContainer = () => {
             type='bottom'
             isLocked={true}
             text={`${bunElement.name} (низ)`}
-            price={200}
+            price={bunElement.price}
             thumbnail={bunElement.image}
           />
         </div>
