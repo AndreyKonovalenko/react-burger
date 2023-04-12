@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useReducer } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -8,7 +8,8 @@ import ErrorBage from '../error-bage/error-bage';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrederDetails from '../order-details/order-details';
 import { getIngerdients } from '../../utils/burger-api';
-import { IngredientsContext } from '../../services/ingredientsContex';
+import { IngredientsContext, BurgerContext } from '../../services/appContex';
+import * as actionTypes from '../../services/actionTypes';
 
 export const BUN = 'Булки';
 export const SAUCE = 'Соусы';
@@ -22,12 +23,34 @@ const App = () => {
   const [visible, setVisible] = useState(false);
   const [ingredient, setIngredient] = useState(null);
 
-  const [burger, setBurger] = useState({
-    top: '',
-    bottom: '',
-    rest: [],
-  });
+  const burgerInitialState = { bun: null, mainAndSauce: [] };
+  const buregerReducer = (state, action) => {
+    switch (action.type) {
+      case actionTypes.ADD_BUN:
+        return { ...state, bun: action.payload };
+      case actionTypes.REMOVE_BUN:
+        return { ...state, bun: null };
+      case actionTypes.ADD_MAIN_AND_SAUCE:
+        return {
+          ...state,
+          mainAndSauce: [...state.mainAndSauce, action.payload],
+        };
+      case actionTypes.REMOVE_MAIN_AND_SAUCE:
+        return {
+          ...state,
+          mainAndSauce: state.mainAndSauce.filter(
+            (element) => element !== action.payload
+          ),
+        };
 
+      default:
+        throw new Error(`Wrong type of action: ${action.type}`);
+    }
+  };
+  const [burgerState, burgerDispatcher] = useReducer(
+    buregerReducer,
+    burgerInitialState
+  );
   const [order, setOrder] = useState(null);
 
   const handleOpenModal = useCallback(() => {
@@ -42,6 +65,18 @@ const App = () => {
 
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
+      if (ingredient.type === 'bun') {
+        burgerDispatcher({
+          type: actionTypes.ADD_BUN,
+          payload: ingredient._id,
+        });
+      } else {
+        burgerDispatcher({
+          type: actionTypes.ADD_MAIN_AND_SAUCE,
+          payload: ingredient._id,
+        });
+      }
+
       setIngredient(ingredient);
       handleOpenModal();
     },
@@ -68,56 +103,59 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (burger.top === '') {
-      if (data !== null) {
-        const topId = data.find((element) => element.type === 'bun')._id;
-        const bottomId = data.find((element) => element.type === 'bun')._id;
-        const restIds = [];
-        for (const element of data) {
-          if (element.type === 'sause' || element.type === 'main') {
-            restIds.push(element._id);
-          }
-        }
-        setBurger({
-          ...burger,
-          top: topId,
-          bottom: bottomId,
-          rest: restIds,
-        });
-      }
-    }
-  }, [burger, data]);
+    console.log(burgerState.bun);
+  });
+
+  // useEffect(() => {
+  //   if (burger.top === '') {
+  //     if (data !== null) {
+  //       const topId = data.find((element) => element.type === 'bun')._id;
+  //       const bottomId = data.find((element) => element.type === 'bun')._id;
+  //       const restIds = [];
+  //       for (const element of data) {
+  //         if (element.type === 'sause' || element.type === 'main') {
+  //           restIds.push(element._id);
+  //         }
+  //       }
+  //       setBurger({
+  //         ...burger,
+  //         top: topId,
+  //         bottom: bottomId,
+  //         rest: restIds,
+  //       });
+  //     }
+  //   }
+  // }, [burger, data]);
 
   return (
     <div className={styles.app}>
-      <IngredientsContext.Provider value={data}>
-        <AppHeader />
-        {isError && <ErrorBage isError={isError} />}
-        <main className={styles.main}>
-          {!loading && data ? (
-            <>
-              <BurgerIngredients
-                handleOnIngredientClick={handleOnIngredientClick}
-                handleCloseModal={handleCloseModal}
-                visible={visible}
-              />
-              <BurgerConstructor
-                burger={burger}
-                onCheckout={handleOnCheckout}
-              />
-            </>
-          ) : null}
-        </main>
-        {visible && ingredient && (
-          <Modal onClose={handleCloseModal} hasTitle={true}>
-            <IngredientDetails ingredient={ingredient} />
-          </Modal>
-        )}
-        {visible && order && (
-          <Modal onClose={handleCloseModal} hasTitle={false}>
-            <OrederDetails order={order} />
-          </Modal>
-        )}
+      <IngredientsContext.Provider value={{ data }}>
+        <BurgerContext.Provider value={{ burgerState, burgerDispatcher }}>
+          <AppHeader />
+          {isError && <ErrorBage isError={isError} />}
+          <main className={styles.main}>
+            {!loading && data ? (
+              <>
+                <BurgerIngredients
+                  handleOnIngredientClick={handleOnIngredientClick}
+                  handleCloseModal={handleCloseModal}
+                  visible={visible}
+                />
+                <BurgerConstructor onCheckout={handleOnCheckout} />
+              </>
+            ) : null}
+          </main>
+          {visible && ingredient && (
+            <Modal onClose={handleCloseModal} hasTitle={true}>
+              <IngredientDetails ingredient={ingredient} />
+            </Modal>
+          )}
+          {visible && order && (
+            <Modal onClose={handleCloseModal} hasTitle={false}>
+              <OrederDetails order={order} />
+            </Modal>
+          )}
+        </BurgerContext.Provider>
       </IngredientsContext.Provider>
     </div>
   );

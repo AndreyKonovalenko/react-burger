@@ -5,12 +5,11 @@ import TabBar from './tab-bar/tab-bar';
 import Collection from './collection/collection';
 import styles from './burger-ingredients.module.css';
 import { ingredientPropTypes } from '../../utils/prop-types';
-import { IngredientsContext } from '../../services/ingredientsContex';
+import { IngredientsContext } from '../../services/appContex';
 import { BUN, SAUCE, MAIN } from '../app/app';
 
 const BurgerIngredients = ({ handleOnIngredientClick }) => {
-  const data = useContext(IngredientsContext);
-  console.log(data);
+  const { data } = useContext(IngredientsContext);
   const [current, setCurrent] = useState(BUN);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -58,9 +57,9 @@ const BurgerIngredients = ({ handleOnIngredientClick }) => {
     return { left, right };
   };
 
-  const bun = splitterToColumn(data, 'bun');
-  const sauce = splitterToColumn(data, 'sauce');
-  const main = splitterToColumn(data, 'main');
+  const bun = data ? splitterToColumn(data, 'bun') : null;
+  const sauce = data ? splitterToColumn(data, 'sauce') : null;
+  const main = data ? splitterToColumn(data, 'main') : null;
 
   return (
     <div className={styles.container}>
@@ -78,7 +77,6 @@ const BurgerIngredients = ({ handleOnIngredientClick }) => {
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
   handleOnIngredientClick: PropTypes.func.isRequired,
 };
 
