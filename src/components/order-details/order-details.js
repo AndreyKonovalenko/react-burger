@@ -1,14 +1,35 @@
 import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
 import DoneImage from "../../images/graphics.svg";
+import { useContext, useEffect, useState } from "react";
+import { BurgerContext } from "../../services/appContex";
+import { sendOrder } from "../../utils/burger-api";
 
-const OrederDetails = ({ order }) => {
-  const { orderId } = order;
-  return (
+const OrederDetails = () => {
+  const { burgerState } = useContext(BurgerContext);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(null);
+
+  useEffect(() => {
+    const postOrder = async () => {
+      try {
+        const response = await sendOrder({ ingredients: burgerState.order });
+        setData(response);
+      } catch (error) {
+        setIsError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    postOrder();
+  }, [burgerState.order]);
+
+  return !loading && data ? (
     <div className={`${styles.container} mb-20 mt-4`}>
       <div>
         <p className={`${styles.orderIdText} text text_type_digits-large`}>
-          {orderId}
+          {data.order.number}
         </p>
       </div>
       <div>
@@ -28,7 +49,7 @@ const OrederDetails = ({ order }) => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 // const orderPropTyps = PropTypes.shape({

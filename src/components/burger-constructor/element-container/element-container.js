@@ -1,17 +1,17 @@
-import { useContext } from 'react';
-import uniqid from 'uniqid';
-import PropTypes from 'prop-types';
-import styles from './element-container.module.css';
-import * as actionTypes from '../../../services/actionTypes';
+import { useContext } from "react";
+import uniqid from "uniqid";
+import PropTypes from "prop-types";
+import styles from "./element-container.module.css";
+import * as actionTypes from "../../../services/actionTypes";
 import {
   ConstructorElement,
   DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   ingredientPropTypes,
   burgerPropTypes,
-} from '../../../utils/prop-types';
-import { BurgerContext, IngredientsContext } from '../../../services/appContex';
+} from "../../../utils/prop-types";
+import { BurgerContext, IngredientsContext } from "../../../services/appContex";
 
 const ElementContainer = () => {
   const { data } = useContext(IngredientsContext);
@@ -24,6 +24,7 @@ const ElementContainer = () => {
       payload: id,
     });
     burgerDispatcher({ type: actionTypes.CALCULATE_TOTAL });
+    burgerDispatcher({ type: actionTypes.FILL_ORDER });
   };
   const bunElement = bun
     ? data.find((element) => element._id === bun.ingredientId)
@@ -37,7 +38,7 @@ const ElementContainer = () => {
 
           return (
             <div key={uniqid()} className={styles.itemContainer}>
-              <DragIcon type='primary' />
+              <DragIcon type="primary" />
               <ConstructorElement
                 text={ingredient.name}
                 price={ingredient.price}
@@ -54,7 +55,7 @@ const ElementContainer = () => {
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type='top'
+            type="top"
             isLocked={true}
             text={`${bunElement.name} (верх)`}
             price={bunElement.price}
@@ -66,7 +67,7 @@ const ElementContainer = () => {
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type='bottom'
+            type="bottom"
             isLocked={true}
             text={`${bunElement.name} (низ)`}
             price={bunElement.price}
