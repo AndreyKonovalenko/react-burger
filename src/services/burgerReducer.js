@@ -1,6 +1,6 @@
-import uniqid from "uniqid";
-import * as actionTypes from "./actionTypes";
-const buregerReducer = (state, action) => {
+import uniqid from 'uniqid';
+import * as actionTypes from './actionTypes';
+const burgerReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.ADD_BUN:
       return {
@@ -10,6 +10,10 @@ const buregerReducer = (state, action) => {
           ingredientId: action.payload.ingredientId,
           price: action.payload.price,
         },
+        total:
+          state.total -
+          (state.bun ? state.bun.price * 2 : 0) +
+          action.payload.price * 2,
       };
     case actionTypes.REMOVE_BUN:
       return { ...state, bun: null };
@@ -24,6 +28,7 @@ const buregerReducer = (state, action) => {
             price: action.payload.price,
           },
         ],
+        total: state.total + action.payload.price,
       };
     case actionTypes.REMOVE_MAIN_AND_SAUCE:
       return {
@@ -31,25 +36,20 @@ const buregerReducer = (state, action) => {
         mainAndSauce: state.mainAndSauce.filter(
           (element) => element.id !== action.payload
         ),
-      };
-    case actionTypes.CALCULATE_TOTAL:
-      return {
-        ...state,
         total:
-          (state.mainAndSauce.length > 0
-            ? state.mainAndSauce.reduce(
-                (acc, current) => acc + current.price,
-                0
-              )
-            : 0) + (state.bun ? state.bun.price * 2 : 0),
+          state.total -
+          state.mainAndSauce.find((element) => element.id === action.payload)
+            .price,
       };
     case actionTypes.FILL_ORDER:
       return {
         ...state,
-        order: (state.mainAndSauce.length > 0
-          ? state.mainAndSauce.map((element) => element.ingredientId)
-          : []
-        ).concat(state.bun ? state.bun.ingredientId : []),
+        order: (state.bun ? [state.bun.ingredientId] : []).concat(
+          state.mainAndSauce.length > 0
+            ? state.mainAndSauce.map((element) => element.ingredientId)
+            : [],
+          state.bun ? [state.bun.ingredientId] : []
+        ),
       };
 
     default:
@@ -57,4 +57,4 @@ const buregerReducer = (state, action) => {
   }
 };
 
-export default buregerReducer;
+export default burgerReducer;

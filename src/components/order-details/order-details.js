@@ -1,11 +1,10 @@
-import styles from "./order-details.module.css";
-import ErrorBage from "../error-bage/error-bage";
-import LoadingBage from "../loading-bage/loading-bage";
-import DoneImage from "../../images/graphics.svg";
-import { useContext, useEffect, useState } from "react";
-import { BurgerContext } from "../../services/appContex";
-import { sendOrder } from "../../utils/burger-api";
-import { burgerPropTypes } from "../../utils/prop-types";
+import { useContext, useEffect, useState } from 'react';
+import styles from './order-details.module.css';
+import ErrorBage from '../error-bage/error-bage';
+import LoadingBage from '../loading-bage/loading-bage';
+import DoneImage from '../../images/graphics.svg';
+import { BurgerContext } from '../../services/appContex';
+import { sendOrder } from '../../utils/burger-api';
 
 const OrederDetails = () => {
   const { burgerState } = useContext(BurgerContext);
@@ -35,17 +34,17 @@ const OrederDetails = () => {
         </p>
       </div>
       <div>
-        <p className="text text_type_main-medium">идентификатор заказа</p>
+        <p className='text text_type_main-medium'>идентификатор заказа</p>
       </div>
       <div className={`${styles.iconContainer} mb-7 mt-8`}>
-        <img src={DoneImage} alt="done" />
+        <img src={DoneImage} alt='done' />
       </div>
       <div className={styles.messageContainer}>
         <div>
-          <p className="text text_type_main-small">Ваш заказ начали готовить</p>
+          <p className='text text_type_main-small'>Ваш заказ начали готовить</p>
         </div>
         <div>
-          <p className="text text_type_main-default text_color_inactive">
+          <p className='text text_type_main-default text_color_inactive'>
             Дождитесь готовности на орбитальной станции
           </p>
         </div>
@@ -62,10 +61,6 @@ const OrederDetails = () => {
   ) : (
     <LoadingBage />
   );
-};
-
-OrederDetails.propTypes = {
-  burgerState: burgerPropTypes.isRequired,
 };
 
 export default OrederDetails;

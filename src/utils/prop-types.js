@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const ingredientPropTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf("main", "sauce", "bun").isRequired,
+  type: PropTypes.oneOf(['main', 'sauce', 'bun']).isRequired,
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired,
@@ -20,7 +20,7 @@ export const burgerPropTypes = PropTypes.shape({
     id: PropTypes.string,
     ingredientId: PropTypes.string,
     price: PropTypes.number,
-  }).isRequired,
+  }),
   mainAndSauce: PropTypes.arrayOf(PropTypes.string).isRequired,
   totol: PropTypes.number.isRequired,
   order: PropTypes.arrayOf(PropTypes.string).isRequired,

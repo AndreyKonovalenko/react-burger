@@ -1,31 +1,18 @@
-import { useContext } from "react";
-import uniqid from "uniqid";
-import PropTypes from "prop-types";
-import styles from "./element-container.module.css";
-import * as actionTypes from "../../../services/actionTypes";
+import { useContext } from 'react';
+import styles from './element-container.module.css';
+import * as actionTypes from '../../../services/actionTypes';
 import {
   ConstructorElement,
   DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  ingredientPropTypes,
-  burgerPropTypes,
-} from "../../../utils/prop-types";
-import { BurgerContext, IngredientsContext } from "../../../services/appContex";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import {} from '../../../utils/prop-types';
+import { BurgerContext, IngredientsContext } from '../../../services/appContex';
 
 const ElementContainer = () => {
   const { data } = useContext(IngredientsContext);
   const { burgerState, burgerDispatcher } = useContext(BurgerContext);
   const { bun, mainAndSauce } = burgerState;
 
-  const combinedDispatcher = (id) => {
-    burgerDispatcher({
-      type: actionTypes.REMOVE_MAIN_AND_SAUCE,
-      payload: id,
-    });
-    burgerDispatcher({ type: actionTypes.CALCULATE_TOTAL });
-    burgerDispatcher({ type: actionTypes.FILL_ORDER });
-  };
   const bunElement = bun
     ? data.find((element) => element._id === bun.ingredientId)
     : null;
@@ -37,13 +24,18 @@ const ElementContainer = () => {
           );
 
           return (
-            <div key={uniqid()} className={styles.itemContainer}>
-              <DragIcon type="primary" />
+            <div key={mAsElement.id} className={styles.itemContainer}>
+              <DragIcon type='primary' />
               <ConstructorElement
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
-                handleClose={() => combinedDispatcher(mAsElement.id)}
+                handleClose={() =>
+                  burgerDispatcher({
+                    type: actionTypes.REMOVE_MAIN_AND_SAUCE,
+                    payload: mAsElement.id,
+                  })
+                }
               />
             </div>
           );
@@ -55,7 +47,7 @@ const ElementContainer = () => {
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type="top"
+            type='top'
             isLocked={true}
             text={`${bunElement.name} (верх)`}
             price={bunElement.price}
@@ -67,7 +59,7 @@ const ElementContainer = () => {
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type="bottom"
+            type='bottom'
             isLocked={true}
             text={`${bunElement.name} (низ)`}
             price={bunElement.price}
@@ -77,12 +69,6 @@ const ElementContainer = () => {
       )}
     </div>
   );
-};
-
-ElementContainer.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-  burgerState: burgerPropTypes.isRequired,
-  burgerDispatcher: PropTypes.func.isRequired,
 };
 
 export default ElementContainer;

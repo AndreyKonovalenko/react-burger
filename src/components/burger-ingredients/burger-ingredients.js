@@ -4,7 +4,6 @@ import Ingredient from './ingredient/ingredient';
 import TabBar from './tab-bar/tab-bar';
 import Collection from './collection/collection';
 import styles from './burger-ingredients.module.css';
-import { ingredientPropTypes } from '../../utils/prop-types';
 import { IngredientsContext } from '../../services/appContex';
 import { BUN, SAUCE, MAIN } from '../app/app';
 
