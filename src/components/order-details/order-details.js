@@ -1,15 +1,17 @@
-import PropTypes from "prop-types";
 import styles from "./order-details.module.css";
+import ErrorBage from "../error-bage/error-bage";
+import LoadingBage from "../loading-bage/loading-bage";
 import DoneImage from "../../images/graphics.svg";
 import { useContext, useEffect, useState } from "react";
 import { BurgerContext } from "../../services/appContex";
 import { sendOrder } from "../../utils/burger-api";
+import { burgerPropTypes } from "../../utils/prop-types";
 
 const OrederDetails = () => {
   const { burgerState } = useContext(BurgerContext);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const postOrder = async () => {
@@ -17,7 +19,7 @@ const OrederDetails = () => {
         const response = await sendOrder({ ingredients: burgerState.order });
         setData(response);
       } catch (error) {
-        setIsError(error.message);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -25,7 +27,7 @@ const OrederDetails = () => {
     postOrder();
   }, [burgerState.order]);
 
-  return !loading && data ? (
+  const orderDetails = data ? (
     <div className={`${styles.container} mb-20 mt-4`}>
       <div>
         <p className={`${styles.orderIdText} text text_type_digits-large`}>
@@ -50,16 +52,20 @@ const OrederDetails = () => {
       </div>
     </div>
   ) : null;
+
+  return !loading ? (
+    error ? (
+      <ErrorBage error={error} />
+    ) : (
+      orderDetails
+    )
+  ) : (
+    <LoadingBage />
+  );
 };
 
-// const orderPropTyps = PropTypes.shape({
-//   top: PropTypes.string.isRequired,
-//   bottom: PropTypes.string.isRequired,
-//   rest: PropTypes.arrayOf(PropTypes.string),
-// });
-
-// OrederDetails.propTypes = {
-//   order: orderPropTyps.isRequired,
-// };
+OrederDetails.propTypes = {
+  burgerState: burgerPropTypes.isRequired,
+};
 
 export default OrederDetails;

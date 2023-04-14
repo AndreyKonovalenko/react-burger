@@ -5,6 +5,7 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import Modal from "../modal/modal";
 import ErrorBage from "../error-bage/error-bage";
+import LoadingBage from "../loading-bage/loading-bage";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrederDetails from "../order-details/order-details";
 import { getIngerdients } from "../../utils/burger-api";
@@ -20,7 +21,7 @@ const App = () => {
   // Ingredients state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(null);
+  const [error, setError] = useState(null);
 
   // Modal state
   const [visible, setVisible] = useState(false);
@@ -48,6 +49,7 @@ const App = () => {
   const handleCloseModal = useCallback(() => {
     setVisible(false);
     setIngredient(null);
+    setOrderDetailsOpen(false);
   }, []);
 
   const handleOnIngredientClick = useCallback(
@@ -85,7 +87,7 @@ const App = () => {
         const response = await getIngerdients();
         setData(response);
       } catch (error) {
-        setIsError(error.message);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -94,23 +96,33 @@ const App = () => {
   }, []);
 
   // JSX markup
+
+  const content = (
+    <>
+      <BurgerIngredients
+        handleOnIngredientClick={handleOnIngredientClick}
+        handleCloseModal={handleCloseModal}
+        visible={visible}
+      />
+      <BurgerConstructor onCheckout={handleOnCheckout} />
+    </>
+  );
+
   return (
     <div className={styles.app}>
       <IngredientsContext.Provider value={{ data }}>
         <BurgerContext.Provider value={{ burgerState, burgerDispatcher }}>
           <AppHeader />
-          {isError && <ErrorBage isError={isError} />}
           <main className={styles.main}>
-            {!loading && data ? (
-              <>
-                <BurgerIngredients
-                  handleOnIngredientClick={handleOnIngredientClick}
-                  handleCloseModal={handleCloseModal}
-                  visible={visible}
-                />
-                <BurgerConstructor onCheckout={handleOnCheckout} />
-              </>
-            ) : null}
+            {!loading ? (
+              error ? (
+                <ErrorBage error={error} />
+              ) : (
+                content
+              )
+            ) : (
+              <LoadingBage />
+            )}
           </main>
           {visible && ingredient && (
             <Modal onClose={handleCloseModal} hasTitle={true}>

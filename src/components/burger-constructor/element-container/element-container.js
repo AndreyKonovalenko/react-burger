@@ -79,9 +79,10 @@ const ElementContainer = () => {
   );
 };
 
-// ElementContainer.propTypes = {
-//   data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-//   burger: burgerPropTypes.isRequired,
-// };
+ElementContainer.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+  burgerState: burgerPropTypes.isRequired,
+  burgerDispatcher: PropTypes.func.isRequired,
+};
 
 export default ElementContainer;
