@@ -34,6 +34,7 @@
 
 .wrapper:hover {
   background: #1c1c21;
+  border-radius: 40px;
 }
 .counter {
   position: absolute;

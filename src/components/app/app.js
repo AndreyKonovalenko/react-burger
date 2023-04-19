@@ -10,6 +10,8 @@ import LoadingBage from '../loading-bage/loading-bage';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import OrederDetails from '../order-details/order-details';
 import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -21,10 +23,10 @@ const App = () => {
   }, [dispatch]);
 
   const content = (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <BurgerIngredients />
       <BurgerConstructor />
-    </>
+    </DndProvider>
   );
 
   return (

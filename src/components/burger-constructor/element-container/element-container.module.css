@@ -30,6 +30,11 @@
   scrollbar-color: #8585ad #2f2f37;
 }
 
+.droppable {
+  background: #1c1c21;
+  border-radius: 40px;
+}
+
 .middle::-webkit-scrollbar {
   width: 8px;
 }

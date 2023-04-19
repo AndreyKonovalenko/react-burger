@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
 import styles from './element-container.module.css';
 
 import {
@@ -6,12 +7,23 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { removeMainAndSauce } from '../../../services/burger-constructor/burger-constructor-actions';
+import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
 
 const ElementContainer = () => {
   const dispatch = useDispatch();
   const burgerState = useSelector((state) => state.burger);
   const { ingredients } = useSelector((state) => state.ingredients);
   const { bun, mainAndSauce } = burgerState;
+
+  const [{ isHover }, drop] = useDrop({
+    accept: 'ingredient',
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(ingredient) {
+      dispatch(addIngredient(ingredient));
+    },
+  });
 
   const bunElement = bun
     ? ingredients.find((element) => element._id === bun.ingredientId)
@@ -40,7 +52,9 @@ const ElementContainer = () => {
       : null;
 
   return (
-    <div className={`${styles.container} mt-25`}>
+    <div
+      className={`${styles.container} ${isHover && styles.droppable} mt-25`}
+      ref={drop}>
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement

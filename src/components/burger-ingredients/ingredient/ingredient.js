@@ -6,17 +6,20 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import styles from './ingredient.module.css';
-import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
 import { selectIngredient } from '../../../services/ui/ui-actions';
+import { useDrag } from 'react-dnd';
 
 const Ingredient = (ingredient) => {
   const { name, image_large, price } = ingredient;
-
   const dispatch = useDispatch();
+
+  const [, drag] = useDrag(() => ({
+    type: 'ingredient',
+    item: ingredient,
+  }));
 
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
-      dispatch(addIngredient(ingredient));
       dispatch(selectIngredient(ingredient));
     },
     [dispatch]
@@ -25,6 +28,7 @@ const Ingredient = (ingredient) => {
   return (
     <div
       className={styles.wrapper}
+      ref={drag}
       onClick={() => handleOnIngredientClick(ingredient)}>
       <Counter
         count={1}
