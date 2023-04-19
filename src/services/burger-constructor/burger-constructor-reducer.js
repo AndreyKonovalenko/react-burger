@@ -1,8 +1,27 @@
 import uniqid from 'uniqid';
-import * as actionTypes from './actionTypes';
-const burgerReducer = (state, action) => {
+import {
+  ADD_BUN,
+  REMOVE_BUN,
+  REMOVE_MAIN_AND_SAUCE,
+  ADD_MAIN_AND_SAUCE,
+  FILL_ORDER,
+  SEND_ORDER_REQUEST,
+  SEND_ORDER_ERROR,
+  SEND_ORDER_SUCCESS,
+} from './burger-constructor-actions';
+
+const intialState = {
+  bun: null,
+  mainAndSauce: [],
+  total: 0,
+  order: [],
+  invoice: null,
+  loading: false,
+  error: '',
+};
+export const burgerConstructorReducer = (state = intialState, action) => {
   switch (action.type) {
-    case actionTypes.ADD_BUN:
+    case ADD_BUN:
       return {
         ...state,
         bun: {
@@ -15,9 +34,9 @@ const burgerReducer = (state, action) => {
           (state.bun ? state.bun.price * 2 : 0) +
           action.payload.price * 2,
       };
-    case actionTypes.REMOVE_BUN:
+    case REMOVE_BUN:
       return { ...state, bun: null };
-    case actionTypes.ADD_MAIN_AND_SAUCE:
+    case ADD_MAIN_AND_SAUCE:
       return {
         ...state,
         mainAndSauce: [
@@ -30,7 +49,7 @@ const burgerReducer = (state, action) => {
         ],
         total: state.total + action.payload.price,
       };
-    case actionTypes.REMOVE_MAIN_AND_SAUCE:
+    case REMOVE_MAIN_AND_SAUCE:
       return {
         ...state,
         mainAndSauce: state.mainAndSauce.filter(
@@ -41,7 +60,7 @@ const burgerReducer = (state, action) => {
           state.mainAndSauce.find((element) => element.id === action.payload)
             .price,
       };
-    case actionTypes.FILL_ORDER:
+    case FILL_ORDER:
       return {
         ...state,
         order: (state.bun ? [state.bun.ingredientId] : []).concat(
@@ -51,10 +70,25 @@ const burgerReducer = (state, action) => {
           state.bun ? [state.bun.ingredientId] : []
         ),
       };
-
+    case SEND_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SEND_ORDER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case SEND_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: '',
+        invoice: action.payload,
+      };
     default:
-      throw new Error(`Wrong type of action: ${action.type}`);
+      return state;
   }
 };
-
-export default burgerReducer;

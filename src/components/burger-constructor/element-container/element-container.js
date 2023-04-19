@@ -1,25 +1,25 @@
-import { useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './element-container.module.css';
-import * as actionTypes from '../../../services/actionTypes';
+
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {} from '../../../utils/prop-types';
-import { BurgerContext, IngredientsContext } from '../../../services/appContex';
+import { removeMainAndSauce } from '../../../services/burger-constructor/burger-constructor-actions';
 
 const ElementContainer = () => {
-  const { data } = useContext(IngredientsContext);
-  const { burgerState, burgerDispatcher } = useContext(BurgerContext);
+  const dispatch = useDispatch();
+  const burgerState = useSelector((state) => state.burger);
+  const { ingredients } = useSelector((state) => state.ingredients);
   const { bun, mainAndSauce } = burgerState;
 
   const bunElement = bun
-    ? data.find((element) => element._id === bun.ingredientId)
+    ? ingredients.find((element) => element._id === bun.ingredientId)
     : null;
   const restIngredients =
     mainAndSauce.length > 0
       ? mainAndSauce.map((mAsElement) => {
-          const ingredient = data.find(
+          const ingredient = ingredients.find(
             (element) => element._id === mAsElement.ingredientId
           );
 
@@ -30,12 +30,9 @@ const ElementContainer = () => {
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
-                handleClose={() =>
-                  burgerDispatcher({
-                    type: actionTypes.REMOVE_MAIN_AND_SAUCE,
-                    payload: mAsElement.id,
-                  })
-                }
+                handleClose={() => {
+                  dispatch(removeMainAndSauce(mAsElement.id));
+                }}
               />
             </div>
           );

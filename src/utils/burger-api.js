@@ -1,4 +1,4 @@
-const BURGER_API_URL = "https://norma.nomoreparties.space/api";
+const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
 export const getIngerdients = async () => {
   const response = await fetch(`${BURGER_API_URL}/ingredients`);
@@ -12,15 +12,15 @@ export const getIngerdients = async () => {
 };
 
 const options = {
-  method: "POST",
-  mode: "cors",
-  cache: "no-cache",
-  credentials: "same-origin",
+  method: 'POST',
+  mode: 'cors',
+  cache: 'no-cache',
+  credentials: 'same-origin',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
+  redirect: 'follow',
+  referrerPolicy: 'no-referrer',
   body: null,
 };
 

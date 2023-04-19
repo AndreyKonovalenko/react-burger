@@ -1,14 +1,13 @@
-import { useState, useCallback, useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useCallback, useRef } from 'react';
 import Ingredient from './ingredient/ingredient';
 import TabBar from './tab-bar/tab-bar';
 import Collection from './collection/collection';
 import styles from './burger-ingredients.module.css';
-import { IngredientsContext } from '../../services/appContex';
-import { BUN, SAUCE, MAIN } from '../app/app';
+import { BUN, SAUCE, MAIN } from '../../utils/ui-constants';
+import { useSelector } from 'react-redux';
 
-const BurgerIngredients = ({ handleOnIngredientClick }) => {
-  const { data } = useContext(IngredientsContext);
+const BurgerIngredients = () => {
+  const { ingredients } = useSelector((state) => state.ingredients);
   const [current, setCurrent] = useState(BUN);
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
@@ -30,35 +29,25 @@ const BurgerIngredients = ({ handleOnIngredientClick }) => {
     }
   }, []);
 
-  const splitterToColumn = (data, type) => {
+  const splitterToColumn = (ingredients, type) => {
     const left = [];
     const right = [];
-    const filtered = data.filter((ingredient) => ingredient.type === type);
+    const filtered = ingredients.filter(
+      (ingredient) => ingredient.type === type
+    );
     filtered.forEach((element, index) => {
       if (index % 2 === 0) {
-        left.push(
-          <Ingredient
-            key={element._id}
-            data={element}
-            handleOnIngredientClick={handleOnIngredientClick}
-          />
-        );
+        left.push(<Ingredient key={element._id} {...element} />);
       } else {
-        right.push(
-          <Ingredient
-            key={element._id}
-            data={element}
-            handleOnIngredientClick={handleOnIngredientClick}
-          />
-        );
+        right.push(<Ingredient key={element._id} {...element} />);
       }
     });
     return { left, right };
   };
 
-  const bun = data ? splitterToColumn(data, 'bun') : null;
-  const sauce = data ? splitterToColumn(data, 'sauce') : null;
-  const main = data ? splitterToColumn(data, 'main') : null;
+  const bun = splitterToColumn(ingredients, 'bun');
+  const sauce = splitterToColumn(ingredients, 'sauce');
+  const main = splitterToColumn(ingredients, 'main');
 
   return (
     <div className={styles.container}>
@@ -73,10 +62,6 @@ const BurgerIngredients = ({ handleOnIngredientClick }) => {
       </div>
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  handleOnIngredientClick: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

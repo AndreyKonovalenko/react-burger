@@ -1,36 +1,35 @@
-import PropTypes from "prop-types";
-import { useContext } from "react";
+import { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Button,
   CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./checkout.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './checkout.module.css';
+import { showOrderDetails } from '../../../services/ui/ui-actions';
 
-import { BurgerContext } from "../../../services/appContex";
+const Checkout = () => {
+  const dispatch = useDispatch();
+  const { total } = useSelector((state) => state.burger);
 
-const Checkout = ({ onCheckout }) => {
-  const { burgerState } = useContext(BurgerContext);
+  const handleOnCheckout = useCallback(() => {
+    dispatch(showOrderDetails());
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
       <div className={styles.price}>
-        <p className="text text_type_digits-medium">{burgerState.total}</p>
-        <CurrencyIcon type="primary" />
+        <p className='text text_type_digits-medium'>{total}</p>
+        <CurrencyIcon type='primary' />
       </div>
       <Button
-        htmlType="button"
-        type="primary"
-        size="large"
-        onClick={onCheckout}
-      >
+        htmlType='button'
+        type='primary'
+        size='large'
+        onClick={handleOnCheckout}>
         Оформить заказ
       </Button>
     </div>
   );
-};
-
-Checkout.propTypes = {
-  onCheckout: PropTypes.func.isRequired,
 };
 
 export default Checkout;

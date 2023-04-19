@@ -1,29 +1,42 @@
-import PropTypes from "prop-types";
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   CurrencyIcon,
   Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../../utils/prop-types";
-import styles from "./ingredient.module.css";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import { ingredientPropTypes } from '../../../utils/prop-types';
+import styles from './ingredient.module.css';
+import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
+import { selectIngredient } from '../../../services/ui/ui-actions';
 
-const Ingredient = ({ data, handleOnIngredientClick }) => {
-  const { name, image_large, price } = data;
+const Ingredient = (ingredient) => {
+  const { name, image_large, price } = ingredient;
+
+  const dispatch = useDispatch();
+
+  const handleOnIngredientClick = useCallback(
+    (ingredient) => {
+      dispatch(addIngredient(ingredient));
+      dispatch(selectIngredient(ingredient));
+    },
+    [dispatch]
+  );
+
   return (
     <div
       className={styles.wrapper}
-      onClick={() => handleOnIngredientClick(data)}
-    >
+      onClick={() => handleOnIngredientClick(ingredient)}>
       <Counter
         count={1}
-        size="default"
+        size='default'
         className={styles.counter}
-        extraClass="m-1"
+        extraClass='m-1'
       />
       <div className={`${styles.container} pb-10`}>
         <img src={image_large} width={240} height={120} alt={name} />
         <div className={`${styles.priceContainer} mb-2 mt-2`}>
-          <span className="text text_type_digits-default">{price}</span>
-          <CurrencyIcon type="primary" />
+          <span className='text text_type_digits-default'>{price}</span>
+          <CurrencyIcon type='primary' />
         </div>
         <div className={styles.nameConatiner}>
           <p className={`${styles.text} "text text_type_main-default`}>
@@ -35,9 +48,7 @@ const Ingredient = ({ data, handleOnIngredientClick }) => {
   );
 };
 
-Ingredient.propTypes = {
-  data: ingredientPropTypes.isRequired,
-  handleOnIngredientClick: PropTypes.func.isRequired,
+Ingredient.iropTypes = {
+  ingredient: ingredientPropTypes.isRequired,
 };
-
 export default Ingredient;

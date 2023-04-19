@@ -1,36 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './order-details.module.css';
 import ErrorBage from '../error-bage/error-bage';
 import LoadingBage from '../loading-bage/loading-bage';
 import DoneImage from '../../images/graphics.svg';
-import { BurgerContext } from '../../services/appContex';
-import { sendOrder } from '../../utils/burger-api';
+import { postOrder } from '../../services/burger-constructor/burger-constructor-actions';
 
 const OrederDetails = () => {
-  const { burgerState } = useContext(BurgerContext);
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { invoice, loading, error } = useSelector((state) => state.burger);
 
   useEffect(() => {
-    const postOrder = async () => {
-      try {
-        const response = await sendOrder({ ingredients: burgerState.order });
-        setData(response);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    postOrder();
-  }, [burgerState.order]);
+    dispatch(postOrder());
+  }, [dispatch]);
 
-  const orderDetails = data ? (
+  const orderDetails = invoice ? (
     <div className={`${styles.container} mb-20 mt-4`}>
       <div>
         <p className={`${styles.orderIdText} text text_type_digits-large`}>
-          {data.order.number}
+          {invoice.order.number}
         </p>
       </div>
       <div>
@@ -53,7 +41,7 @@ const OrederDetails = () => {
   ) : null;
 
   return !loading ? (
-    error ? (
+    Boolean(error) ? (
       <ErrorBage error={error} />
     ) : (
       orderDetails
