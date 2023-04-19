@@ -1,4 +1,3 @@
-import uniqid from 'uniqid';
 import {
   ADD_BUN,
   REMOVE_BUN,
@@ -25,7 +24,7 @@ export const burgerConstructorReducer = (state = intialState, action) => {
       return {
         ...state,
         bun: {
-          id: uniqid(),
+          id: action.payload.id,
           ingredientId: action.payload.ingredientId,
           price: action.payload.price,
         },
@@ -42,7 +41,7 @@ export const burgerConstructorReducer = (state = intialState, action) => {
         mainAndSauce: [
           ...state.mainAndSauce,
           {
-            id: uniqid(),
+            id: action.payload.id,
             ingredientId: action.payload.ingredientId,
             price: action.payload.price,
           },

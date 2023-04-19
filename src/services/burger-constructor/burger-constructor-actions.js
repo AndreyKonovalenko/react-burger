@@ -9,16 +9,25 @@ export const SEND_ORDER_ERROR = 'SEND_ORDER_ERROR';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
 
 export const addIngredient = (ingredient) => {
+  const uuid = crypto.randomUUID();
   if (ingredient.type === 'bun') {
     return {
       type: ADD_BUN,
-      payload: { ingredientId: ingredient._id, price: ingredient.price },
+      payload: {
+        id: uuid,
+        ingredientId: ingredient._id,
+        price: ingredient.price,
+      },
     };
   }
   if (ingredient.type !== 'bun') {
     return {
       type: ADD_MAIN_AND_SAUCE,
-      payload: { ingredientId: ingredient._id, price: ingredient.price },
+      payload: {
+        id: uuid,
+        ingredientId: ingredient._id,
+        price: ingredient.price,
+      },
     };
   }
 };
