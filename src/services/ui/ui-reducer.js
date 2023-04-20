@@ -3,7 +3,7 @@ import {
   UNSELECT_INGREDIENT,
   SHOW_ORDER_DETAILS,
   HIDE_ORDER_DETAILS,
-} from './ui-actions';
+} from "./ui-actions";
 const intialState = {
   ingredient: null,
   orderIsShown: false,

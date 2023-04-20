@@ -1,10 +1,10 @@
-import { useState, useCallback, useRef } from 'react';
-import Ingredient from './ingredient/ingredient';
-import TabBar from './tab-bar/tab-bar';
-import Collection from './collection/collection';
-import styles from './burger-ingredients.module.css';
-import { BUN, SAUCE, MAIN } from '../../utils/ui-constants';
-import { useSelector } from 'react-redux';
+import { useState, useCallback, useRef } from "react";
+import Ingredient from "./ingredient/ingredient";
+import TabBar from "./tab-bar/tab-bar";
+import Collection from "./collection/collection";
+import styles from "./burger-ingredients.module.css";
+import { BUN, SAUCE, MAIN } from "../../utils/ui-constants";
+import { useSelector } from "react-redux";
 
 const BurgerIngredients = () => {
   const { ingredients } = useSelector((state) => state.ingredients);
@@ -16,16 +16,16 @@ const BurgerIngredients = () => {
     setCurrent(value);
     switch (value) {
       case BUN:
-        bunRef.current.scrollIntoView({ behavior: 'smooth' });
+        bunRef.current.scrollIntoView({ behavior: "smooth" });
         break;
       case SAUCE:
-        sauceRef.current.scrollIntoView({ behavior: 'smooth' });
+        sauceRef.current.scrollIntoView({ behavior: "smooth" });
         break;
       case MAIN:
-        mainRef.current.scrollIntoView({ behavior: 'smooth' });
+        mainRef.current.scrollIntoView({ behavior: "smooth" });
         break;
       default:
-        bunRef.current.scrollIntoView({ behavior: 'smooth' });
+        bunRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
@@ -45,14 +45,14 @@ const BurgerIngredients = () => {
     return { left, right };
   };
 
-  const bun = splitterToColumn(ingredients, 'bun');
-  const sauce = splitterToColumn(ingredients, 'sauce');
-  const main = splitterToColumn(ingredients, 'main');
+  const bun = splitterToColumn(ingredients, "bun");
+  const sauce = splitterToColumn(ingredients, "sauce");
+  const main = splitterToColumn(ingredients, "main");
 
   return (
     <div className={styles.container}>
-      <div className='pb-5 pt-10'>
-        <span className='text text_type_main-large'>Соберите бургер</span>
+      <div className="pb-5 pt-10">
+        <span className="text text_type_main-large">Соберите бургер</span>
       </div>
       <TabBar current={current} onClick={handleTabSelect} />
       <div className={styles.scrollbar}>
