@@ -13,9 +13,12 @@ const Ingredient = (ingredient) => {
   const { name, image_large, price } = ingredient;
   const dispatch = useDispatch();
 
-  const [, drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ingredient',
     item: ingredient,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   }));
 
   const handleOnIngredientClick = useCallback(
@@ -25,9 +28,11 @@ const Ingredient = (ingredient) => {
     [dispatch]
   );
 
+  const opacity = isDragging ? 0 : 1;
   return (
     <div
       className={styles.wrapper}
+      style={{ opacity: opacity }}
       ref={drag}
       onClick={() => handleOnIngredientClick(ingredient)}>
       <Counter

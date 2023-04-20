@@ -8,15 +8,6 @@
   align-items: flex-end;
 }
 
-.itemContainer {
-  width: 600px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-}
-
 .middle {
   width: 600px;
   height: 465x;

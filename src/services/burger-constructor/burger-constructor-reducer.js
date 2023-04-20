@@ -8,7 +8,7 @@ import {
   SEND_ORDER_ERROR,
   SEND_ORDER_SUCCESS,
   REORDER_BURGER_INGREDIENTS,
-} from "./burger-constructor-actions";
+} from './burger-constructor-actions';
 
 const intialState = {
   bun: null,
@@ -17,7 +17,7 @@ const intialState = {
   order: [],
   invoice: null,
   loading: false,
-  error: "",
+  error: '',
 };
 export const burgerConstructorReducer = (state = intialState, action) => {
   switch (action.type) {
@@ -85,7 +85,7 @@ export const burgerConstructorReducer = (state = intialState, action) => {
       return {
         ...state,
         loading: false,
-        error: "",
+        error: '',
         invoice: action.payload,
       };
     case REORDER_BURGER_INGREDIENTS:

@@ -1,15 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import styles from './element-container.module.css';
+import styles from './burger.module.css';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerElement from '../burger-element/burger-element';
 
-import {
-  ConstructorElement,
-  DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { removeMainAndSauce } from '../../../services/burger-constructor/burger-constructor-actions';
 import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
 
-const ElementContainer = () => {
+const Burger = () => {
   const dispatch = useDispatch();
   const burgerState = useSelector((state) => state.burger);
   const { ingredients } = useSelector((state) => state.ingredients);
@@ -28,25 +25,20 @@ const ElementContainer = () => {
   const bunElement = bun
     ? ingredients.find((element) => element._id === bun.ingredientId)
     : null;
+
   const restIngredients =
     mainAndSauce.length > 0
-      ? mainAndSauce.map((mAsElement) => {
+      ? mainAndSauce.map((mAsElement, index) => {
           const ingredient = ingredients.find(
             (element) => element._id === mAsElement.ingredientId
           );
-
           return (
-            <div key={mAsElement.id} className={styles.itemContainer}>
-              <DragIcon type='primary' />
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                handleClose={() => {
-                  dispatch(removeMainAndSauce(mAsElement.id));
-                }}
-              />
-            </div>
+            <BurgerElement
+              key={mAsElement.id}
+              id={mAsElement.id}
+              ingredient={ingredient}
+              index={index}
+            />
           );
         })
       : null;
@@ -82,4 +74,4 @@ const ElementContainer = () => {
   );
 };
 
-export default ElementContainer;
+export default Burger;
