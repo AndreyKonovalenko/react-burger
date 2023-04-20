@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CurrencyIcon,
   Counter,
@@ -10,9 +10,9 @@ import { selectIngredient } from '../../../services/ui/ui-actions';
 import { useDrag } from 'react-dnd';
 
 const Ingredient = (ingredient) => {
-  const { name, image_large, price } = ingredient;
+  const { name, image_large, price, _id, type } = ingredient;
   const dispatch = useDispatch();
-
+  const { bun, mainAndSauce } = useSelector((state) => state.burger);
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ingredient',
     item: ingredient,
@@ -28,6 +28,20 @@ const Ingredient = (ingredient) => {
     [dispatch]
   );
 
+  let count = null;
+
+  if (bun && type === 'bun') {
+    count = _id === bun.ingredientId ? 2 : null;
+  }
+
+  if (type !== 'bun' && mainAndSauce.length > 0) {
+    for (const element of mainAndSauce) {
+      if (element.ingredientId === _id) {
+        count++;
+      }
+    }
+  }
+
   const opacity = isDragging ? 0 : 1;
   return (
     <div
@@ -35,12 +49,14 @@ const Ingredient = (ingredient) => {
       style={{ opacity: opacity }}
       ref={drag}
       onClick={() => handleOnIngredientClick(ingredient)}>
-      <Counter
-        count={1}
-        size='default'
-        className={styles.counter}
-        extraClass='m-1'
-      />
+      {count && (
+        <Counter
+          count={count}
+          size='default'
+          className={styles.counter}
+          extraClass='m-1'
+        />
+      )}
       <div className={`${styles.container} pb-10`}>
         <img src={image_large} width={240} height={120} alt={name} />
         <div className={`${styles.priceContainer} mb-2 mt-2`}>
