@@ -1,18 +1,20 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useDrag } from 'react-dnd';
 import {
   CurrencyIcon,
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropTypes } from '../../../utils/prop-types';
-import styles from './ingredient.module.css';
 import { selectIngredient } from '../../../services/ui/ui-actions';
-import { useDrag } from 'react-dnd';
+import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient) => {
-  const { name, image_large, price, _id, type } = ingredient;
   const dispatch = useDispatch();
-  const { bun, mainAndSauce } = useSelector((state) => state.burger);
+  const { name, image_large, price, _id, type } = ingredient;
+  const { bun, mainAndSauce } = useSelector(getBurgerState);
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'ingredient',
     item: ingredient,

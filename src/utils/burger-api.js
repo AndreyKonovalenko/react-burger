@@ -1,9 +1,13 @@
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
+const errorHandler = (status) => {
+  throw new Error(`Ошибка ${status}`);
+};
+
 export const getIngerdients = async () => {
   const response = await fetch(`${BURGER_API_URL}/ingredients`);
   if (!response.ok) {
-    throw new Error(`Ошибка ${response.status}`);
+    errorHandler(response.status);
   }
   const data = await response.json();
   if (data.success) {
@@ -30,7 +34,7 @@ export const sendOrder = async (ingredients) => {
     body: JSON.stringify(ingredients),
   });
   if (!response.ok) {
-    throw new Error(`Ошибка ${response.status}`);
+    errorHandler(response.status);
   }
   const data = await response.json();
   if (data.success) {

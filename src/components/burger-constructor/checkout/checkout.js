@@ -6,10 +6,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './checkout.module.css';
 import { showOrderDetails } from '../../../services/ui/ui-actions';
+import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const { total } = useSelector((state) => state.burger);
+  const { total } = useSelector(getBurgerState);
 
   const handleOnCheckout = useCallback(() => {
     dispatch(showOrderDetails());

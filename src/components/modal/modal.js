@@ -1,20 +1,20 @@
-import PropTypes from "prop-types";
-import { useEffect, useCallback } from "react";
-import { createPortal } from "react-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEscapeKey } from "../hooks/use-escape-key";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModelOverlay from "./model-overlay/model-overlay";
+import PropTypes from 'prop-types';
+import { useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEscapeKey } from '../hooks/use-escape-key';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import ModelOverlay from './model-overlay/model-overlay';
 import {
   unSelectIngredient,
   hideOrderDetails,
-} from "../../services/ui/ui-actions";
-
-import styles from "./modal.module.css";
+} from '../../services/ui/ui-actions';
+import styles from './modal.module.css';
+import { getUiState } from '../../services/ui/ui-selectors';
 
 const Modal = ({ children, hasTitle }) => {
   const dispatch = useDispatch();
-  const { ingredient, orderIsShown } = useSelector((state) => state.ui);
+  const { ingredient, orderIsShown } = useSelector(getUiState);
 
   const handleModalClose = useCallback(() => {
     ingredient && dispatch(unSelectIngredient());
@@ -35,12 +35,12 @@ const Modal = ({ children, hasTitle }) => {
       <div className={`${styles.container} p-10`}>
         <div className={styles.info}>
           <div>
-            <p className="text text_type_main-large">
-              {hasTitle ? "Детали ингредиета" : null}
+            <p className='text text_type_main-large'>
+              {hasTitle ? 'Детали ингредиета' : null}
             </p>
           </div>
           <div onClick={handleModalClose} className={styles.backDoor}>
-            <CloseIcon type="primary" />
+            <CloseIcon type='primary' />
           </div>
         </div>
         {children}

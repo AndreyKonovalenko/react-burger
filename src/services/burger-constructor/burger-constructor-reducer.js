@@ -89,9 +89,12 @@ export const burgerConstructorReducer = (state = intialState, action) => {
         invoice: action.payload,
       };
     case REORDER_BURGER_INGREDIENTS:
+      const { dragIndex, hoverIndex } = action.payload;
+      const current = state.mainAndSauce.slice();
+      current[dragIndex] = current.splice(hoverIndex, 1, current[dragIndex])[0];
       return {
         ...state,
-        mainAndSauce: action.payload,
+        mainAndSauce: current,
       };
     default:
       return state;

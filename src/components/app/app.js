@@ -12,11 +12,13 @@ import OrederDetails from '../order-details/order-details';
 import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { getUiState } from '../../services/ui/ui-selectors';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.ingredients);
-  const { ingredient, orderIsShown } = useSelector((state) => state.ui);
+  const { error, loading } = useSelector(getIngredientsState);
+  const { ingredient, orderIsShown } = useSelector(getUiState);
 
   useEffect(() => {
     dispatch(loadIngerdients());

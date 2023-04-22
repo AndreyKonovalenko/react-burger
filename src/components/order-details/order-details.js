@@ -5,10 +5,11 @@ import ErrorBage from '../error-bage/error-bage';
 import LoadingBage from '../loading-bage/loading-bage';
 import DoneImage from '../../images/graphics.svg';
 import { postOrder } from '../../services/burger-constructor/burger-constructor-actions';
+import { getBurgerState } from '../../services/burger-ingredients/burger-ingredients-selector';
 
 const OrederDetails = () => {
   const dispatch = useDispatch();
-  const { invoice, loading, error } = useSelector((state) => state.burger);
+  const { invoice, loading, error } = useSelector(getBurgerState);
 
   useEffect(() => {
     dispatch(postOrder());

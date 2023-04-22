@@ -53,8 +53,9 @@ export const postOrder = () => async (dispatch, getState) => {
   }
 };
 
-export const reorder = (dragIndex, hoverIndex) => (dispatch, getState) => {
-  const current = getState().burger.mainAndSauce.slice();
-  current[dragIndex] = current.splice(hoverIndex, 1, current[dragIndex])[0];
-  dispatch({ type: REORDER_BURGER_INGREDIENTS, payload: current });
+export const reorder = (dragIndex, hoverIndex) => {
+  return {
+    type: REORDER_BURGER_INGREDIENTS,
+    payload: { dragIndex, hoverIndex },
+  };
 };

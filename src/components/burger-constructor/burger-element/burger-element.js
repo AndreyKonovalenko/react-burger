@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -71,6 +72,8 @@ const BurgerElement = ({ id, ingredient, index }) => {
 
 BurgerElement.propTypes = {
   ingredient: ingredientPropTypes.isRequired,
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default BurgerElement;

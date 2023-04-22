@@ -6,10 +6,11 @@ import styles from './burger-ingredients.module.css';
 import { BUN, SAUCE, MAIN } from '../../utils/ui-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIngredientCollection } from '../../services/ui/ui-actions';
+import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients } = useSelector(getIngredientsState);
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
