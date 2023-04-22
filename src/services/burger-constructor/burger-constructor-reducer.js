@@ -80,6 +80,7 @@ export const burgerConstructorReducer = (state = intialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        invoice: null,
       };
     case SEND_ORDER_SUCCESS:
       return {
