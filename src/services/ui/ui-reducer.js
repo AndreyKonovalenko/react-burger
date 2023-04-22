@@ -3,10 +3,15 @@ import {
   UNSELECT_INGREDIENT,
   SHOW_ORDER_DETAILS,
   HIDE_ORDER_DETAILS,
-} from "./ui-actions";
+  SELECT_INGREDIET_COLLECTION,
+} from './ui-actions';
+import { BUN } from '../../utils/ui-constants';
+
 const intialState = {
   ingredient: null,
   orderIsShown: false,
+  dragging: false,
+  collection: BUN,
 };
 
 export const uiReducer = (state = intialState, action) => {
@@ -35,6 +40,13 @@ export const uiReducer = (state = intialState, action) => {
         orderIsShown: false,
       };
     }
+    case SELECT_INGREDIET_COLLECTION: {
+      return {
+        ...state,
+        collection: action.payload,
+      };
+    }
+
     default:
       return state;
   }

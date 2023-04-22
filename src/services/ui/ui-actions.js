@@ -2,7 +2,7 @@ export const SELECT_INGREDIENT = 'SELECT_INGREDIENT';
 export const UNSELECT_INGREDIENT = 'UNSELECT_INGREDIENT';
 export const SHOW_ORDER_DETAILS = 'SHOW_ORDER_DETAILS';
 export const HIDE_ORDER_DETAILS = 'HIDE_ORDER_DETAILS';
-
+export const SELECT_INGREDIET_COLLECTION = 'SELECT_INGREDIET_COLLECTION';
 export const selectIngredient = (inredient) => {
   return {
     type: SELECT_INGREDIENT,
@@ -23,5 +23,12 @@ export const showOrderDetails = () => {
 export const hideOrderDetails = () => {
   return {
     type: HIDE_ORDER_DETAILS,
+  };
+};
+
+export const selectIngredientCollection = (collectionName) => {
+  return {
+    type: SELECT_INGREDIET_COLLECTION,
+    payload: collectionName,
   };
 };

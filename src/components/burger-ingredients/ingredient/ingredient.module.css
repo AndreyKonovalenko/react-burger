@@ -33,9 +33,16 @@
   cursor: pointer;
 }
 
+.wrapper:active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
+}
+
 .wrapper:hover {
   background: #1c1c21;
-  /* border-radius: 40px; */
 }
 .counter {
   position: absolute;
