@@ -1,22 +1,13 @@
-import PropTypes from 'prop-types';
-import ElementContainer from './element-container/element-container';
+import Burger from './burger/burger';
 import Checkout from './checkout/checkout';
 import styles from './burger-constructor.module.css';
-import { burgerPropTypes, ingredientPropTypes } from '../../utils/prop-types';
-
-const BurgerConstructor = ({ burger, data, onCheckout }) => {
+const BurgerConstructor = () => {
   return (
     <div className={styles.container}>
-      <ElementContainer burger={burger} data={data} />
-      <Checkout onCheckout={onCheckout} />
+      <Burger />
+      <Checkout />
     </div>
   );
-};
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-  burger: burgerPropTypes.isRequired,
-  onCheckout: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

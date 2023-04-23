@@ -8,15 +8,6 @@
   align-items: flex-end;
 }
 
-.itemContainer {
-  width: 600px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-}
-
 .middle {
   width: 600px;
   height: 465x;
@@ -30,12 +21,30 @@
   scrollbar-color: #8585ad #2f2f37;
 }
 
+
+.itemContainer {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.droppable {
+  background: #1c1c21;
+  border-radius: 40px;
+}
+
 .middle::-webkit-scrollbar {
   width: 8px;
 }
+
 .middle::-webkit-scrollbar-track {
   background: #2f2f37;
 }
+
 .middle::-webkit-scrollbar-thumb {
   background: #8585ad;
 }

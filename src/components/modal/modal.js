@@ -1,14 +1,28 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEscapeKey } from '../hooks/use-escape-key';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModelOverlay from './model-overlay/model-overlay';
-
+import {
+  unSelectIngredient,
+  hideOrderDetails,
+} from '../../services/ui/ui-actions';
 import styles from './modal.module.css';
+import { getUiState } from '../../services/ui/ui-selectors';
 
-const Modal = ({ onClose, children, hasTitle }) => {
-  useEscapeKey(onClose);
+const Modal = ({ children, hasTitle }) => {
+  const dispatch = useDispatch();
+  const { ingredient, orderIsShown } = useSelector(getUiState);
+
+  const handleModalClose = useCallback(() => {
+    ingredient && dispatch(unSelectIngredient());
+    orderIsShown && dispatch(hideOrderDetails());
+  }, [dispatch, ingredient, orderIsShown]);
+
+  useEscapeKey(handleModalClose);
+
   useEffect(() => {
     document.body.classList.add(styles.hideOverflowInBody);
     return () => {
@@ -25,20 +39,19 @@ const Modal = ({ onClose, children, hasTitle }) => {
               {hasTitle ? 'Детали ингредиета' : null}
             </p>
           </div>
-          <div onClick={onClose} className={styles.backDoor}>
+          <div onClick={handleModalClose} className={styles.backDoor}>
             <CloseIcon type='primary' />
           </div>
         </div>
         {children}
       </div>
-      <ModelOverlay onClose={onClose} />
+      <ModelOverlay onClose={handleModalClose} />
     </>
   );
   return createPortal(modal, document.body);
 };
 
 Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
   hasTitle: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
 };

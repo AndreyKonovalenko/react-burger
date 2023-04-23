@@ -7,6 +7,7 @@
   align-items: center;
   position: relative;
 }
+
 .priceContainer {
   display: flex;
   flex-direction: row;
@@ -30,6 +31,14 @@
 .wrapper {
   position: relative;
   cursor: pointer;
+}
+
+.wrapper:active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: -o-grabbing;
+  cursor: -ms-grabbing;
+  cursor: grabbing;
 }
 
 .wrapper:hover {
