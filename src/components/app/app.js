@@ -1,61 +1,28 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import ErrorBage from '../error-bage/error-bage';
-import LoadingBage from '../loading-bage/loading-bage';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrederDetails from '../order-details/order-details';
-import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
-import { getUiState } from '../../services/ui/ui-selectors';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "../layout/layout";
+import BurgerPage from "../../pages/burger-page/burger-page";
+import LoginPage from "../../pages/login-page/login-page";
+import RegisterPage from "../../pages/register-page/register-page";
+import ForgetPasswordPage from "../../pages/forget-password-page/forget-password-page";
+import ResetPasswordPage from "../../pages/reset-password-page/reset-password-page";
+import ProfilePage from "../../pages/profile-page/profile-page";
+import NotFoundPage from "../../pages/not-found-page/not-found-page";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const { error, loading } = useSelector(getIngredientsState);
-  const { ingredient, orderIsShown } = useSelector(getUiState);
-
-  useEffect(() => {
-    dispatch(loadIngerdients());
-  }, [dispatch]);
-
-  const content = (
-    <DndProvider backend={HTML5Backend}>
-      <BurgerIngredients />
-      <BurgerConstructor />
-    </DndProvider>
-  );
-
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        {!loading ? (
-          Boolean(error) ? (
-            <ErrorBage error={error} />
-          ) : (
-            content
-          )
-        ) : (
-          <LoadingBage />
-        )}
-      </main>
-      {ingredient && (
-        <Modal hasTitle={true}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
-      {orderIsShown && (
-        <Modal hasTitle={false}>
-          <OrederDetails />
-        </Modal>
-      )}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<BurgerPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="forget-password" element={<ForgetPasswordPage />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
