@@ -34,6 +34,27 @@ export const authReducer = (state = intialState, action) => {
         loginForm: { email: '', password: '' },
       };
     }
+    case SEND_LOGIN_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case SEND_LOGIN_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case SEND_LOGIN_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: '',
+      };
+    }
     default:
       return state;
   }
