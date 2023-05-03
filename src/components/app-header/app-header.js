@@ -11,18 +11,14 @@ const AppHeader = () => (
   <header className={styles.header}>
     <nav className={styles.nav}>
       <div className={`${styles.itemContainer} ${styles.decorator1}`}>
-        <NavItem
-          option={BURGER_CONSTRUCTOR}
-          onClick={() => {}}
-          isActive={true}
-        />
-        <NavItem option={ORDER_FEED} onClick={() => {}} isActive={false} />
+        <NavItem option={BURGER_CONSTRUCTOR} to='/' />
+        <NavItem option={ORDER_FEED} to='/orders' />
       </div>
       <div className={`${styles.itemContainer} ${styles.decorator2}`}>
         <Logo />
       </div>
       <div className={`${styles.itemContainer} ${styles.decorator3}`}>
-        <NavItem option={USER_ACCOUNT} onClick={() => {}} isActive={false} />
+        <NavItem option={USER_ACCOUNT} to='/login' />
       </div>
     </nav>
   </header>
