@@ -1,22 +1,42 @@
 import {
   SET_FORM_VALUE,
   CLEAR_FORM,
-  SEND_REGISTER_REQUEST,
-  SEND_REGISTER_REQUEST_SUCCESS,
-  SEND_REGISTER_REQUEST_ERROR,
-  SEND_LOGIN_REQUEST,
-  SEND_LOGIN_REQUEST_SUCCESS,
-  SEND_LOGIN_REQUEST_ERROR,
+  REGISTER_REQUEST,
+  REGISTER_REQUEST_ERROR,
+  REGISTER_REQUEST_SUCCESS,
+  LOGIN_REQUEST,
+  LOGIN_REQUEST_ERROR,
+  LOGIN_REQUEST_SUCCESS,
+  RECOVERY_REQUEST,
+  RECOVERY_REQUEST_ERROR,
+  RECOVERY_REQUEST_SUCCESS,
+  RESET_PASS_REQUEST,
+  RESET_PASS_REQUEST_ERROR,
+  RESET_PASS_REQUEST_SUCCESS,
+  REFRESH_ACCESS_REQUEST,
+  REFRESH_ACCESS_REQUEST_ERROR,
+  REFRESH_ACCESS_REQUEST_SUCCESS,
+  LOGOUT_REQUEST,
+  LOGOUT_REQUEST_ERROR,
+  LOGOUT_REQUEST_SUCCESS,
+  GET_USER_REQUEST,
+  GET_USER_REQUEST_ERROR,
+  GET_USER_REQUEST_SUCCESS,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_REQUEST_ERROR,
+  UPDATE_USER_REQUEST_SUCCESS,
 } from "./auth-actions";
 
 const intialState = {
   user: null,
   loading: false,
   error: "",
+  message: "",
   form: {
     name: "",
     email: "",
     password: "",
+    token: "",
   },
 };
 
@@ -38,20 +58,20 @@ export const authReducer = (state = intialState, action) => {
       };
     }
 
-    case SEND_REGISTER_REQUEST: {
+    case REGISTER_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
-    case SEND_REGISTER_REQUEST_ERROR: {
+    case REGISTER_REQUEST_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case SEND_REGISTER_REQUEST_SUCCESS: {
+    case REGISTER_REQUEST_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -59,20 +79,20 @@ export const authReducer = (state = intialState, action) => {
         user: action.payload,
       };
     }
-    case SEND_LOGIN_REQUEST: {
+    case LOGIN_REQUEST: {
       return {
         ...state,
         loading: true,
       };
     }
-    case SEND_LOGIN_REQUEST_ERROR: {
+    case LOGIN_REQUEST_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case SEND_LOGIN_REQUEST_SUCCESS: {
+    case LOGIN_REQUEST_SUCCESS: {
       return {
         ...state,
         user: action.payload,
@@ -80,6 +100,133 @@ export const authReducer = (state = intialState, action) => {
         error: "",
       };
     }
+    case RECOVERY_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case RECOVERY_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case RECOVERY_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        message: action.payload,
+        loading: false,
+        error: "",
+      };
+    }
+    case RESET_PASS_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case RESET_PASS_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case RESET_PASS_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        message: action.password,
+        loading: false,
+        error: "",
+      };
+    }
+    case REFRESH_ACCESS_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case REFRESH_ACCESS_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case REFRESH_ACCESS_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: "",
+      };
+    }
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case LOGOUT_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case LOGOUT_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        massage: action.payload,
+        loading: false,
+        error: "",
+      };
+    }
+    case GET_USER_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case GET_USER_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+    case GET_USER_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: "",
+      };
+    }
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case UPDATE_USER_REQUEST_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    }
+
+    case UPDATE_USER_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: "",
+      };
+    }
+
     default:
       return state;
   }

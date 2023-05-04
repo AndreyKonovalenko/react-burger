@@ -78,7 +78,7 @@ const LoginPage = () => {
         </span>
         <span className="text text_type_main-default text_color_inactive">
           Забыли пароль?{" "}
-          <Link className={styles.link} to="/forget-password">
+          <Link className={styles.link} to="/forgot-password">
             {RESTORE_PASSWORD}
           </Link>
         </span>

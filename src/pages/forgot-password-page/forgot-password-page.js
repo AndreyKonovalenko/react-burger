@@ -1,4 +1,4 @@
-import styles from "./forget-password-page.module.css";
+import styles from "./forgot-password-page.module.css";
 
 const ForgetPasswordPage = () => {
   return <h1>FORGET PASSWORD PAGE</h1>;

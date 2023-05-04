@@ -80,6 +80,25 @@ export const loginRequeset = async (form) => {
   }
 };
 
+export const recoveryRequest = async (email) => {
+  const response = await fetch(`${BURGER_API_URL}/password-reset`, {
+    ...options,
+    body: JSON.stringify(email),
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    return data;
+  }
+};
+
+export const logoutRequest = async (token) => {
+  sessionStorage.removeItem("refreshToken");
+  deleteCookie("accessToken");
+};
+
 export const getCookie = (name) => {
   const matches = document.cookie.match(
     new RegExp(
