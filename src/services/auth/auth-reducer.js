@@ -2,29 +2,29 @@ import {
   SET_FORM_VALUE,
   CLEAR_FORM,
   REGISTER_REQUEST,
-  REGISTER_REQUEST_ERROR,
-  REGISTER_REQUEST_SUCCESS,
+  REGISTER_ERROR,
+  REGISTER_SUCCESS,
   LOGIN_REQUEST,
-  LOGIN_REQUEST_ERROR,
-  LOGIN_REQUEST_SUCCESS,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
   RECOVERY_REQUEST,
-  RECOVERY_REQUEST_ERROR,
-  RECOVERY_REQUEST_SUCCESS,
+  RECOVERY_ERROR,
+  RECOVERY_SUCCESS,
   RESET_PASS_REQUEST,
-  RESET_PASS_REQUEST_ERROR,
-  RESET_PASS_REQUEST_SUCCESS,
+  RESET_PASS_ERROR,
+  RESET_PASS_SUCCESS,
   REFRESH_ACCESS_REQUEST,
-  REFRESH_ACCESS_REQUEST_ERROR,
-  REFRESH_ACCESS_REQUEST_SUCCESS,
+  REFRESH_ACCESS_ERROR,
+  REFRESH_ACCESS_SUCCESS,
   LOGOUT_REQUEST,
-  LOGOUT_REQUEST_ERROR,
-  LOGOUT_REQUEST_SUCCESS,
+  LOGOUT_ERROR,
+  LOGOUT_SUCCESS,
   GET_USER_REQUEST,
-  GET_USER_REQUEST_ERROR,
-  GET_USER_REQUEST_SUCCESS,
+  GET_USER_ERROR,
+  GET_USER_SUCCESS,
   UPDATE_USER_REQUEST,
-  UPDATE_USER_REQUEST_ERROR,
-  UPDATE_USER_REQUEST_SUCCESS,
+  UPDATE_USER_ERROR,
+  UPDATE_USER_SUCCESS,
 } from "./auth-actions";
 
 const intialState = {
@@ -64,14 +64,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case REGISTER_REQUEST_ERROR: {
+    case REGISTER_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case REGISTER_REQUEST_SUCCESS: {
+    case REGISTER_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -85,14 +85,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case LOGIN_REQUEST_ERROR: {
+    case LOGIN_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case LOGIN_REQUEST_SUCCESS: {
+    case LOGIN_SUCCESS: {
       return {
         ...state,
         user: action.payload,
@@ -106,14 +106,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case RECOVERY_REQUEST_ERROR: {
+    case RECOVERY_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case RECOVERY_REQUEST_SUCCESS: {
+    case RECOVERY_SUCCESS: {
       return {
         ...state,
         message: action.payload,
@@ -127,14 +127,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case RESET_PASS_REQUEST_ERROR: {
+    case RESET_PASS_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case RESET_PASS_REQUEST_SUCCESS: {
+    case RESET_PASS_SUCCESS: {
       return {
         ...state,
         message: action.password,
@@ -148,14 +148,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case REFRESH_ACCESS_REQUEST_ERROR: {
+    case REFRESH_ACCESS_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case REFRESH_ACCESS_REQUEST_SUCCESS: {
+    case REFRESH_ACCESS_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -168,14 +168,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case LOGOUT_REQUEST_ERROR: {
+    case LOGOUT_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case LOGOUT_REQUEST_SUCCESS: {
+    case LOGOUT_SUCCESS: {
       return {
         ...state,
         massage: action.payload,
@@ -189,14 +189,14 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case GET_USER_REQUEST_ERROR: {
+    case GET_USER_ERROR: {
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
     }
-    case GET_USER_REQUEST_SUCCESS: {
+    case GET_USER_SUCCESS: {
       return {
         ...state,
         user: action.payload,
@@ -210,7 +210,7 @@ export const authReducer = (state = intialState, action) => {
         loading: true,
       };
     }
-    case UPDATE_USER_REQUEST_ERROR: {
+    case UPDATE_USER_ERROR: {
       return {
         ...state,
         loading: false,
@@ -218,7 +218,7 @@ export const authReducer = (state = intialState, action) => {
       };
     }
 
-    case UPDATE_USER_REQUEST_SUCCESS: {
+    case UPDATE_USER_SUCCESS: {
       return {
         ...state,
         user: action.payload,

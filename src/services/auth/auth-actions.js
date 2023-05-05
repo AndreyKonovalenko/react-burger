@@ -1,35 +1,43 @@
+import jwt_decode from "jwt-decode";
 import {
   loginRequeset,
   registerRequeset,
   recoveryRequest,
+  updateUserDataRequest,
 } from "../../utils/burger-api";
 
 export const SET_FORM_VALUE = "SET_FORM_VALUE";
 export const CLEAR_FORM = "CLEAR_FORM";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_REQUEST_ERROR = "REGISTER_REQUEST_ERROR";
-export const REGISTER_REQUEST_SUCCESS = "REGISTER_REQUEST_SUCCESS";
+export const REGISTER_ERROR = "REGISTER_ERROR";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_REQUEST_ERROR = "LOGIN_REQUEST_ERROR";
-export const LOGIN_REQUEST_SUCCESS = "LOGIN_REQUEST_SUCCESS";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_ERROR = "LOGIN_ERROR";
 export const RECOVERY_REQUEST = "RECOVERY_REQUEST";
-export const RECOVERY_REQUEST_ERROR = "RECOVERY_REQUESET_ERROR";
-export const RECOVERY_REQUEST_SUCCESS = "RECOVERY_REQUEST_SUCCESS";
+export const RECOVERY_ERROR = "RECOVERY_ERROR";
+export const RECOVERY_SUCCESS = "RECOVERY_SUCCESS";
 export const RESET_PASS_REQUEST = "RESET_PASS_REQUEST";
-export const RESET_PASS_REQUEST_ERROR = "RESET_PASS_REQUEST_ERROR";
-export const RESET_PASS_REQUEST_SUCCESS = "RESET_PASS_REQUEST_SUCCESS";
+export const RESET_PASS_ERROR = "RESET_PASS_ERROR";
+export const RESET_PASS_SUCCESS = "RESET_PASS_SUCCESS";
 export const REFRESH_ACCESS_REQUEST = "REFRESH_ACCESS_REQUEST";
-export const REFRESH_ACCESS_REQUEST_ERROR = "REFRESH_ACCESS_REQUEST_ERROR";
-export const REFRESH_ACCESS_REQUEST_SUCCESS = "REFRESH_ACCESS_REQUEST_SUCCESS";
+export const REFRESH_ACCESS_ERROR = "REFRESH_ACCESS_ERROR";
+export const REFRESH_ACCESS_SUCCESS = "REFRESH_ACCESS_SUCCESS";
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_REQUEST_ERROR = "LOGOUT_REQUEST_ERROR";
-export const LOGOUT_REQUEST_SUCCESS = "LOGOUT_REQUEST_SUCCESS";
+export const LOGOUT_ERROR = "LOGOUT_ERROR";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_REQUEST_ERROR = "GET_USER_REQUEST_ERROR";
-export const GET_USER_REQUEST_SUCCESS = "GET_USER_REQUEST_SUCCESS";
+export const GET_USER_ERROR = "GET_USER_ERROR";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
-export const UPDATE_USER_REQUEST_ERROR = "UPDATE_USER_REQUEST_ERROR";
-export const UPDATE_USER_REQUEST_SUCCESS = "UPDATE_USER_REQUEST_SUCCESS";
+export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
+export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
+
+// const token = getCookie("AccessToken");
+// const decoded = jwt_decode(token);
+// if (decoded.exp * 1000 < Date.now()) {
+
+// }
 
 export const setFormValue = ({ field, value }) => {
   return {
@@ -46,9 +54,9 @@ export const register = () => async (dispatch, getState) => {
   try {
     const { name, email, password } = getState().auth.form;
     const response = await registerRequeset({ name, email, password });
-    dispatch({ type: REGISTER_REQUEST_SUCCESS, payload: response.user });
+    dispatch({ type: REGISTER_SUCCESS, payload: response.user });
   } catch (error) {
-    dispatch({ type: REGISTER_REQUEST_ERROR, payload: error.message });
+    dispatch({ type: REGISTER_ERROR, payload: error.message });
   }
 };
 
@@ -57,9 +65,9 @@ export const login = () => async (dispatch, getState) => {
   try {
     const { email, password } = getState().auth.form;
     const response = await loginRequeset({ email, password });
-    dispatch({ type: LOGIN_REQUEST_SUCCESS, payload: response.user });
+    dispatch({ type: LOGIN_SUCCESS, payload: response.user });
   } catch (error) {
-    dispatch({ type: LOGIN_REQUEST_ERROR, payload: error.message });
+    dispatch({ type: LOGIN_ERROR, payload: error.message });
   }
 };
 
@@ -68,9 +76,9 @@ export const rocoverPassword = () => async (dispatch, getState) => {
   try {
     const { email } = getState().auth.form;
     const response = await recoveryRequest({ email });
-    dispatch({ type: RECOVERY_REQUEST_SUCCESS, payload: response.message });
+    dispatch({ type: RECOVERY_SUCCESS, payload: response.message });
   } catch (error) {
-    dispatch({ type: RECOVERY_REQUEST_SUCCESS, payload: error.message });
+    dispatch({ type: RECOVERY_SUCCESS, payload: error.message });
   }
 };
 
@@ -84,9 +92,9 @@ export const updateUserData = () => async (dispatch, getState) => {
         return { ...data, element };
       }
     }
-    const response = await recoveryRequest(data);
-    dispatch({ type: UPDATE_USER_REQUEST_SUCCESS, payload: response.user });
+    const response = await updateUserDataRequest(data);
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: response.user });
   } catch (error) {
-    dispatch({ type: UPDATE_USER_REQUEST_ERROR, payload: error.message });
+    dispatch({ type: UPDATE_USER_ERROR, payload: error.message });
   }
 };

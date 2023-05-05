@@ -4,8 +4,25 @@ const errorHandler = (status) => {
   throw new Error(`Ошибка ${status}`);
 };
 
+const options = {
+  method: null,
+  mode: "cors",
+  cache: "no-cache",
+  credentials: "same-origin",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: null,
+  },
+  redirect: "follow",
+  referrerPolicy: "no-referrer",
+  body: null,
+};
+
 export const getIngerdients = async () => {
-  const response = await fetch(`${BURGER_API_URL}/ingredients`);
+  const response = await fetch(`${BURGER_API_URL}/ingredients`, {
+    ...options,
+    method: "GET",
+  });
   if (!response.ok) {
     errorHandler(response.status);
   }
@@ -15,22 +32,10 @@ export const getIngerdients = async () => {
   }
 };
 
-const options = {
-  method: "POST",
-  mode: "cors",
-  cache: "no-cache",
-  credentials: "same-origin",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  redirect: "follow",
-  referrerPolicy: "no-referrer",
-  body: null,
-};
-
 export const sendOrder = async (ingredients) => {
   const response = await fetch(`${BURGER_API_URL}/orders`, {
     ...options,
+    method: "POST",
     body: JSON.stringify(ingredients),
   });
   if (!response.ok) {
@@ -45,6 +50,7 @@ export const sendOrder = async (ingredients) => {
 export const registerRequeset = async (form) => {
   const response = await fetch(`${BURGER_API_URL}/auth/register`, {
     ...options,
+    method: "POST",
     body: JSON.stringify(form),
   });
   if (!response.ok) {
@@ -64,6 +70,7 @@ export const registerRequeset = async (form) => {
 export const loginRequeset = async (form) => {
   const response = await fetch(`${BURGER_API_URL}/auth/login`, {
     ...options,
+    method: "POST",
     body: JSON.stringify(form),
   });
   if (!response.ok) {
@@ -83,6 +90,7 @@ export const loginRequeset = async (form) => {
 export const recoveryRequest = async (email) => {
   const response = await fetch(`${BURGER_API_URL}/password-reset`, {
     ...options,
+    method: "POST",
     body: JSON.stringify(email),
   });
   if (!response.ok) {
@@ -94,9 +102,90 @@ export const recoveryRequest = async (email) => {
   }
 };
 
-export const logoutRequest = async (token) => {
-  sessionStorage.removeItem("refreshToken");
-  deleteCookie("accessToken");
+export const resetPasswordRequest = async (form) => {
+  const response = await fetch(`${BURGER_API_URL}/reset-password`, {
+    ...options,
+    method: "POST",
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    return data;
+  }
+};
+
+export const refreshAccessToken = async (refreshToken) => {
+  const response = await fetch(`${BURGER_API_URL}/auth/token`, {
+    ...options,
+    method: "POST",
+    body: JSON.stringify(refreshToken),
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    return data;
+  }
+};
+
+export const getUser = async () => {
+  const token = getCookie("AccessToken");
+  const response = await fetch(`${BURGER_API_URL}/auth/user`, {
+    ...options,
+    method: "GET",
+    headers: {
+      ...options.headers,
+      Authorization: "Bearer " + token,
+    },
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    return data.data;
+  }
+};
+
+export const updateUserDataRequest = async (form) => {
+  const token = getCookie("AccessToken");
+  const response = await fetch(`${BURGER_API_URL}/auth/user`, {
+    ...options,
+    method: "PATCH",
+    headers: {
+      ...options.headers,
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(form),
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    return data.data;
+  }
+};
+
+export const logoutRequest = async (refreshToken) => {
+  const response = await fetch(`${BURGER_API_URL}/auth/logout`, {
+    ...options,
+    method: "POST",
+    body: JSON.stringify(refreshToken),
+  });
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  const data = await response.json();
+  if (data.success) {
+    sessionStorage.removeItem("refreshToken");
+    deleteCookie("accessToken");
+    return data;
+  }
 };
 
 export const getCookie = (name) => {
