@@ -117,7 +117,7 @@ export const resetPasswordRequest = async (form) => {
   }
 };
 
-export const refreshAccessToken = async (refreshToken) => {
+export const refreshAccessTokenRequest = async (refreshToken) => {
   const response = await fetch(`${BURGER_API_URL}/auth/token`, {
     ...options,
     method: "POST",
@@ -128,11 +128,16 @@ export const refreshAccessToken = async (refreshToken) => {
   }
   const data = await response.json();
   if (data.success) {
+    const accessToken = data.accessToken.split("Bearer ")[1];
+    if (accessToken) {
+      setCookie("accessToken", accessToken);
+    }
+    sessionStorage.setItem("refreshToken", data.refreshToken);
     return data;
   }
 };
 
-export const getUser = async () => {
+export const getUserRequest = async () => {
   const token = getCookie("AccessToken");
   const response = await fetch(`${BURGER_API_URL}/auth/user`, {
     ...options,

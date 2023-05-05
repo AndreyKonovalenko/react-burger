@@ -3,8 +3,13 @@ import {
   loginRequeset,
   registerRequeset,
   recoveryRequest,
+  refreshAccessTokenRequest,
   updateUserDataRequest,
+  logoutRequest,
+  resetPasswordRequest,
+  getUserRequest,
 } from "../../utils/burger-api";
+import { error } from "console";
 
 export const SET_FORM_VALUE = "SET_FORM_VALUE";
 export const CLEAR_FORM = "CLEAR_FORM";
@@ -71,6 +76,16 @@ export const login = () => async (dispatch, getState) => {
   }
 };
 
+export const logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT_REQUEST });
+  try {
+    const response = await logoutRequest();
+    dispatch({ type: LOGOUT_ERROR, payload: response.user });
+  } catch (error) {
+    dispatch({ type: LOGOUT_SUCCESS, payload: error.message });
+  }
+};
+
 export const rocoverPassword = () => async (dispatch, getState) => {
   dispatch({ type: RECOVERY_REQUEST });
   try {
@@ -79,6 +94,37 @@ export const rocoverPassword = () => async (dispatch, getState) => {
     dispatch({ type: RECOVERY_SUCCESS, payload: response.message });
   } catch (error) {
     dispatch({ type: RECOVERY_SUCCESS, payload: error.message });
+  }
+};
+
+export const refreshAccessToken = () => async (dispatch) => {
+  dispatch({ type: REFRESH_ACCESS_REQUEST });
+  try {
+    await refreshAccessTokenRequest();
+    dispatch({ type: REFRESH_ACCESS_SUCCESS });
+  } catch (error) {
+    dispatch({ type: REFRESH_ACCESS_ERROR, payload: error.message });
+  }
+};
+
+export const resetPassword = () => async (dispatch, getState) => {
+  dispatch({ type: RESET_PASS_REQUEST });
+  try {
+    const { password, token } = getState().auth.form;
+    const response = await resetPasswordRequest({ password, token });
+    dispatch({ type: RESET_PASS_SUCCESS, payload: response.message });
+  } catch (error) {
+    dispatch({ type: RESET_PASS_ERROR, payload: error.message });
+  }
+};
+
+export const getUser = () => async (dispatch) => {
+  dispatch({ type: GET_USER_REQUEST });
+  try {
+    const response = await getUserRequest();
+    dispatch({ type: GET_USER_SUCCESS, payload: response.user });
+  } catch (erro) {
+    dispatch({ type: GET_USER_ERROR, payload: error.message });
   }
 };
 
