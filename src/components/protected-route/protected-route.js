@@ -11,7 +11,6 @@ import LoadingBage from '../loading-bage/loading-bage';
 const ProtectedRoute = ({ element }) => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector(getAuthState);
-
   useEffect(() => {
     const token = getCookie('accessToken');
     const decoded = jwt_decode(token);

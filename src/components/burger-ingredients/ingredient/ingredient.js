@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import {
   CurrencyIcon,
@@ -13,7 +13,6 @@ import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient) => {
   const navigate = useNavigate();
-  const { state, pathname } = useLocation();
   const dispatch = useDispatch();
   const { name, image_large, price, _id, type } = ingredient;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
@@ -28,7 +27,6 @@ const Ingredient = (ingredient) => {
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
       dispatch(selectIngredient(ingredient));
-      console.log(state, pathname);
       const initialSate = [
         { path: '/', url: `/ingredints/${ingredient._id}`, id: ingredient._id },
       ];
@@ -38,7 +36,7 @@ const Ingredient = (ingredient) => {
       });
       window.history.pushState('', '', `/ingredients/${ingredient._id}`);
     },
-    [dispatch, navigate, pathname, state]
+    [dispatch, navigate]
   );
 
   const handlePointer = useCallback((e) => {
