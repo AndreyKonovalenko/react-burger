@@ -25,23 +25,41 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
-} from "./auth-actions";
+  CLEAR_STATE,
+  CLEAR_MESSAGE,
+  CLEAR_ERROR,
+} from './auth-actions';
 
-const intialState = {
+const initialState = {
   user: null,
   loading: false,
-  error: "",
-  message: "",
+  error: '',
+  message: '',
   form: {
-    name: "",
-    email: "",
-    password: "",
-    token: "",
+    name: '',
+    email: '',
+    password: '',
+    token: '',
   },
 };
 
-export const authReducer = (state = intialState, action) => {
+export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_STATE: {
+      return initialState;
+    }
+    case CLEAR_MESSAGE: {
+      return {
+        ...state,
+        message: '',
+      };
+    }
+    case CLEAR_ERROR: {
+      return {
+        ...state,
+        error: '',
+      };
+    }
     case SET_FORM_VALUE: {
       return {
         ...state,
@@ -54,7 +72,7 @@ export const authReducer = (state = intialState, action) => {
     case CLEAR_FORM: {
       return {
         ...state,
-        form: { name: "", email: "", password: "" },
+        form: { name: '', email: '', password: '', token: '' },
       };
     }
 
@@ -75,7 +93,7 @@ export const authReducer = (state = intialState, action) => {
       return {
         ...state,
         loading: false,
-        error: "",
+        error: '',
         user: action.payload,
       };
     }
@@ -97,7 +115,7 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         user: action.payload,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case RECOVERY_REQUEST: {
@@ -118,7 +136,7 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         message: action.payload,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case RESET_PASS_REQUEST: {
@@ -139,7 +157,7 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         message: action.password,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case REFRESH_ACCESS_REQUEST: {
@@ -159,7 +177,7 @@ export const authReducer = (state = intialState, action) => {
       return {
         ...state,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case LOGOUT_REQUEST: {
@@ -180,7 +198,7 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         massage: action.payload,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case GET_USER_REQUEST: {
@@ -201,7 +219,7 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         user: action.payload,
         loading: false,
-        error: "",
+        error: '',
       };
     }
     case UPDATE_USER_REQUEST: {
@@ -223,7 +241,8 @@ export const authReducer = (state = intialState, action) => {
         ...state,
         user: action.payload,
         loading: false,
-        error: "",
+        error: '',
+        message: 'Двнные пользователя успешно обновлены!',
       };
     }
 
