@@ -11,10 +11,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 24px;
-}
-
-.link {
-  text-decoration: none;
-  color: #4c4cff;
 }

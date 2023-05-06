@@ -1,4 +1,3 @@
-import jwt_decode from 'jwt-decode';
 import {
   loginRequeset,
   registerRequeset,
@@ -39,12 +38,6 @@ export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const CLEAR_MESSAGE = 'CLEAR_MESSAGE';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
-
-// const token = getCookie("AccessToken");
-// const decoded = jwt_decode(token);
-// if (decoded.exp * 1000 < Date.now()) {
-
-// }
 
 export const clearState = () => ({ type: CLEAR_STATE });
 export const clearMessage = () => ({ type: CLEAR_MESSAGE });

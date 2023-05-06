@@ -7,6 +7,8 @@ import ForgetPasswordPage from '../../pages/forgot-password-page/forgot-password
 import ResetPasswordPage from '../../pages/reset-password-page/reset-password-page';
 import ProfilePage from '../../pages/profile-page/profile-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import ProtectedRoute from '../protected-route/protected-route';
+import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
 
 const App = () => {
   return (
@@ -18,7 +20,11 @@ const App = () => {
           <Route path='register' element={<RegisterPage />} />
           <Route path='forgot-password' element={<ForgetPasswordPage />} />
           <Route path='reset-password' element={<ResetPasswordPage />} />
-          <Route path='profile' element={<ProfilePage />} />
+          <Route path='ingredients/:id' element={<IngredientDetailsPage />} />
+          <Route
+            path='profile'
+            element={<ProtectedRoute element={<ProfilePage />} />}
+          />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>

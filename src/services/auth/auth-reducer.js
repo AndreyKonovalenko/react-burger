@@ -196,9 +196,9 @@ export const authReducer = (state = initialState, action) => {
     case LOGOUT_SUCCESS: {
       return {
         ...state,
-        massage: action.payload,
         loading: false,
         error: '',
+        message: action.payload,
       };
     }
     case GET_USER_REQUEST: {

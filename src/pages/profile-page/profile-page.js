@@ -39,7 +39,7 @@ const ProfilePage = () => {
   const onLogout = useCallback(() => {
     dispatch(logout());
     dispatch(clearState());
-  });
+  }, [dispatch]);
 
   useEffect(() => {
     return () => Boolean(message) && dispatch(clearMessage());

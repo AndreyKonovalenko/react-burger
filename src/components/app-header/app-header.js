@@ -17,7 +17,7 @@ const AppHeader = () => (
         <Logo />
       </div>
       <div className={`${styles.itemContainer} ${styles.decorator3}`}>
-        <NavItem option={USER_ACCOUNT} to='/login' />
+        <NavItem option={USER_ACCOUNT} to='/profile' />
       </div>
     </nav>
   </header>

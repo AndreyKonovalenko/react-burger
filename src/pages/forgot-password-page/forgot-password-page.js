@@ -18,7 +18,6 @@ import {
   setFormValue,
   rocoverPassword,
   clearMessage,
-  clearState,
 } from '../../services/auth/auth-actions';
 
 const ForgetPassowrdPage = () => {

@@ -13,7 +13,6 @@ import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient) => {
   const navigate = useNavigate();
-  //  const url = window.location.href;
   const { state, pathname } = useLocation();
   const dispatch = useDispatch();
   const { name, image_large, price, _id, type } = ingredient;
@@ -37,9 +36,9 @@ const Ingredient = (ingredient) => {
         raplace: true,
         state: initialSate,
       });
-      window.history.pushState('', '', `/ingredints/${ingredient._id}`);
+      window.history.pushState('', '', `/ingredients/${ingredient._id}`);
     },
-    [dispatch]
+    [dispatch, navigate, pathname, state]
   );
 
   const handlePointer = useCallback((e) => {
