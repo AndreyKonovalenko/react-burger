@@ -9,6 +9,14 @@ import ProfilePage from '../../pages/profile-page/profile-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
+import {
+  LOGIN,
+  REGISTR,
+  RESET_PASSWORD,
+  FORGOT_PASSWORD,
+  PROFILE,
+  INGREDIENTS,
+} from '../../utils/route-constants';
 
 const App = () => {
   return (
@@ -16,13 +24,16 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<BurgerPage />} />
-          <Route path='login' element={<LoginPage />} />
-          <Route path='register' element={<RegisterPage />} />
-          <Route path='forgot-password' element={<ForgetPasswordPage />} />
-          <Route path='reset-password' element={<ResetPasswordPage />} />
-          <Route path='ingredients/:id' element={<IngredientDetailsPage />} />
+          <Route path={LOGIN} element={<LoginPage />} />
+          <Route path={REGISTR} element={<RegisterPage />} />
+          <Route path={FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
+          <Route path={RESET_PASSWORD} element={<ResetPasswordPage />} />
           <Route
-            path='profile'
+            path={`${INGREDIENTS}/:id`}
+            element={<IngredientDetailsPage />}
+          />
+          <Route
+            path={PROFILE}
             element={<ProtectedRoute element={<ProfilePage />} />}
           />
           <Route path='*' element={<NotFoundPage />} />

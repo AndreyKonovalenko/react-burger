@@ -20,6 +20,7 @@ import {
   resetPassword,
   clearForm,
   clearMessage,
+  clearError,
 } from '../../services/auth/auth-actions';
 
 const ResetPasswordPage = () => {
@@ -27,7 +28,7 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const { token, password } = useSelector(getFormState);
   const error = useSelector(getAuthError);
-  const { loading, message } = useSelector(getAuthState);
+  const { loading, message, user } = useSelector(getAuthState);
 
   const onChange = useCallback(
     (e) => {
@@ -35,24 +36,33 @@ const ResetPasswordPage = () => {
     },
     [dispatch]
   );
-  const onLogIn = useCallback(() => {
-    dispatch(resetPassword());
-    dispatch(clearForm());
-  }, [dispatch]);
+  const onSave = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(resetPassword());
+      dispatch(clearForm());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    if (message === 'Password successfully reset') {
-      dispatch(clearForm());
-      navigate('/profile');
+    if (user) {
+      navigate('/');
     }
-    return () => Boolean(message) && dispatch(clearMessage());
-  }, [dispatch, navigate, message]);
+    return () => {
+      dispatch(clearForm());
+      dispatch(clearError());
+      Boolean(message) && dispatch(clearMessage());
+    };
+  }, [dispatch, navigate, message, user]);
 
   const content = (
     <div className={styles.formContainer}>
-      <div className={styles.form}>
+      {Boolean(message) && (
+        <p className='text text_type_main-large mb-6'>{message}</p>
+      )}
+      <form onSubmit={onSave} className={styles.form}>
         <p className='text text_type_main-medium'>{PASWORD_RESTORATION}</p>
-
         <PasswordInput onChange={onChange} value={password} name={'password'} />
         <Input
           onChange={onChange}
@@ -60,14 +70,10 @@ const ResetPasswordPage = () => {
           name={'token'}
           placeholder='Введите код из письма'
         />
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={onLogIn}>
+        <Button htmlType='submit' type='primary' size='medium'>
           {SAVE}
         </Button>
-      </div>
+      </form>
       <div>
         <span className='text text_type_main-default text_color_inactive'>
           Забыли пароль?{' '}

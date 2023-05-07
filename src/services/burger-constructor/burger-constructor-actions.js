@@ -1,4 +1,4 @@
-import { sendOrder } from '../../utils/burger-api';
+import { sendOrder, fetchWithRefresh } from '../../utils/burger-api';
 export const ADD_BUN = 'ADD_BUN';
 export const REMOVE_BUN = 'REMOVE_BUN';
 export const ADD_MAIN_AND_SAUCE = 'ADD_MAIN_AND_SAUCE';
@@ -46,7 +46,7 @@ export const postOrder = () => async (dispatch, getState) => {
   dispatch({ type: SEND_ORDER_REQUEST });
   try {
     const order = getState().burger.order;
-    const response = await sendOrder({ ingredients: order });
+    const response = await fetchWithRefresh(sendOrder, { ingredients: order });
     dispatch({ type: SEND_ORDER_SUCCESS, payload: response });
   } catch (error) {
     dispatch({ type: SEND_ORDER_ERROR, payload: error.message });

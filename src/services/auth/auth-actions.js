@@ -7,6 +7,7 @@ import {
   logoutRequest,
   resetPasswordRequest,
   getUserRequest,
+  fetchWithRefresh,
 } from '../../utils/burger-api';
 
 export const SET_FORM_VALUE = 'SET_FORM_VALUE';
@@ -120,7 +121,7 @@ export const resetPassword = () => async (dispatch, getState) => {
 export const getUser = () => async (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
-    const response = await getUserRequest();
+    const response = await fetchWithRefresh(getUserRequest);
     dispatch({ type: GET_USER_SUCCESS, payload: response.user });
   } catch (error) {
     dispatch({ type: GET_USER_ERROR, payload: error.message });
@@ -137,7 +138,7 @@ export const updateUserData = () => async (dispatch, getState) => {
         data = { ...data, [element]: form[element] };
       }
     }
-    const response = await updateUserDataRequest(data);
+    const response = await fetchWithRefresh(updateUserDataRequest, data);
     dispatch({ type: UPDATE_USER_SUCCESS, payload: response.user });
   } catch (error) {
     dispatch({ type: UPDATE_USER_ERROR, payload: error.message });

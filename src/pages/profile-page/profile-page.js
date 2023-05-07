@@ -17,14 +17,15 @@ import {
   updateUserData,
   logout,
   clearState,
+  clearForm,
 } from '../../services/auth/auth-actions';
+import { deleteCookie } from '../../utils/burger-api';
 import ErrorBage from '../../components/error-bage/error-bage';
-
 const ProfilePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { name, email, password } = useSelector(getFormState);
-  const { loading, message, error } = useSelector(getAuthState);
+  const { loading, message, error, user } = useSelector(getAuthState);
 
   const onChange = useCallback(
     (e) => {
@@ -32,14 +33,28 @@ const ProfilePage = () => {
     },
     [dispatch]
   );
-  const onSave = useCallback(() => {
-    dispatch(updateUserData());
-  }, [dispatch]);
+  const onSave = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(updateUserData());
+      dispatch(clearForm());
+    },
+    [dispatch]
+  );
 
   const onLogout = useCallback(() => {
     dispatch(logout());
     dispatch(clearState());
+    sessionStorage.removeItem('refreshToken');
+    deleteCookie('accessToken');
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!Boolean(name) && !Boolean(email) && user) {
+      dispatch(setFormValue({ field: 'name', value: user.name }));
+      dispatch(setFormValue({ field: 'email', value: user.email }));
+    }
+  }, [dispatch, email, name, user]);
 
   useEffect(() => {
     return () => Boolean(message) && dispatch(clearMessage());
@@ -93,7 +108,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className={styles.form}>
+      <form onSubmit={onSave} className={styles.form}>
         <Input
           onChange={onChange}
           value={name}
@@ -107,10 +122,10 @@ const ProfilePage = () => {
           placeholder='E-mail'
         />
         <PasswordInput onChange={onChange} value={password} name={'password'} />
-        <Button htmlType='button' type='primary' size='medium' onClick={onSave}>
+        <Button htmlType='submit' type='primary' size='medium'>
           {SAVE}
         </Button>
-      </div>
+      </form>
     </div>
   );
 

@@ -31,21 +31,25 @@ const RegisterPage = () => {
     },
     [dispatch]
   );
-  const onRegister = useCallback(() => {
-    dispatch(register());
-  }, [dispatch]);
+  const onRegister = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(register());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (user) {
       dispatch(clearForm());
-      navigate('/login');
+      navigate('/');
     }
     return () => Boolean(error) && dispatch(clearError());
   }, [user, navigate, dispatch, error]);
 
   const content = (
     <div className={styles.formContainer}>
-      <div className={styles.form}>
+      <form onSubmit={onRegister} className={styles.form}>
         <p className='text text_type_main-medium'>{REGISTER}</p>
         <Input
           onChange={onChange}
@@ -60,14 +64,10 @@ const RegisterPage = () => {
           placeholder='E-mail'
         />
         <PasswordInput onChange={onChange} value={password} name={'password'} />
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={onRegister}>
+        <Button htmlType='submit' type='primary' size='medium'>
           {REGISTRATION}
         </Button>
-      </div>
+      </form>
       <div>
         <span className='text text_type_main-default text_color_inactive'>
           Ужу зарегисртрировались?{' '}

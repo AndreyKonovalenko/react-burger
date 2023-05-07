@@ -33,9 +33,14 @@ export const getIngerdients = async () => {
 };
 
 export const sendOrder = async (ingredients) => {
+  const token = getCookie('accessToken');
   const response = await fetch(`${BURGER_API_URL}/orders`, {
     ...options,
     method: 'POST',
+    headers: {
+      ...options.headers,
+      Authorization: 'Bearer ' + token,
+    },
     body: JSON.stringify(ingredients),
   });
   if (!response.ok) {
@@ -103,7 +108,7 @@ export const recoveryRequest = async (email) => {
 };
 
 export const resetPasswordRequest = async (form) => {
-  const response = await fetch(`${BURGER_API_URL}/reset-password`, {
+  const response = await fetch(`${BURGER_API_URL}/password-reset/reset`, {
     ...options,
     method: 'POST',
     body: JSON.stringify(form),
@@ -128,11 +133,6 @@ export const refreshAccessTokenRequest = async () => {
   }
   const data = await response.json();
   if (data.success) {
-    const accessToken = data.accessToken.split('Bearer ')[1];
-    if (accessToken) {
-      setCookie('accessToken', accessToken);
-    }
-    sessionStorage.setItem('refreshToken', data.refreshToken);
     return data;
   }
 };
@@ -148,7 +148,10 @@ export const getUserRequest = async () => {
     },
   });
   if (!response.ok) {
-    errorHandler(response.status);
+    const data = await response.json();
+    if (Boolean(data.message)) {
+      throw new Error(data.message);
+    }
   }
   const data = await response.json();
   if (data.success) {
@@ -187,8 +190,6 @@ export const logoutRequest = async () => {
   }
   const data = await response.json();
   if (data.success) {
-    sessionStorage.removeItem('refreshToken');
-    deleteCookie('accessToken');
     return data;
   }
 };
@@ -227,4 +228,23 @@ export const setCookie = (name, value, props) => {
 
 export const deleteCookie = (name) => {
   setCookie(name, null, { expires: -1 });
+};
+
+export const fetchWithRefresh = async (request, data) => {
+  //data is optional argument
+  try {
+    return await request(data);
+  } catch (error) {
+    if (error.message === 'jwt expired') {
+      const response = await refreshAccessTokenRequest();
+      const accessToken = response.accessToken.split('Bearer ')[1];
+      if (accessToken && response.refreshToken) {
+        setCookie('accessToken', accessToken);
+        sessionStorage.setItem('refreshToken', response.refreshToken);
+      }
+      return await request(data);
+    } else {
+      errorHandler(error);
+    }
+  }
 };

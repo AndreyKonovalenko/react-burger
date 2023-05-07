@@ -155,7 +155,7 @@ export const authReducer = (state = initialState, action) => {
     case RESET_PASS_SUCCESS: {
       return {
         ...state,
-        message: action.password,
+        message: action.payload,
         loading: false,
         error: '',
       };

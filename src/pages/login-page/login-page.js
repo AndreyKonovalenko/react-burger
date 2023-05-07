@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './login-page.module.css';
@@ -20,11 +20,13 @@ import {
   setFormValue,
   login,
   clearForm,
+  clearError,
 } from '../../services/auth/auth-actions';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { email, password } = useSelector(getFormState);
   const { loading, user, error } = useSelector(getAuthState);
 
@@ -34,20 +36,25 @@ const LoginPage = () => {
     },
     [dispatch]
   );
-  const onLogIn = useCallback(() => {
-    dispatch(login());
-  }, [dispatch]);
+  const onLogIn = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(login());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (user) {
       dispatch(clearForm());
-      navigate('/');
+      navigate(location?.state?.from || '/');
     }
-  }, [dispatch, navigate, user]);
+    return () => dispatch(clearError());
+  }, [dispatch, navigate, user, location]);
 
   const content = (
     <div className={styles.formContainer}>
-      <div className={styles.form}>
+      <form onSubmit={onLogIn} className={styles.form}>
         <p className='text text_type_main-medium'>{ENTER}</p>
         <EmailInput
           onChange={onChange}
@@ -56,14 +63,10 @@ const LoginPage = () => {
           placeholder='E-mail'
         />
         <PasswordInput onChange={onChange} value={password} name={'password'} />
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={onLogIn}>
+        <Button htmlType='submit' type='primary' size='medium'>
           {LOGIN}
         </Button>
-      </div>
+      </form>
       <div className={styles.linkContainer}>
         <span className='text text_type_main-default text_color_inactive'>
           Вы - новй пользователь?{' '}

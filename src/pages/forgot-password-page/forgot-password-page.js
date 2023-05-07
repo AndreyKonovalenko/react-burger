@@ -18,6 +18,7 @@ import {
   setFormValue,
   rocoverPassword,
   clearMessage,
+  clearError,
 } from '../../services/auth/auth-actions';
 
 const ForgetPassowrdPage = () => {
@@ -25,7 +26,7 @@ const ForgetPassowrdPage = () => {
   const navigate = useNavigate();
   const error = useSelector(getAuthError);
   const { email } = useSelector(getFormState);
-  const { loading, message } = useSelector(getAuthState);
+  const { loading, message, user } = useSelector(getAuthState);
 
   const onChange = useCallback(
     (e) => {
@@ -33,20 +34,30 @@ const ForgetPassowrdPage = () => {
     },
     [dispatch]
   );
-  const onRecover = useCallback(() => {
-    dispatch(rocoverPassword());
-  }, [dispatch]);
+  const onRecover = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(rocoverPassword());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    if (message === 'Reset email sent') {
-      navigate('/reset-password');
+    if (user) {
+      navigate('/');
     }
-    return () => Boolean(message) && dispatch(clearMessage());
-  }, [dispatch, navigate, message]);
+    if (message === 'Reset email sent') {
+      navigate('reset-password');
+    }
+    return () => {
+      dispatch(clearError());
+      Boolean(message) && dispatch(clearMessage());
+    };
+  }, [dispatch, navigate, message, user]);
 
   const content = (
     <div className={styles.formContainer}>
-      <div className={styles.form}>
+      <form onSubmit={onRecover} className={styles.form}>
         <p className='text text_type_main-medium'>{PASWORD_RESTORATION}</p>
         <EmailInput
           onChange={onChange}
@@ -54,14 +65,10 @@ const ForgetPassowrdPage = () => {
           name={'email'}
           placeholder='E-mail'
         />
-        <Button
-          htmlType='button'
-          type='primary'
-          size='medium'
-          onClick={onRecover}>
+        <Button htmlType='submit' type='primary' size='medium'>
           {RECOVER}
         </Button>
-      </div>
+      </form>
       <div>
         <span className='text text_type_main-default text_color_inactive'>
           Вспомнили пароль?{' '}

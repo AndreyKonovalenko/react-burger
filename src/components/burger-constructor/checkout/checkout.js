@@ -4,17 +4,21 @@ import {
   Button,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useNavigate } from 'react-router-dom';
 import styles from './checkout.module.css';
 import { showOrderDetails } from '../../../services/ui/ui-actions';
 import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import { getUserState } from '../../../services/auth/auth-selectors';
 
 const Checkout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { total } = useSelector(getBurgerState);
+  const user = useSelector(getUserState);
 
   const handleOnCheckout = useCallback(() => {
-    dispatch(showOrderDetails());
-  }, [dispatch]);
+    user ? dispatch(showOrderDetails()) : navigate('/login');
+  }, [dispatch, navigate, user]);
 
   return (
     <div className={styles.container}>
