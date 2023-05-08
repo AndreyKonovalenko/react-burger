@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../layout/layout';
 import BurgerPage from '../../pages/burger-page/burger-page';
@@ -9,33 +11,51 @@ import ProfilePage from '../../pages/profile-page/profile-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
+import ProfileUserForm from '../profile-user-form/profile-user-form';
+import ProfileOrders from '../profile-order/profile-order';
 import {
-  LOGIN,
-  REGISTR,
-  RESET_PASSWORD,
-  FORGOT_PASSWORD,
-  PROFILE,
-  INGREDIENTS,
+  TO_LOGIN,
+  TO_FORGOT_PASSWORD,
+  TO_PROFILE,
+  TO_REGISTR,
+  TO_RESET_PASSWORD,
+  TO_INGREDIENTS,
+  TO_ORDERS,
 } from '../../utils/route-constants';
+import { getUser } from '../../services/auth/auth-actions';
+import { getCookie } from '../../utils/burger-api';
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const accessToken = getCookie('accessToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (accessToken && refreshToken) {
+      dispatch(getUser());
+    }
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<BurgerPage />} />
-          <Route path={LOGIN} element={<LoginPage />} />
-          <Route path={REGISTR} element={<RegisterPage />} />
-          <Route path={FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
-          <Route path={RESET_PASSWORD} element={<ResetPasswordPage />} />
+          <Route path={TO_LOGIN} element={<LoginPage />} />
+          <Route path={TO_REGISTR} element={<RegisterPage />} />
+          <Route path={TO_FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
+          <Route path={TO_RESET_PASSWORD} element={<ResetPasswordPage />} />
           <Route
-            path={`${INGREDIENTS}/:id`}
+            path={`${TO_INGREDIENTS}/:id`}
             element={<IngredientDetailsPage />}
           />
           <Route
-            path={PROFILE}
-            element={<ProtectedRoute element={<ProfilePage />} />}
-          />
+            path={TO_PROFILE}
+            element={<ProtectedRoute element={<ProfilePage />} />}>
+            <Route index element={<ProfileUserForm />} />
+            <Route
+              path={`${TO_PROFILE}${TO_ORDERS}`}
+              element={<ProfileOrders />}
+            />
+          </Route>
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>

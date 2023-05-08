@@ -1,6 +1,6 @@
-import styles from "./layout.module.css";
-import { Outlet } from "react-router-dom";
-import AppHeader from "../app-header/app-header";
+import { Outlet } from 'react-router-dom';
+import AppHeader from '../app-header/app-header';
+import styles from './layout.module.css';
 
 const Layout = () => {
   return (

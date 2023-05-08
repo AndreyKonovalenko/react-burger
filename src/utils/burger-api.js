@@ -133,6 +133,9 @@ export const refreshAccessTokenRequest = async () => {
   }
   const data = await response.json();
   if (data.success) {
+    const accessToken = data.accessToken.split('Bearer ')[1];
+    setCookie('accessToken', accessToken);
+    sessionStorage.setItem('refreshToken', data.refreshToken);
     return data;
   }
 };
@@ -236,12 +239,7 @@ export const fetchWithRefresh = async (request, data) => {
     return await request(data);
   } catch (error) {
     if (error.message === 'jwt expired') {
-      const response = await refreshAccessTokenRequest();
-      const accessToken = response.accessToken.split('Bearer ')[1];
-      if (accessToken && response.refreshToken) {
-        setCookie('accessToken', accessToken);
-        sessionStorage.setItem('refreshToken', response.refreshToken);
-      }
+      await refreshAccessTokenRequest();
       return await request(data);
     } else {
       errorHandler(error);

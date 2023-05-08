@@ -11,7 +11,7 @@ const AppHeader = () => (
     <nav className={styles.nav}>
       <div className={`${styles.itemContainer} ${styles.decorator1}`}>
         <NavItem option={BURGER_CONSTRUCTOR} to='/' />
-        <NavItem option={ORDER_FEED} to='/orders' />
+        <NavItem option={ORDER_FEED} to='/orders-feed' />
       </div>
       <div className={`${styles.itemContainer} ${styles.decorator2}`}>
         <Logo />

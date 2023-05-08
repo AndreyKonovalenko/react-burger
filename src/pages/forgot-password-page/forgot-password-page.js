@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './forgot-password-page.module.css';
@@ -20,10 +20,12 @@ import {
   clearMessage,
   clearError,
 } from '../../services/auth/auth-actions';
+import { TO_RESET_PASSWORD } from '../../utils/route-constants';
 
 const ForgetPassowrdPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const error = useSelector(getAuthError);
   const { email } = useSelector(getFormState);
   const { loading, message, user } = useSelector(getAuthState);
@@ -47,13 +49,13 @@ const ForgetPassowrdPage = () => {
       navigate('/');
     }
     if (message === 'Reset email sent') {
-      navigate('reset-password');
+      navigate(TO_RESET_PASSWORD, { state: { from: pathname }, replace: true });
     }
     return () => {
       dispatch(clearError());
       Boolean(message) && dispatch(clearMessage());
     };
-  }, [dispatch, navigate, message, user]);
+  }, [dispatch, navigate, message, user, pathname]);
 
   const content = (
     <div className={styles.formContainer}>
