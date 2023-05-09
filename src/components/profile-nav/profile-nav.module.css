@@ -1,0 +1,32 @@
+.navContainer {
+  width: 320px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.navItem {
+  width: 320px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.textContainer {
+  height: 48px;
+  margin-top: 80px;
+}

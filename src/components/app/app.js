@@ -1,61 +1,65 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import ErrorBage from '../error-bage/error-bage';
-import LoadingBage from '../loading-bage/loading-bage';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import OrederDetails from '../order-details/order-details';
-import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
-import { getUiState } from '../../services/ui/ui-selectors';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from '../layout/layout';
+import BurgerPage from '../../pages/burger-page/burger-page';
+import LoginPage from '../../pages/login-page/login-page';
+import RegisterPage from '../../pages/register-page/register-page';
+import ForgetPasswordPage from '../../pages/forgot-password-page/forgot-password-page';
+import ResetPasswordPage from '../../pages/reset-password-page/reset-password-page';
+import ProfilePage from '../../pages/profile-page/profile-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import ProtectedRoute from '../protected-route/protected-route';
+import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
+import ProfileUserForm from '../profile-user-form/profile-user-form';
+import ProfileOrders from '../profile-order/profile-order';
+import {
+  TO_LOGIN,
+  TO_FORGOT_PASSWORD,
+  TO_PROFILE,
+  TO_REGISTR,
+  TO_RESET_PASSWORD,
+  TO_INGREDIENTS,
+  TO_ORDERS,
+} from '../../utils/route-constants';
+import { getUser } from '../../services/auth/auth-actions';
+import { getCookie } from '../../utils/burger-api';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { error, loading } = useSelector(getIngredientsState);
-  const { ingredient, orderIsShown } = useSelector(getUiState);
-
   useEffect(() => {
-    dispatch(loadIngerdients());
+    const accessToken = getCookie('accessToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
+    if (accessToken && refreshToken) {
+      dispatch(getUser());
+    }
   }, [dispatch]);
-
-  const content = (
-    <DndProvider backend={HTML5Backend}>
-      <BurgerIngredients />
-      <BurgerConstructor />
-    </DndProvider>
-  );
-
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        {!loading ? (
-          Boolean(error) ? (
-            <ErrorBage error={error} />
-          ) : (
-            content
-          )
-        ) : (
-          <LoadingBage />
-        )}
-      </main>
-      {ingredient && (
-        <Modal hasTitle={true}>
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
-      {orderIsShown && (
-        <Modal hasTitle={false}>
-          <OrederDetails />
-        </Modal>
-      )}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<BurgerPage />} />
+          <Route path={TO_LOGIN} element={<LoginPage />} />
+          <Route path={TO_REGISTR} element={<RegisterPage />} />
+          <Route path={TO_FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
+          <Route path={TO_RESET_PASSWORD} element={<ResetPasswordPage />} />
+          <Route
+            path={`${TO_INGREDIENTS}/:id`}
+            element={<IngredientDetailsPage />}
+          />
+          <Route
+            path={TO_PROFILE}
+            element={<ProtectedRoute element={<ProfilePage />} />}>
+            <Route index element={<ProfileUserForm />} />
+            <Route
+              path={`${TO_PROFILE}${TO_ORDERS}`}
+              element={<ProfileOrders />}
+            />
+          </Route>
+          <Route path='*' element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

@@ -1,0 +1,39 @@
+.container {
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.formContainer {
+  width: 480px;
+  height: 430px;
+  display: flex;
+  margin-top: 200px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form {
+  height: 286px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.linkContainer {
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}
