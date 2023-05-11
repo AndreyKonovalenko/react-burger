@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createBrowserHistory } from "history";
 import { useDrag } from "react-dnd";
 import {
   CurrencyIcon,
@@ -12,6 +13,7 @@ import styles from "./ingredient.module.css";
 
 const Ingredient = (ingredient) => {
   const dispatch = useDispatch();
+  let history = createBrowserHistory();
   const { name, image_large, price, _id, type } = ingredient;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -25,13 +27,9 @@ const Ingredient = (ingredient) => {
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
       dispatch(selectIngredient(ingredient));
-      window.history.pushState(
-        { id: ingredient._id },
-        "",
-        `/ingredients/${ingredient._id}`
-      );
+      history.replace(`/ingredients/${ingredient._id}`);
     },
-    [dispatch]
+    [dispatch, history]
   );
 
   const handlePointer = useCallback((e) => {
