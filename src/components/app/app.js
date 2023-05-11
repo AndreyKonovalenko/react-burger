@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Layout from '../layout/layout';
 import BurgerPage from '../../pages/burger-page/burger-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -13,6 +13,8 @@ import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
 import ProfileUserForm from '../profile-user-form/profile-user-form';
 import ProfileOrders from '../profile-order/profile-order';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 import {
   TO_LOGIN,
   TO_FORGOT_PASSWORD,
@@ -27,6 +29,9 @@ import { getCookie } from '../../utils/burger-api';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
   useEffect(() => {
     const accessToken = getCookie('accessToken');
     const refreshToken = sessionStorage.getItem('refreshToken');
@@ -35,8 +40,8 @@ const App = () => {
     }
   }, [dispatch]);
   return (
-    <BrowserRouter>
-      <Routes>
+    <>
+      <Routes location={background || location}>
         <Route path='/' element={<Layout />}>
           <Route index element={<BurgerPage />} />
           <Route path={TO_LOGIN} element={<LoginPage />} />
@@ -59,7 +64,19 @@ const App = () => {
           <Route path='*' element={<NotFoundPage />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+      {background && (
+        <Routes>
+          <Route
+            path={`${TO_INGREDIENTS}/:id`}
+            element={
+              <Modal hasTitle={true}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+    </>
   );
 };
 

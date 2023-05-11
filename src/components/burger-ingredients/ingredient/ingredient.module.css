@@ -32,6 +32,8 @@
   position: relative;
   cursor: pointer;
   background-color: none;
+  text-decoration: none;
+  color: inherit;
 }
 
 .wrapper:active {

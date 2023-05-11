@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createBrowserHistory } from 'history';
+import { Link, useLocation } from 'react-router-dom';
+
 import { useDrag } from 'react-dnd';
 import {
   CurrencyIcon,
@@ -13,7 +14,8 @@ import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient) => {
   const dispatch = useDispatch();
-  let history = createBrowserHistory();
+  const location = useLocation();
+
   const { name, image_large, price, _id, type } = ingredient;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -27,9 +29,8 @@ const Ingredient = (ingredient) => {
   const handleOnIngredientClick = useCallback(
     (ingredient) => {
       dispatch(selectIngredient(ingredient));
-      history.replace(`/ingredients/${ingredient._id}`);
     },
-    [dispatch, history]
+    [dispatch]
   );
 
   const handlePointer = useCallback((e) => {
@@ -53,7 +54,9 @@ const Ingredient = (ingredient) => {
   const opacity = isDragging ? 0 : 1;
 
   return (
-    <div
+    <Link
+      to={`/ingredients/${ingredient._id}`}
+      state={{ background: location }}
       className={styles.wrapper}
       style={{ opacity: opacity }}
       ref={drag}
@@ -79,7 +82,7 @@ const Ingredient = (ingredient) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
