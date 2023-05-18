@@ -1,22 +1,22 @@
-import PropTypes from 'prop-types';
-import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import PropTypes from "prop-types";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import {
   DragIcon,
   ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './burger-element.module.css';
-import { ingredientPropTypes } from '../../../utils/prop-types';
-import { removeMainAndSauce } from '../../../services/burger-constructor/burger-constructor-actions';
-import { reorder } from '../../../services/burger-constructor/burger-constructor-actions';
-import { useDrag, useDrop } from 'react-dnd';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "./burger-element.module.css";
+import { ingredientPropTypes } from "../../../utils/types";
+import { removeMainAndSauce } from "../../../services/burger-constructor/burger-constructor-actions";
+import { reorder } from "../../../services/burger-constructor/burger-constructor-actions";
+import { useDrag, useDrop } from "react-dnd";
 
 const BurgerElement = ({ id, ingredient, index }) => {
   const ref = useRef(null);
   const { name, price, image } = ingredient;
   const dispatch = useDispatch();
   const [, drop] = useDrop({
-    accept: 'burger-element',
+    accept: "burger-element",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -48,7 +48,7 @@ const BurgerElement = ({ id, ingredient, index }) => {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'burger-element',
+    type: "burger-element",
     item: { index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -59,7 +59,7 @@ const BurgerElement = ({ id, ingredient, index }) => {
   drag(drop(ref));
   return (
     <div className={styles.container} style={{ opacity: opacity }} ref={ref}>
-      <DragIcon type='primary' />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={name}
         price={price}

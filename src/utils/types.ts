@@ -24,3 +24,9 @@ export type TBurger = {
   totol: number;
   order: string[];
 };
+
+export type TUser = {
+  name: string;
+  email: string;
+  password: string;
+}
