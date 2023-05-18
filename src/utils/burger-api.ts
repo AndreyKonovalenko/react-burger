@@ -1,11 +1,12 @@
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
-const errorHandler = (status) => {
+const errorHandler = (status: number)=> {
   throw new Error(`Ошибка ${status}`);
 };
 
+
 const options = {
-  method: null,
+  method: 'GET',
   mode: 'cors',
   cache: 'no-cache',
   credentials: 'same-origin',
@@ -15,7 +16,7 @@ const options = {
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer',
-  body: null,
+  body: null
 };
 
 export const getIngerdients = async () => {
