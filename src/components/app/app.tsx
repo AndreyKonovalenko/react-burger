@@ -27,8 +27,8 @@ import {
 import { getUser } from "../../services/auth/auth-actions";
 import { getCookie } from "../../utils/burger-api";
 
-const App = () => {
-  const dispatch = useDispatch();
+const App = ():JSX.Element => {
+  const dispatch = useDispatch() as any;
   const location = useLocation();
   const background = location.state && location.state.background;
 

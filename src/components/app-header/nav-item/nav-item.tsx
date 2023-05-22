@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styles from './nav-item.module.css';
 import {
@@ -6,10 +5,15 @@ import {
   ListIcon,
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BURGER_CONSTRUCTOR, ORDER_FEED, USER_ACCOUNT } from '../app-header';
+import { BURGER_CONSTRUCTOR, ORDER_FEED, USER_ACCOUNT } from '../../../utils/ui-constants';
 
-const NavItem = ({ option, to }) => {
-  const icontSelection = (option, isActive) => {
+type TNavItemProps = {
+  option: BURGER_CONSTRUCTOR| ORDER_FEED| USER_ACCOUNT;
+  to: string;
+}
+
+const NavItem = ({option, to}: TNavItemProps): JSX.Element => {
+  const icontSelection = (option: string, isActive: boolean) => {
     switch (option) {
       case BURGER_CONSTRUCTOR:
         return <BurgerIcon type={isActive ? 'primary' : 'secondary'} />;
@@ -40,11 +44,6 @@ const NavItem = ({ option, to }) => {
       }}
     </NavLink>
   );
-};
-
-NavItem.propTypes = {
-  option: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
 };
 
 export default NavItem;

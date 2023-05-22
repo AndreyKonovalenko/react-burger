@@ -10,13 +10,16 @@ import { removeMainAndSauce } from "../../../services/burger-constructor/burger-
 import { reorder } from "../../../services/burger-constructor/burger-constructor-actions";
 import {  DropTargetMonitor, useDrag, useDrop } from "react-dnd";
 
-
 type TMovableElement = {
   index: number;
 }
+type TBurgerEelement = {
+  id: string;
+  ingredient: TIngredient;
+  index: number;
+}
 
-const BurgerElement = (props: { id:string, ingredient:TIngredient, index:number }): JSX.Element => {
-  const {id, ingredient, index} = props;
+const BurgerElement = ({ id, ingredient, index }: TBurgerEelement): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const { name, price, image } = ingredient;
   const dispatch = useDispatch();

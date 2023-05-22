@@ -1,12 +1,9 @@
 import NavItem from './nav-item/nav-item';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css';
+import { BURGER_CONSTRUCTOR, ORDER_FEED, USER_ACCOUNT } from '../../utils/ui-constants';
 
-export const BURGER_CONSTRUCTOR = 'Конструктор';
-export const ORDER_FEED = 'Лента заказов';
-export const USER_ACCOUNT = 'Личный кабинет';
-
-const AppHeader = () => (
+const AppHeader = (): JSX.Element => (
   <header className={styles.header}>
     <nav className={styles.nav}>
       <div className={`${styles.itemContainer} ${styles.decorator1}`}>
