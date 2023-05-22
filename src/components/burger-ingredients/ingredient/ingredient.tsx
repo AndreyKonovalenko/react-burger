@@ -7,12 +7,12 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../../utils/types";
+import { TIngredient } from "../../../utils/types";
 import { selectIngredient } from "../../../services/ui/ui-actions";
 import { getBurgerState } from "../../../services/burger-ingredients/burger-ingredients-selector";
 import styles from "./ingredient.module.css";
 
-const Ingredient = (ingredient) => {
+const Ingredient = (ingredient: TIngredient): JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -27,20 +27,20 @@ const Ingredient = (ingredient) => {
   }));
 
   const handleOnIngredientClick = useCallback(
-    (ingredient) => {
+    (ingredient: TIngredient) => {
       dispatch(selectIngredient(ingredient));
     },
     [dispatch]
   );
 
-  const handlePointer = useCallback((e) => {
-    e.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const handlePointer = useCallback((event: { currentTarget: { scrollIntoView: (arg0: { behavior: string; block: string; }) => void; }; }) => {
+    event.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, []);
 
-  let count = null;
+  let count: number = 0;
 
   if (bun && type === "bun") {
-    count = _id === bun.ingredientId ? 2 : null;
+    count = _id === bun.ingredientId ? 2 : 0;
   }
 
   if (type !== "bun" && mainAndSauce.length > 0) {
@@ -61,14 +61,13 @@ const Ingredient = (ingredient) => {
       style={{ opacity: opacity }}
       ref={drag}
       onClick={() => handleOnIngredientClick(ingredient)}
-      onPointerEnter={(e) => handlePointer(e)}
+      onPointerEnter={() => handlePointer}
     >
-      {count && (
+      {Boolean(count) && (
         <Counter
           count={count}
           size="default"
-          className={styles.counter}
-          extraClass="m-1"
+          extraClass={`${styles.couner}"m-1"`}
         />
       )}
       <div className={`${styles.container} pb-10`}>
@@ -87,7 +86,4 @@ const Ingredient = (ingredient) => {
   );
 };
 
-Ingredient.iropTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-};
 export default Ingredient;

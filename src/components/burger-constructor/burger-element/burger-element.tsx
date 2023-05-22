@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -6,23 +5,29 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-element.module.css";
-import { ingredientPropTypes } from "../../../utils/types";
+import { TIngredient } from "../../../utils/types";
 import { removeMainAndSauce } from "../../../services/burger-constructor/burger-constructor-actions";
 import { reorder } from "../../../services/burger-constructor/burger-constructor-actions";
-import { useDrag, useDrop } from "react-dnd";
+import {  DropTargetMonitor, useDrag, useDrop } from "react-dnd";
 
-const BurgerElement = ({ id, ingredient, index }) => {
-  const ref = useRef(null);
+
+type TMovableElement = {
+  index: number;
+}
+
+const BurgerElement = (props: { id:string, ingredient:TIngredient, index:number }): JSX.Element => {
+  const {id, ingredient, index} = props;
+  const ref = useRef<HTMLDivElement>(null);
   const { name, price, image } = ingredient;
   const dispatch = useDispatch();
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<TMovableElement, unknown >({
     accept: "burger-element",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item:TMovableElement, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -35,6 +40,7 @@ const BurgerElement = ({ id, ingredient, index }) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      if (clientOffset) {
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -42,6 +48,7 @@ const BurgerElement = ({ id, ingredient, index }) => {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
+    }
       dispatch(reorder(dragIndex, hoverIndex));
       item.index = hoverIndex;
     },
@@ -68,12 +75,6 @@ const BurgerElement = ({ id, ingredient, index }) => {
       />
     </div>
   );
-};
-
-BurgerElement.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-  id: PropTypes.string.isRequired,
-  index: PropTypes.number.isRequired,
 };
 
 export default BurgerElement;
