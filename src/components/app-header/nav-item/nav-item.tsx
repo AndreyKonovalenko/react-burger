@@ -8,7 +8,7 @@ import {
 import { BURGER_CONSTRUCTOR, ORDER_FEED, USER_ACCOUNT } from '../../../utils/ui-constants';
 
 type TNavItemProps = {
-  option: BURGER_CONSTRUCTOR| ORDER_FEED| USER_ACCOUNT;
+  option: enum {BURGER_CONSTRUCTOR | ORDER_FEED | USER_ACCOUNT};
   to: string;
 }
 
