@@ -7,40 +7,39 @@ import { BUN, SAUCE, MAIN } from "../../utils/ui-constants";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIngredientCollection } from "../../services/ui/ui-actions";
 import { getIngredientsState } from "../../services/burger-constructor/burger-constructor-selectors";
-import { TIngredient } from "../../utils/types";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector(getIngredientsState);
 
-  const bunRef = useRef<HTMLDivElement>(null);
-  const sauceRef = useRef<HTMLDivElement>(null);
-  const mainRef = useRef<HTMLDivElement>(null);
-  const container = useRef<HTMLDivElement>(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+  const container = useRef(null);
 
   const handleTabSelect = useCallback(
-    (value: string) => {
+    (value) => {
       dispatch(selectIngredientCollection(value));
       switch (value) {
         case BUN:
-          bunRef.current?.scrollIntoView({ behavior: "smooth" });
+          bunRef.current.scrollIntoView({ behavior: "smooth" });
           break;
         case SAUCE:
-          sauceRef.current?.scrollIntoView({ behavior: "smooth" });
+          sauceRef.current.scrollIntoView({ behavior: "smooth" });
           break;
         case MAIN:
-          mainRef.current?.scrollIntoView({ behavior: "smooth" });
+          mainRef.current.scrollIntoView({ behavior: "smooth" });
           break;
         default:
-          bunRef.current?.scrollIntoView({ behavior: "smooth" });
+          bunRef.current.scrollIntoView({ behavior: "smooth" });
       }
     },
     [dispatch]
   );
 
-  const splitterToColumn = (ingredients: Array<TIngredient>, type: string) => {
-    const left: Array<JSX.Element> = [];
-    const right: Array<JSX.Element> = [];
+  const splitterToColumn = (ingredients, type) => {
+    const left = [];
+    const right = [];
     const filtered = ingredients.filter(
       (ingredient) => ingredient.type === type
     );
@@ -63,17 +62,17 @@ const BurgerIngredients = () => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const { intersectionRatio, target } = entry;
-        console.log(target)
         if (intersectionRatio !== 0) {
-          (target as HTMLDivElement).title === BUN && dispatch(selectIngredientCollection(BUN));
-          (target as HTMLDivElement).title === SAUCE && dispatch(selectIngredientCollection(SAUCE));
-          (target as HTMLDivElement).title === MAIN && dispatch(selectIngredientCollection(MAIN));
+          console.log(intersectionRatio, target.title);
+          target.title === BUN && dispatch(selectIngredientCollection(BUN));
+          target.title === SAUCE && dispatch(selectIngredientCollection(SAUCE));
+          target.title === MAIN && dispatch(selectIngredientCollection(MAIN));
         }
       });
     }, options);
-    observer.observe(bunRef.current as HTMLDivElement);
-    observer.observe(sauceRef.current as HTMLDivElement)
-    observer.observe(mainRef.current as HTMLDivElement);
+    observer.observe(bunRef.current);
+    observer.observe(sauceRef.current);
+    observer.observe(mainRef.current);
   }, [dispatch]);
 
   const bun = splitterToColumn(ingredients, "bun");

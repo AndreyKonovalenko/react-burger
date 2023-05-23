@@ -7,12 +7,11 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TIngredient } from "../../../utils/types";
 import { selectIngredient } from "../../../services/ui/ui-actions";
 import { getBurgerState } from "../../../services/burger-ingredients/burger-ingredients-selector";
 import styles from "./ingredient.module.css";
 
-const Ingredient = (ingredient: TIngredient): JSX.Element => {
+const Ingredient = (ingredient) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -27,20 +26,20 @@ const Ingredient = (ingredient: TIngredient): JSX.Element => {
   }));
 
   const handleOnIngredientClick = useCallback(
-    (ingredient: TIngredient) => {
+    (ingredient) => {
       dispatch(selectIngredient(ingredient));
     },
     [dispatch]
   );
 
-  const handlePointer = useCallback((event: { currentTarget: { scrollIntoView: (arg0: { behavior: string; block: string; }) => void; }; }) => {
-    event.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const handlePointer = useCallback((e) => {
+    e.currentTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, []);
 
-  let count: number = 0;
+  let count = null;
 
   if (bun && type === "bun") {
-    count = _id === bun.ingredientId ? 2 : 0;
+    count = _id === bun.ingredientId ? 2 : null;
   }
 
   if (type !== "bun" && mainAndSauce.length > 0) {
@@ -61,13 +60,13 @@ const Ingredient = (ingredient: TIngredient): JSX.Element => {
       style={{ opacity: opacity }}
       ref={drag}
       onClick={() => handleOnIngredientClick(ingredient)}
-      onPointerEnter={() => handlePointer}
+      onPointerEnter={(e) => handlePointer(e)}
     >
-      {Boolean(count) && (
+      {count && (
         <Counter
           count={count}
           size="default"
-          extraClass={`${styles.couner}"m-1"`}
+          extraClass={`${styles.counter} m-1`}
         />
       )}
       <div className={`${styles.container} pb-10`}>

@@ -1,23 +1,19 @@
-import { forwardRef } from 'react';
-import styles from './collection.module.css';
+import { forwardRef } from "react";
+import styles from "./collection.module.css";
 
 type TCollection = {
-  headline: string;
+  headline:string; 
   columns: {
-    left: Array<JSX.Element>;
-    right: Array<JSX.Element>;
+    left: JSX.Element;
+     right: JSX.Element
   };
-}
+};
 
-
-const Collection = forwardRef(({headline, columns} : TCollection, ref: React.Ref<HTMLDivElement>)  => {
+const Collection = forwardRef(({ headline, columns }: TCollection, ref: React.ForwardedRef<HTMLDivElement>) => {
   return (
     <>
-      <div
-        ref={ref}
-        title={headline}
-        className={`${styles.headline} pb-6`}>
-        <span className='text text_type_main-medium'>{headline}</span>
+      <div ref={ref} title={headline} className={`${styles.headline} pb-6`}>
+        <span className="text text_type_main-medium">{headline}</span>
       </div>
       <div className={`${styles.typeContainer} pl-4 pr-4 pb-6 pt-6`}>
         <div className={styles.column}>{columns.left}</div>
