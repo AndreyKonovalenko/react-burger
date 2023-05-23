@@ -1,10 +1,20 @@
-import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import styles from './collection.module.css';
-const Collection = ({ headline, columns, collectionRef }) => {
+
+type TCollection = {
+  headline: string;
+  columns: {
+    left: Array<JSX.Element>;
+    right: Array<JSX.Element>;
+  };
+}
+
+
+const Collection = forwardRef(({headline, columns} : TCollection, ref: React.Ref<HTMLDivElement>)  => {
   return (
     <>
       <div
-        ref={collectionRef}
+        ref={ref}
         title={headline}
         className={`${styles.headline} pb-6`}>
         <span className='text text_type_main-medium'>{headline}</span>
@@ -15,17 +25,6 @@ const Collection = ({ headline, columns, collectionRef }) => {
       </div>
     </>
   );
-};
-
-const columnsPropTypes = PropTypes.shape({
-  left: PropTypes.node.isRequired,
-  right: PropTypes.node.isRequired,
 });
-
-Collection.propTypes = {
-  headline: PropTypes.string.isRequired,
-  columns: columnsPropTypes.isRequired,
-  collectionRef: PropTypes.object.isRequired,
-};
 
 export default Collection;
