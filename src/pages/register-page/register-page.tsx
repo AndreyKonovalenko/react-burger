@@ -1,45 +1,42 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styles from './login-page.module.css';
-import {
-  LOGIN,
-  ENTER,
-  REGISTER,
-  RESTORE_PASSWORD,
-} from '../../utils/ui-constants';
+import styles from './register-page.module.css';
+import { LOGIN, REGISTER, REGISTRATION } from '../../utils/ui-constants';
 import {
   EmailInput,
   PasswordInput,
   Button,
+  Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import LoadingBage from '../../components/loading-bage/loading-bage';
-import ErrorBage from '../../components/error-bage/error-bage';
 import { getAuthState, getFormState } from '../../services/auth/auth-selectors';
 import {
   setFormValue,
-  login,
+  register,
   clearForm,
   clearError,
 } from '../../services/auth/auth-actions';
+import ErrorBage from '../../components/error-bage/error-bage';
 
-const LoginPage = () => {
-  const dispatch = useDispatch();
+const RegisterPage = (): JSX.Element => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { email, password } = useSelector(getFormState);
+  const dispatch = useDispatch() as any;
+  const { name, email, password } = useSelector(getFormState);
   const { loading, user, error } = useSelector(getAuthState);
 
   const onChange = useCallback(
-    (e) => {
-      dispatch(setFormValue({ field: e.target.name, value: e.target.value }));
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(
+        setFormValue({ field: event.target.name, value: event.target.value })
+      );
     },
     [dispatch]
   );
-  const onLogIn = useCallback(
-    (event) => {
+  const onRegister = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      dispatch(login());
+      dispatch(register());
     },
     [dispatch]
   );
@@ -47,15 +44,21 @@ const LoginPage = () => {
   useEffect(() => {
     if (user) {
       dispatch(clearForm());
-      navigate(location?.state?.from || '/');
+      navigate('/');
     }
-    return () => dispatch(clearError());
-  }, [dispatch, navigate, user, location]);
+    return () => Boolean(error) && dispatch(clearError());
+  }, [user, navigate, dispatch, error]);
 
   const content = (
     <div className={styles.formContainer}>
-      <form onSubmit={onLogIn} className={styles.form}>
-        <p className='text text_type_main-medium'>{ENTER}</p>
+      <form onSubmit={onRegister} className={styles.form}>
+        <p className='text text_type_main-medium'>{REGISTER}</p>
+        <Input
+          onChange={onChange}
+          value={name}
+          name={'name'}
+          placeholder='Имя'
+        />
         <EmailInput
           onChange={onChange}
           value={email}
@@ -64,20 +67,14 @@ const LoginPage = () => {
         />
         <PasswordInput onChange={onChange} value={password} name={'password'} />
         <Button htmlType='submit' type='primary' size='medium'>
-          {LOGIN}
+          {REGISTRATION}
         </Button>
       </form>
-      <div className={styles.linkContainer}>
+      <div>
         <span className='text text_type_main-default text_color_inactive'>
-          Вы - новй пользователь?{' '}
-          <Link className={styles.link} to='/register'>
-            {REGISTER}
-          </Link>
-        </span>
-        <span className='text text_type_main-default text_color_inactive'>
-          Забыли пароль?{' '}
-          <Link className={styles.link} to='/forgot-password'>
-            {RESTORE_PASSWORD}
+          Ужу зарегисртрировались?{' '}
+          <Link className={styles.link} to='/login'>
+            {LOGIN}
           </Link>
         </span>
       </div>
@@ -92,4 +89,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

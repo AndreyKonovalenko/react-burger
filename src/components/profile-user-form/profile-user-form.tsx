@@ -15,19 +15,21 @@ import {
 import { SAVE } from '../../utils/ui-constants';
 import styles from './prfile-use-form.module.css';
 
-const ProfileUserForm = () => {
-  const dispatch = useDispatch();
+const ProfileUserForm = (): JSX.Element => {
+  const dispatch = useDispatch() as any;
   const { name, email, password } = useSelector(getFormState);
   const { user } = useSelector(getAuthState);
 
   const onChange = useCallback(
-    (e) => {
-      dispatch(setFormValue({ field: e.target.name, value: e.target.value }));
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(
+        setFormValue({ field: event.target.name, value: event.target.value })
+      );
     },
     [dispatch]
   );
   const onSave = useCallback(
-    (event) => {
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       dispatch(updateUserData());
       dispatch(clearForm());

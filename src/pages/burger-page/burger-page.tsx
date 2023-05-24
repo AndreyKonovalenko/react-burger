@@ -13,8 +13,8 @@ import { loadIngerdients } from '../../services/burger-ingredients/burger-ingred
 import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
 import { getUiState } from '../../services/ui/ui-selectors';
 
-const BurgerPage = () => {
-  const dispatch = useDispatch();
+const BurgerPage = (): JSX.Element => {
+  const dispatch = useDispatch() as any;
   const { error, loading } = useSelector(getIngredientsState);
   const { orderIsShown } = useSelector(getUiState);
 

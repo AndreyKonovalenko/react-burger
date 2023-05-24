@@ -1,13 +1,10 @@
-import { CookieSerializeOptions} from "cookie";
+import { CookieSerializeOptions } from 'cookie';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
-
-
 
 const errorHandler = (status: number): void => {
   throw new Error(`Ошибка ${status}`);
 };
-
 
 const options: RequestInit = {
   method: 'GET',
@@ -19,7 +16,7 @@ const options: RequestInit = {
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer',
-  body: null
+  body: null,
 };
 
 export const getIngerdients = async () => {
@@ -56,7 +53,7 @@ export const sendOrder = async (ingredients: string[]) => {
   }
 };
 
-export const registerRequeset = async (form: {[key: string]: string}) => {
+export const registerRequeset = async (form: { [key: string]: string }) => {
   const response = await fetch(`${BURGER_API_URL}/auth/register`, {
     ...options,
     method: 'POST',
@@ -76,7 +73,7 @@ export const registerRequeset = async (form: {[key: string]: string}) => {
   }
 };
 
-export const loginRequeset = async (form:  {[key: string]: string}) => {
+export const loginRequeset = async (form: { [key: string]: string }) => {
   const response = await fetch(`${BURGER_API_URL}/auth/login`, {
     ...options,
     method: 'POST',
@@ -96,7 +93,7 @@ export const loginRequeset = async (form:  {[key: string]: string}) => {
   }
 };
 
-export const recoveryRequest = async (form:  {[key: string]: string}) => {
+export const recoveryRequest = async (form: { [key: string]: string }) => {
   const response = await fetch(`${BURGER_API_URL}/password-reset`, {
     ...options,
     method: 'POST',
@@ -111,7 +108,7 @@ export const recoveryRequest = async (form:  {[key: string]: string}) => {
   }
 };
 
-export const resetPasswordRequest = async (form:  {[key: string]: string}) => {
+export const resetPasswordRequest = async (form: { [key: string]: string }) => {
   const response = await fetch(`${BURGER_API_URL}/password-reset/reset`, {
     ...options,
     method: 'POST',
@@ -166,7 +163,9 @@ export const getUserRequest = async () => {
   }
 };
 
-export const updateUserDataRequest = async (form: {[key: string]: string}) => {
+export const updateUserDataRequest = async (form: {
+  [key: string]: string;
+}) => {
   const token = getCookie('accessToken');
   const response = await fetch(`${BURGER_API_URL}/auth/user`, {
     ...options,
@@ -210,7 +209,11 @@ export const getCookie = (name: string) => {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export const setCookie = (name: string, value: string | null, props?: CookieSerializeOptions ): void => {
+export const setCookie = (
+  name: string,
+  value: string | null,
+  props?: CookieSerializeOptions
+): void => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -239,9 +242,10 @@ export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: new Date(-1) });
 };
 
-
-
-export const fetchWithRefresh = async (request: any, data:any): Promise<any> => {
+export const fetchWithRefresh = async (
+  request: any,
+  data: any
+): Promise<any> => {
   //data is optional argument
   try {
     return await request(data);
@@ -255,4 +259,4 @@ export const fetchWithRefresh = async (request: any, data:any): Promise<any> => 
   }
 };
 
-fetchWithRefresh(loginRequeset, {email: '1111'})
+fetchWithRefresh(loginRequeset, { email: '1111' });

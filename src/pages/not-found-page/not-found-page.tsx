@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './not-found-page.module.css';
-const NotFoundPage = () => {
+const NotFoundPage = (): JSX.Element => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

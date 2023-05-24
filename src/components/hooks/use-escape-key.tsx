@@ -3,9 +3,9 @@ import { useEffect, useCallback } from 'react';
 const KEY_NAME_ESC = 'Escape';
 const KEY_EVENT_TYPE = 'keyup';
 
-export const useEscapeKey = (handleCloseModal) => {
+export const useEscapeKey = (handleCloseModal: () => void): void => {
   const handleEscKey = useCallback(
-    (event) => {
+    (event: { key: string }) => {
       if (event.key === KEY_NAME_ESC) {
         handleCloseModal();
       }

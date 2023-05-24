@@ -8,7 +8,7 @@ import { logout, clearState } from '../../services/auth/auth-actions';
 import { deleteCookie } from '../../utils/burger-api';
 
 const ProfileNav = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch() as any;
 
   const onLogout = useCallback(() => {
     dispatch(logout());

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +12,12 @@ import {
 import styles from './modal.module.css';
 import { getUiState } from '../../services/ui/ui-selectors';
 
-const Modal = ({ children, hasTitle }) => {
+type TModal = {
+  children: JSX.Element;
+  hasTitle: boolean;
+};
+
+const Modal = ({ children, hasTitle }: TModal): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { ingredient, orderIsShown } = useSelector(getUiState);
@@ -56,8 +60,4 @@ const Modal = ({ children, hasTitle }) => {
   return createPortal(modal, document.body);
 };
 
-Modal.propTypes = {
-  hasTitle: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-};
 export default Modal;

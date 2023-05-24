@@ -7,7 +7,11 @@ import { getAuthState } from '../../services/auth/auth-selectors';
 import LoadingBage from '../loading-bage/loading-bage';
 import { TO_LOGIN } from '../../utils/route-constants';
 
-const ProtectedRoute = ({ element }) => {
+type TProps = {
+  element: JSX.Element;
+};
+
+const ProtectedRoute = ({ element }: TProps): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { user, loading } = useSelector(getAuthState);
