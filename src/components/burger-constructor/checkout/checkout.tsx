@@ -10,7 +10,7 @@ import { showOrderDetails } from '../../../services/ui/ui-actions';
 import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
 import { getUserState } from '../../../services/auth/auth-selectors';
 
-const Checkout = () => {
+const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { total } = useSelector(getBurgerState);
