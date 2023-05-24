@@ -2,7 +2,7 @@ import { CookieSerializeOptions } from 'cookie';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
 
-const errorHandler = (status: number): void => {
+const errorHandler = (status: number) => {
   throw new Error(`Ошибка ${status}`);
 };
 
@@ -24,6 +24,7 @@ export const getIngerdients = async () => {
     ...options,
     method: 'GET',
   });
+
   if (!response.ok) {
     errorHandler(response.status);
   }
@@ -33,7 +34,7 @@ export const getIngerdients = async () => {
   }
 };
 
-export const sendOrder = async (ingredients: string[]) => {
+export const sendOrder = async (ingredients: Array<string>) => {
   const token = getCookie('accessToken');
   const response = await fetch(`${BURGER_API_URL}/orders`, {
     ...options,
@@ -200,7 +201,7 @@ export const logoutRequest = async () => {
   }
 };
 
-export const getCookie = (name: string) => {
+export const getCookie = (name: string): string | undefined => {
   const matches = document.cookie.match(
     new RegExp(
       '(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'
@@ -242,10 +243,7 @@ export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: new Date(-1) });
 };
 
-export const fetchWithRefresh = async (
-  request: any,
-  data: any
-): Promise<any> => {
+export const fetchWithRefresh = async (request: any, data: any) => {
   //data is optional argument
   try {
     return await request(data);
@@ -258,5 +256,3 @@ export const fetchWithRefresh = async (
     }
   }
 };
-
-fetchWithRefresh(loginRequeset, { email: '1111' });
