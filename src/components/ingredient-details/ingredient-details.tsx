@@ -1,6 +1,11 @@
-import { useSelector } from 'react-redux';
+import {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styles from './ingredient-details.module.css';
 import { getUiState } from '../../services/ui/ui-selectors';
+import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { selectIngredient } from '../../services/ui/ui-actions';
+import { TIngredient } from '../../utils/types';
 
 const NUTRIENTS = [
   {
@@ -13,7 +18,20 @@ const NUTRIENTS = [
 ];
 
 const IngredientDetails = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { ingredients } = useSelector(getIngredientsState);
   const { ingredient } = useSelector(getUiState);
+
+  useEffect(() => {
+    if (ingredients.length > 0) {
+      const ingredient = ingredients.find(
+        (element: TIngredient) => element._id === id
+      );
+      dispatch(selectIngredient(ingredient));
+    }
+  }, [dispatch, id, ingredients]);
+
   return (
     ingredient && (
       <div className={styles.container}>

@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import styles from './burger-page.module.css';
@@ -9,18 +8,12 @@ import Modal from '../../components/modal/modal';
 import ErrorBage from '../../components/error-bage/error-bage';
 import LoadingBage from '../../components/loading-bage/loading-bage';
 import OrederDetails from '../../components/order-details/order-details';
-import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
 import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
 import { getUiState } from '../../services/ui/ui-selectors';
 
 const BurgerPage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
   const { error, loading } = useSelector(getIngredientsState);
   const { orderIsShown } = useSelector(getUiState);
-
-  useEffect(() => {
-    dispatch(loadIngerdients());
-  }, [dispatch]);
 
   const content = (
     <DndProvider backend={HTML5Backend}>
@@ -44,7 +37,7 @@ const BurgerPage = (): JSX.Element => {
       </main>
 
       {orderIsShown && (
-        <Modal hasTitle={false}>
+        <Modal>
           <OrederDetails />
         </Modal>
       )}

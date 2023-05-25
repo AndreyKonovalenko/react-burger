@@ -14,10 +14,9 @@ import { getUiState } from '../../services/ui/ui-selectors';
 
 type TModal = {
   children: JSX.Element;
-  hasTitle: boolean;
-};
-
-const Modal = ({ children, hasTitle }: TModal): JSX.Element => {
+  title?: string;
+}
+const Modal = ({ children, title }: TModal): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { ingredient, orderIsShown } = useSelector(getUiState);
@@ -45,7 +44,7 @@ const Modal = ({ children, hasTitle }: TModal): JSX.Element => {
         <div className={styles.info}>
           <div>
             <p className='text text_type_main-large'>
-              {hasTitle ? 'Детали ингредиета' : null}
+              {title}
             </p>
           </div>
           <div onClick={handleModalClose} className={styles.backDoor}>
@@ -57,7 +56,7 @@ const Modal = ({ children, hasTitle }: TModal): JSX.Element => {
       <ModelOverlay onClose={handleModalClose} />
     </>
   );
-  return createPortal(modal, document.body);
+  return createPortal(modal, document.getElementById("modals")!);
 };
 
 export default Modal;

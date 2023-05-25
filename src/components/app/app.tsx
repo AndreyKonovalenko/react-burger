@@ -19,13 +19,14 @@ import {
   TO_LOGIN,
   TO_FORGOT_PASSWORD,
   TO_PROFILE,
-  TO_REGISTR,
+  TO_REGISTER,
   TO_RESET_PASSWORD,
   TO_INGREDIENTS,
   TO_ORDERS,
 } from '../../utils/route-constants';
 import { getUser } from '../../services/auth/auth-actions';
 import { getCookie } from '../../utils/burger-api';
+import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
 
 const App = (): JSX.Element => {
   const dispatch = useDispatch() as any;
@@ -39,13 +40,18 @@ const App = (): JSX.Element => {
       dispatch(getUser());
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(loadIngerdients());
+  }, [dispatch]);
+  
   return (
     <>
       <Routes location={background || location}>
         <Route path='/' element={<Layout />}>
           <Route index element={<BurgerPage />} />
           <Route path={TO_LOGIN} element={<LoginPage />} />
-          <Route path={TO_REGISTR} element={<RegisterPage />} />
+          <Route path={TO_REGISTER} element={<RegisterPage />} />
           <Route path={TO_FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
           <Route path={TO_RESET_PASSWORD} element={<ResetPasswordPage />} />
           <Route
@@ -69,7 +75,7 @@ const App = (): JSX.Element => {
           <Route
             path={`${TO_INGREDIENTS}/:id`}
             element={
-              <Modal hasTitle={true}>
+              <Modal title={'Детали ингредиета'}>
                 <IngredientDetails />
               </Modal>
             }
