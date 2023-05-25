@@ -1,21 +1,28 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, KeyboardEvent } from 'react';
 
 const KEY_NAME_ESC = 'Escape';
 const KEY_EVENT_TYPE = 'keyup';
 
+type TDocumet = {
+  removeEventListener(type: 'keyup' , listener: (event: KeyboardEvent) => any, options?: boolean | EventListenerOptions): void;
+  addEventListener(type: 'keyup' , listener: (event: KeyboardEvent) => any, options?: boolean | EventListenerOptions): void;
+}
+
 export const useEscapeKey = (handleCloseModal: () => void): void => {
+
   const handleEscKey = useCallback(
-    (event: { key: string }) => {
+    (event: KeyboardEvent) => {
       if (event.key === KEY_NAME_ESC) {
         handleCloseModal();
       }
     },
     [handleCloseModal]
   );
+
   useEffect(() => {
-    document.addEventListener(KEY_EVENT_TYPE, handleEscKey, false);
+    (document as TDocumet).addEventListener(KEY_EVENT_TYPE, handleEscKey, false);
     return () => {
-      document.removeEventListener(KEY_EVENT_TYPE, handleEscKey, false);
+      (document as TDocumet).removeEventListener(KEY_EVENT_TYPE, handleEscKey, false);
     };
   }, [handleEscKey]);
 };
