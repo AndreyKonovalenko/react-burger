@@ -13,7 +13,7 @@ import { getUserState } from '../../../services/auth/auth-selectors';
 const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { total } = useSelector(getBurgerState);
+  const { bun,total } = useSelector(getBurgerState);
   const user = useSelector(getUserState);
 
   const handleOnCheckout = useCallback(() => {
@@ -30,6 +30,7 @@ const Checkout = (): JSX.Element => {
         htmlType='button'
         type='primary'
         size='large'
+        disabled={bun? false: true}
         onClick={handleOnCheckout}>
         Оформить заказ
       </Button>
