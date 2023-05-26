@@ -1,42 +1,23 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useEscapeKey } from '../hooks/use-escape-key';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModelOverlay from './model-overlay/model-overlay';
-import {
-  unSelectIngredient,
-  hideOrderDetails,
-} from '../../services/ui/ui-actions';
 import styles from './modal.module.css';
-import { getUiState } from '../../services/ui/ui-selectors';
 
 type TModal = {
-  children: JSX.Element;
   title?: string;
+  handleModalClose: () => void;
 }
-const Modal = ({ children, title }: TModal): JSX.Element => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { ingredient, orderIsShown } = useSelector(getUiState);
-
-  const handleModalClose = useCallback(() => {
-    if (ingredient) {
-      dispatch(unSelectIngredient());
-      navigate(-1);
-    }
-    orderIsShown && dispatch(hideOrderDetails());
-  }, [dispatch, ingredient, orderIsShown, navigate]);
+const Modal = ({handleModalClose, title, children } : PropsWithChildren<TModal>): JSX.Element => {
 
   useEscapeKey(handleModalClose);
-
   useEffect(() => {
     document.body.classList.add(styles.hideOverflowInBody);
     return () => {
       document.body.classList.remove(styles.hideOverflowInBody);
     };
-  }, [navigate]);
+  }, []);
 
   const modal = (
     <>
