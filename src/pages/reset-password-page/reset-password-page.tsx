@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useForm } from '../../components/hooks/use-form';
 import styles from './reset-password-page.module.css';
 import { ENTER, SAVE, PASWORD_RESTORATION } from '../../utils/ui-constants';
 import {
@@ -16,7 +17,6 @@ import {
   getFormState,
 } from '../../services/auth/auth-selectors';
 import {
-  setFormValue,
   resetPassword,
   clearForm,
   clearMessage,
@@ -27,19 +27,12 @@ import { TO_FORGOT_PASSWORD } from '../../utils/route-constants';
 const ResetPasswordPage = (): JSX.Element => {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
+  const handleChange = useForm();
   const { token, password } = useSelector(getFormState);
   const error = useSelector(getAuthError);
   const { loading, message, user } = useSelector(getAuthState);
   const { state } = useLocation();
 
-  const onChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(
-        setFormValue({ field: event.target.name, value: event.target.value })
-      );
-    },
-    [dispatch]
-  );
   const onSave = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -67,9 +60,9 @@ const ResetPasswordPage = (): JSX.Element => {
       )}
       <form onSubmit={onSave} className={styles.form}>
         <p className='text text_type_main-medium'>{PASWORD_RESTORATION}</p>
-        <PasswordInput onChange={onChange} value={password} name={'password'} />
+        <PasswordInput onChange={handleChange} value={password} name={'password'} />
         <Input
-          onChange={onChange}
+          onChange={handleChange}
           value={token}
           name={'token'}
           placeholder='Введите код из письма'

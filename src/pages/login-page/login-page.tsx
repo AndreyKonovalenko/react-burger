@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {useForm} from '../../components/hooks/use-form';
 import styles from './login-page.module.css';
 import {
   LOGIN,
@@ -17,7 +18,6 @@ import LoadingBage from '../../components/loading-bage/loading-bage';
 import ErrorBage from '../../components/error-bage/error-bage';
 import { getAuthState, getFormState } from '../../services/auth/auth-selectors';
 import {
-  setFormValue,
   login,
   clearForm,
   clearError,
@@ -27,17 +27,10 @@ const LoginPage = (): JSX.Element => {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
   const location = useLocation();
+  const handleChange = useForm();
   const { email, password } = useSelector(getFormState);
   const { loading, user, error } = useSelector(getAuthState);
 
-  const onChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(
-        setFormValue({ field: event.target.name, value: event.target.value })
-      );
-    },
-    [dispatch]
-  );
   const onLogIn = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -59,12 +52,12 @@ const LoginPage = (): JSX.Element => {
       <form onSubmit={onLogIn} className={styles.form}>
         <p className='text text_type_main-medium'>{ENTER}</p>
         <EmailInput
-          onChange={onChange}
+          onChange={handleChange}
           value={email}
           name={'email'}
           placeholder='E-mail'
         />
-        <PasswordInput onChange={onChange} value={password} name={'password'} />
+        <PasswordInput onChange={handleChange} value={password} name={'password'} />
         <Button htmlType='submit' type='primary' size='medium'>
           {LOGIN}
         </Button>

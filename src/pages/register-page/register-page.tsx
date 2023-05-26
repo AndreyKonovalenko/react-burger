@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {useForm} from '../../components/hooks/use-form';
 import styles from './register-page.module.css';
 import { LOGIN, REGISTER, REGISTRATION } from '../../utils/ui-constants';
 import {
@@ -12,7 +13,6 @@ import {
 import LoadingBage from '../../components/loading-bage/loading-bage';
 import { getAuthState, getFormState } from '../../services/auth/auth-selectors';
 import {
-  setFormValue,
   register,
   clearForm,
   clearError,
@@ -22,17 +22,10 @@ import ErrorBage from '../../components/error-bage/error-bage';
 const RegisterPage = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch() as any;
+  const handleChange = useForm();
   const { name, email, password } = useSelector(getFormState);
   const { loading, user, error } = useSelector(getAuthState);
 
-  const onChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(
-        setFormValue({ field: event.target.name, value: event.target.value })
-      );
-    },
-    [dispatch]
-  );
   const onRegister = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -54,18 +47,18 @@ const RegisterPage = (): JSX.Element => {
       <form onSubmit={onRegister} className={styles.form}>
         <p className='text text_type_main-medium'>{REGISTER}</p>
         <Input
-          onChange={onChange}
+          onChange={handleChange}
           value={name}
           name={'name'}
           placeholder='Имя'
         />
         <EmailInput
-          onChange={onChange}
+          onChange={handleChange}
           value={email}
           name={'email'}
           placeholder='E-mail'
         />
-        <PasswordInput onChange={onChange} value={password} name={'password'} />
+        <PasswordInput onChange={handleChange} value={password} name={'password'} />
         <Button htmlType='submit' type='primary' size='medium'>
           {REGISTRATION}
         </Button>
