@@ -8,50 +8,70 @@ import {
   resetPasswordRequest,
   getUserRequest,
   fetchWithRefresh,
-} from "../../utils/burger-api";
-import { setTokens } from "../../utils/burger-api";
+} from '../../utils/burger-api';
+import { setTokens } from '../../utils/burger-api';
 
-export const SET_FORM_VALUE = "SET_FORM_VALUE";
-export const CLEAR_FORM = "CLEAR_FORM";
-export const REGISTER_REQUEST = "REGISTER_REQUEST";
-export const REGISTER_ERROR = "REGISTER_ERROR";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const LOGIN_REQUEST = "LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_ERROR = "LOGIN_ERROR";
-export const RECOVERY_REQUEST = "RECOVERY_REQUEST";
-export const RECOVERY_ERROR = "RECOVERY_ERROR";
-export const RECOVERY_SUCCESS = "RECOVERY_SUCCESS";
-export const RESET_PASS_REQUEST = "RESET_PASS_REQUEST";
-export const RESET_PASS_ERROR = "RESET_PASS_ERROR";
-export const RESET_PASS_SUCCESS = "RESET_PASS_SUCCESS";
-export const REFRESH_ACCESS_REQUEST = "REFRESH_ACCESS_REQUEST";
-export const REFRESH_ACCESS_ERROR = "REFRESH_ACCESS_ERROR";
-export const REFRESH_ACCESS_SUCCESS = "REFRESH_ACCESS_SUCCESS";
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_ERROR = "LOGOUT_ERROR";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const GET_USER_REQUEST = "GET_USER_REQUEST";
-export const GET_USER_ERROR = "GET_USER_ERROR";
-export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
-export const UPDATE_USER_REQUEST = "UPDATE_USER_REQUEST";
-export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
-export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const CLEAR_STATE = "CLEAR_STATE";
-export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
-export const CLEAR_ERROR = "CLEAR_ERROR";
+export const SET_FORM_VALUE: 'SET_FORM_VALUE' = 'SET_FORM_VALUE';
+export const CLEAR_FORM: 'CLEAR_FORM' = 'CLEAR_FORM';
+export const REGISTER_REQUEST: 'REGISTER_REQUEST' = 'REGISTER_REQUEST';
+export const REGISTER_ERROR: 'REGISTER_ERROR' = 'REGISTER_ERROR';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const LOGIN_REQUEST: 'LOGIN_REQUEST' = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS: 'LOGIN_SUCCESS' = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR: 'LOGIN_ERROR' = 'LOGIN_ERROR';
+export const RECOVERY_REQUEST: 'RECOVERY_REQUEST' = 'RECOVERY_REQUEST';
+export const RECOVERY_ERROR = 'RECOVERY_ERROR';
+export const RECOVERY_SUCCESS: 'RECOVERY_SUCCESS' = 'RECOVERY_SUCCESS';
+export const RESET_PASS_REQUEST: 'RESET_PASS_REQUEST' = 'RESET_PASS_REQUEST';
+export const RESET_PASS_ERROR: 'RESET_PASS_ERROR' = 'RESET_PASS_ERROR';
+export const RESET_PASS_SUCCESS: 'RESET_PASS_SUCCESS' = 'RESET_PASS_SUCCESS';
+export const REFRESH_ACCESS_REQUEST: 'REFRESH_ACCESS_REQUEST' =
+  'REFRESH_ACCESS_REQUEST';
+export const REFRESH_ACCESS_ERROR: 'REFRESH_ACCESS_ERROR' =
+  'REFRESH_ACCESS_ERROR';
+export const REFRESH_ACCESS_SUCCESS: 'REFRESH_ACCESS_SUCCESS' =
+  'REFRESH_ACCESS_SUCCESS';
+export const LOGOUT_REQUEST: 'LOGOUT_REQUEST' = 'LOGOUT_REQUEST';
+export const LOGOUT_ERROR: 'LOGOUT_ERROR' = 'LOGOUT_ERROR';
+export const LOGOUT_SUCCESS: 'LOGOUT_SUCCESS' = 'LOGOUT_SUCCESS';
+export const GET_USER_REQUEST: 'GET_USER_REQUEST' = 'GET_USER_REQUEST';
+export const GET_USER_ERROR: 'GET_USER_ERROR' = 'GET_USER_ERROR';
+export const GET_USER_SUCCESS: 'GET_USER_SUCCESS' = 'GET_USER_SUCCESS';
+export const UPDATE_USER_REQUEST: 'UPDATE_USER_REQUEST' = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_ERROR: 'UPDATE_USER_ERROR' = 'UPDATE_USER_ERROR';
+export const UPDATE_USER_SUCCESS: 'UPDATE_USER_SUCCESS' = 'UPDATE_USER_SUCCESS';
+export const CLEAR_STATE: 'CLEAR_STATE' = 'CLEAR_STATE';
+export const CLEAR_MESSAGE: 'CLEAR_MESSAGE' = 'CLEAR_MESSAGE';
+export const CLEAR_ERROR: 'CLEAR_ERROR' = 'CLEAR_ERROR';
 
 export const clearState = () => ({ type: CLEAR_STATE });
 export const clearMessage = () => ({ type: CLEAR_MESSAGE });
 export const clearError = () => ({ type: CLEAR_ERROR });
 
-export const setFormValue = ({ field, value }) => {
+export type TUserActions = TSetFormValue | TClearFrom;
+
+type TFromData = {
+  field: string;
+  value: string;
+};
+
+type TSetFormValue = {
+  readonly type: typeof SET_FORM_VALUE;
+  readonly payload: TFromData;
+};
+
+type TClearFrom = {
+  readonly type: typeof CLEAR_FORM;
+};
+
+export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
   return {
     type: SET_FORM_VALUE,
     payload: { field: field, value: value },
   };
 };
-export const clearForm = () => ({
+
+export const clearForm = (): TClearFrom => ({
   type: CLEAR_FORM,
 });
 
@@ -138,7 +158,7 @@ export const updateUserData = () => async (dispatch, getState) => {
     const form = getState().auth.form;
     let data = {};
     for (const element in form) {
-      if (form[element] !== "") {
+      if (form[element] !== '') {
         data = { ...data, [element]: form[element] };
       }
     }
