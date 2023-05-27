@@ -1,27 +1,30 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useDrop } from "react-dnd";
-import styles from "./burger.module.css";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerElement from "../burger-element/burger-element";
-import { addIngredient } from "../../../services/burger-constructor/burger-constructor-actions";
-import { getBurgerState } from "../../../services/burger-ingredients/burger-ingredients-selector";
-import { getIngredientsState } from "../../../services/burger-constructor/burger-constructor-selectors";
-import { TIngredient } from "../../../utils/types";
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import styles from './burger.module.css';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import BurgerElement from '../burger-element/burger-element';
+import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
+import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import { getIngredientsState } from '../../../services/burger-constructor/burger-constructor-selectors';
+import { TIngredient } from '../../../utils/types';
 
 type TMAsElement = {
   id: string;
   ingredientId: string;
   price: number;
-}
+};
 
 const Burger = (): JSX.Element => {
   const dispatch = useDispatch() as any;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
   const { ingredients } = useSelector(getIngredientsState);
 
-
-  const [{ isHover }, drop] = useDrop<TIngredient, unknown, {isHover: boolean} >({
-    accept: "ingredient",
+  const [{ isHover }, drop] = useDrop<
+    TIngredient,
+    unknown,
+    { isHover: boolean }
+  >({
+    accept: 'ingredient',
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
@@ -31,12 +34,14 @@ const Burger = (): JSX.Element => {
   });
 
   const bunElement = bun
-    ? ingredients.find((element: TIngredient) => element._id === bun.ingredientId)
+    ? ingredients.find(
+        (element: TIngredient) => element._id === bun.ingredientId
+      )
     : null;
 
   const restIngredients =
     mainAndSauce.length > 0
-      ? mainAndSauce.map((mAsElement: TMAsElement, index:number) => {
+      ? mainAndSauce.map((mAsElement: TMAsElement, index: number) => {
           const ingredient = ingredients.find(
             (element: TIngredient) => element._id === mAsElement.ingredientId
           );
@@ -54,12 +59,11 @@ const Burger = (): JSX.Element => {
   return (
     <div
       className={`${styles.container} ${isHover && styles.droppable} mt-25`}
-      ref={drop}
-    >
+      ref={drop}>
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type="top"
+            type='top'
             isLocked={true}
             text={`${bunElement.name} (верх)`}
             price={bunElement.price}
@@ -71,7 +75,7 @@ const Burger = (): JSX.Element => {
       {bunElement && (
         <div className={`${styles.itemContainer} pr-4`}>
           <ConstructorElement
-            type="bottom"
+            type='bottom'
             isLocked={true}
             text={`${bunElement.name} (низ)`}
             price={bunElement.price}

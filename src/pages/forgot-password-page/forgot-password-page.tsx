@@ -1,11 +1,10 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styles from './reset-password-page.module.css';
-import { ENTER, SAVE, PASWORD_RESTORATION } from '../../utils/ui-constants';
+import styles from './forgot-password-page.module.css';
+import { LOGIN, PASWORD_RESTORATION, RECOVER } from '../../utils/ui-constants';
 import {
-  PasswordInput,
-  Input,
+  EmailInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import LoadingBage from '../../components/loading-bage/loading-bage';
@@ -17,70 +16,68 @@ import {
 } from '../../services/auth/auth-selectors';
 import {
   setFormValue,
-  resetPassword,
-  clearForm,
+  rocoverPassword,
   clearMessage,
   clearError,
 } from '../../services/auth/auth-actions';
-import { TO_FORGOT_PASSWORD } from '../../utils/route-constants';
+import { TO_RESET_PASSWORD } from '../../utils/route-constants';
 
-const ResetPasswordPage = () => {
-  const dispatch = useDispatch();
+const ForgetPassowrdPage = (): JSX.Element => {
+  const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  const { token, password } = useSelector(getFormState);
+  const { pathname } = useLocation();
   const error = useSelector(getAuthError);
+  const { email } = useSelector(getFormState);
   const { loading, message, user } = useSelector(getAuthState);
-  const { state } = useLocation();
 
   const onChange = useCallback(
-    (e) => {
-      dispatch(setFormValue({ field: e.target.name, value: e.target.value }));
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(
+        setFormValue({ field: event.target.name, value: event.target.value })
+      );
     },
     [dispatch]
   );
-  const onSave = useCallback(
-    (event) => {
+  const onRecover = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      dispatch(resetPassword());
-      dispatch(clearForm());
+      dispatch(rocoverPassword());
     },
     [dispatch]
   );
 
   useEffect(() => {
-    if (state?.from !== TO_FORGOT_PASSWORD) {
+    if (user) {
       navigate('/');
     }
+    if (message === 'Reset email sent') {
+      navigate(TO_RESET_PASSWORD, { state: { from: pathname }, replace: true });
+    }
     return () => {
-      dispatch(clearForm());
       dispatch(clearError());
       Boolean(message) && dispatch(clearMessage());
     };
-  }, [dispatch, navigate, message, user, state]);
+  }, [dispatch, navigate, message, user, pathname]);
 
   const content = (
     <div className={styles.formContainer}>
-      {Boolean(message) && (
-        <p className='text text_type_main-large mb-6'>{message}</p>
-      )}
-      <form onSubmit={onSave} className={styles.form}>
+      <form onSubmit={onRecover} className={styles.form}>
         <p className='text text_type_main-medium'>{PASWORD_RESTORATION}</p>
-        <PasswordInput onChange={onChange} value={password} name={'password'} />
-        <Input
+        <EmailInput
           onChange={onChange}
-          value={token}
-          name={'token'}
-          placeholder='Введите код из письма'
+          value={email}
+          name={'email'}
+          placeholder='E-mail'
         />
         <Button htmlType='submit' type='primary' size='medium'>
-          {SAVE}
+          {RECOVER}
         </Button>
       </form>
       <div>
         <span className='text text_type_main-default text_color_inactive'>
-          Забыли пароль?{' '}
+          Вспомнили пароль?{' '}
           <Link className={styles.link} to='/login'>
-            {ENTER}
+            {LOGIN}
           </Link>
         </span>
       </div>
@@ -89,10 +86,11 @@ const ResetPasswordPage = () => {
 
   return (
     <div className={styles.container}>
-      {error && <ErrorBage error={error} />}
+      {Boolean(error) && <ErrorBage error={error} />}
+      {message === 'Ошибка 500' && <ErrorBage error={message} />}
       {loading ? <LoadingBage /> : content}
     </div>
   );
 };
 
-export default ResetPasswordPage;
+export default ForgetPassowrdPage;

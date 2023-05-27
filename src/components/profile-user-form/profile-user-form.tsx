@@ -6,6 +6,7 @@ import {
   EmailInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useForm } from '../hooks/use-form';
 import { getFormState, getAuthState } from '../../services/auth/auth-selectors';
 import {
   setFormValue,
@@ -15,19 +16,14 @@ import {
 import { SAVE } from '../../utils/ui-constants';
 import styles from './prfile-use-form.module.css';
 
-const ProfileUserForm = () => {
-  const dispatch = useDispatch();
+const ProfileUserForm = (): JSX.Element => {
+  const dispatch = useDispatch() as any;
   const { name, email, password } = useSelector(getFormState);
   const { user } = useSelector(getAuthState);
+  const handleChange = useForm();
 
-  const onChange = useCallback(
-    (e) => {
-      dispatch(setFormValue({ field: e.target.name, value: e.target.value }));
-    },
-    [dispatch]
-  );
   const onSave = useCallback(
-    (event) => {
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       dispatch(updateUserData());
       dispatch(clearForm());
@@ -44,14 +40,14 @@ const ProfileUserForm = () => {
 
   return (
     <form onSubmit={onSave} className={styles.form}>
-      <Input onChange={onChange} value={name} name={'name'} placeholder='Имя' />
+      <Input onChange={handleChange} value={name} name={'name'} placeholder='Имя' />
       <EmailInput
-        onChange={onChange}
+        onChange={handleChange}
         value={email}
         name={'email'}
         placeholder='E-mail'
       />
-      <PasswordInput onChange={onChange} value={password} name={'password'} />
+      <PasswordInput onChange={handleChange} value={password} name={'password'} />
       <Button htmlType='submit' type='primary' size='medium'>
         {SAVE}
       </Button>

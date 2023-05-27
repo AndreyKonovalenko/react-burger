@@ -7,8 +7,8 @@ import DoneImage from '../../images/graphics.svg';
 import { postOrder } from '../../services/burger-constructor/burger-constructor-actions';
 import { getBurgerState } from '../../services/burger-ingredients/burger-ingredients-selector';
 
-const OrederDetails = () => {
-  const dispatch = useDispatch();
+const OrederDetails = (): JSX.Element | null => {
+  const dispatch = useDispatch() as any;
   const { invoice, loading, error } = useSelector(getBurgerState);
 
   useEffect(() => {

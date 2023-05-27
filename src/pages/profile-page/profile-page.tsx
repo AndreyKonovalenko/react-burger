@@ -8,9 +8,9 @@ import { getAuthState } from '../../services/auth/auth-selectors';
 import { clearMessage } from '../../services/auth/auth-actions';
 import ErrorBage from '../../components/error-bage/error-bage';
 import ProfileNav from '../../components/profile-nav/profile-nav';
-const ProfilePage = () => {
-  const dispatch = useDispatch();
 
+const ProfilePage = (): JSX.Element => {
+  const dispatch = useDispatch() as any;
   const { loading, message, error } = useSelector(getAuthState);
 
   useEffect(() => {

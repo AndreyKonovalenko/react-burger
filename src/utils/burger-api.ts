@@ -1,13 +1,40 @@
-import { CookieSerializeOptions} from "cookie";
+import { CookieSerializeOptions } from 'cookie';
 
-const BURGER_API_URL = 'https://norma.nomoreparties.space/api';
+const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
 
-
-
-const errorHandler = (status: number): void => {
+const errorHandler = (status: number) => {
   throw new Error(`Ошибка ${status}`);
 };
 
+type TForm = {
+  [key: string]: string; 
+}
+
+const checkResponse = (response: Response) => {
+  if (response.ok) {
+    return response.json();
+  }
+  if (!response.ok) {
+    errorHandler(response.status);
+  }
+  return Promise.reject(`Ошибка ${response.status}`);
+};
+
+const checkSuccess = (response: any) => {
+  if (response && response.success) {
+    return response;
+  }
+  if (!response.success){
+    errorHandler(response.status);
+  }
+  return Promise.reject(`Ответ не success: ${response}`);
+};
+
+const request = (endpoint: string, options?: RequestInit | undefined): Promise<any> => {
+  return fetch(`${BURGER_API_URL}${endpoint}`, options)
+    .then(checkResponse)
+    .then(checkSuccess);
+};
 
 const options: RequestInit = {
   method: 'GET',
@@ -19,156 +46,86 @@ const options: RequestInit = {
   },
   redirect: 'follow',
   referrerPolicy: 'no-referrer',
-  body: null
+  body: null,
 };
 
-export const getIngerdients = async () => {
-  const response = await fetch(`${BURGER_API_URL}/ingredients`, {
-    ...options,
-    method: 'GET',
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
+export const setTokens = (data: any) => {
+  const accessToken = data.accessToken.split("Bearer ")[1];
+  if (accessToken) {
+    setCookie("accessToken", accessToken);
   }
-  const data = await response.json();
-  if (data.success) {
-    return data.data;
-  }
+  sessionStorage.setItem("refreshToken", data.refreshToken);
 };
 
-export const sendOrder = async (ingredients: string[]) => {
+export const getIngerdients = () => request("ingredients");
+
+export const sendOrder = (ingredients: Array<string>) => {
   const token = getCookie('accessToken');
-  const response = await fetch(`${BURGER_API_URL}/orders`, {
+  return  request("orders", {
     ...options,
     method: 'POST',
     headers: {
       ...options.headers,
       Authorization: 'Bearer ' + token,
     },
-    body: JSON.stringify(ingredients),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
+    body: JSON.stringify(ingredients),});
+}
 
-export const registerRequeset = async (form: {[key: string]: string}) => {
-  const response = await fetch(`${BURGER_API_URL}/auth/register`, {
+export const registerRequeset = (form: TForm) => {
+return request("auth/register",  {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(form)
+  })
+}
+
+export const loginRequeset = (form: TForm) => {
+  return request("auth/login", {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(form),
+  } )
+}
+
+export const recoveryRequest = (form: TForm)=> {
+  return request("password-reset", {
     ...options,
     method: 'POST',
     body: JSON.stringify(form),
   });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    const accessToken = data.accessToken.split('Bearer ')[1];
-    if (accessToken) {
-      setCookie('accessToken', accessToken);
-    }
-    sessionStorage.setItem('refreshToken', data.refreshToken);
-    return data;
-  }
-};
+}
 
-export const loginRequeset = async (form:  {[key: string]: string}) => {
-  const response = await fetch(`${BURGER_API_URL}/auth/login`, {
+export const resetPasswordRequest = (form: TForm) => {
+  return request("password-reset/reset", {
     ...options,
     method: 'POST',
     body: JSON.stringify(form),
   });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    const accessToken = data.accessToken.split('Bearer ')[1];
-    if (accessToken) {
-      setCookie('accessToken', accessToken);
-    }
-    sessionStorage.setItem('refreshToken', data.refreshToken);
-    return data;
-  }
-};
+}
 
-export const recoveryRequest = async (form:  {[key: string]: string}) => {
-  const response = await fetch(`${BURGER_API_URL}/password-reset`, {
-    ...options,
-    method: 'POST',
-    body: JSON.stringify(form),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
-
-export const resetPasswordRequest = async (form:  {[key: string]: string}) => {
-  const response = await fetch(`${BURGER_API_URL}/password-reset/reset`, {
-    ...options,
-    method: 'POST',
-    body: JSON.stringify(form),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
-
-export const refreshAccessTokenRequest = async () => {
-  const response = await fetch(`${BURGER_API_URL}/auth/token`, {
+export const refreshAccessTokenRequest = () => {
+  return request("auth/token", {
     ...options,
     method: 'POST',
     body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    const accessToken = data.accessToken.split('Bearer ')[1];
-    setCookie('accessToken', accessToken);
-    sessionStorage.setItem('refreshToken', data.refreshToken);
-    return data;
-  }
-};
+  } )
+}
 
-export const getUserRequest = async () => {
+export const getUserRequest = () => {
   const token = getCookie('accessToken');
-  const response = await fetch(`${BURGER_API_URL}/auth/user`, {
+  return request("auth/user", {
     ...options,
     method: 'GET',
     headers: {
       ...options.headers,
       Authorization: 'Bearer ' + token,
     },
-  });
-  if (!response.ok) {
-    const data = await response.json();
-    if (Boolean(data.message)) {
-      throw new Error(data.message);
-    }
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
+  })
+}
 
-export const updateUserDataRequest = async (form: {[key: string]: string}) => {
+export const updateUserDataRequest = (form:TForm) => {
   const token = getCookie('accessToken');
-  const response = await fetch(`${BURGER_API_URL}/auth/user`, {
+  return request("auth/user", {
     ...options,
     method: 'PATCH',
     headers: {
@@ -176,32 +133,18 @@ export const updateUserDataRequest = async (form: {[key: string]: string}) => {
       Authorization: 'Bearer ' + token,
     },
     body: JSON.stringify(form),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
+  })
+}
 
-export const logoutRequest = async () => {
-  const response = await fetch(`${BURGER_API_URL}/auth/logout`, {
+export const logoutRequest = () => {
+  return request("auth/logout", {
     ...options,
     method: 'POST',
     body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
-  });
-  if (!response.ok) {
-    errorHandler(response.status);
-  }
-  const data = await response.json();
-  if (data.success) {
-    return data;
-  }
-};
+  } )
+}
 
-export const getCookie = (name: string) => {
+export const getCookie = (name: string): string | undefined => {
   const matches = document.cookie.match(
     new RegExp(
       '(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)'
@@ -210,7 +153,11 @@ export const getCookie = (name: string) => {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export const setCookie = (name: string, value: string | null, props?: CookieSerializeOptions ): void => {
+export const setCookie = (
+  name: string,
+  value: string | null,
+  props?: CookieSerializeOptions
+): void => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -239,9 +186,7 @@ export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: new Date(-1) });
 };
 
-
-
-export const fetchWithRefresh = async (request: any, data:any): Promise<any> => {
+export const fetchWithRefresh = async (request: any, data: any) => {
   //data is optional argument
   try {
     return await request(data);
@@ -254,5 +199,3 @@ export const fetchWithRefresh = async (request: any, data:any): Promise<any> => 
     }
   }
 };
-
-fetchWithRefresh(loginRequeset, {email: '1111'})
