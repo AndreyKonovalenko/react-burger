@@ -10,6 +10,7 @@ import {
   fetchWithRefresh,
 } from '../../utils/burger-api';
 import { setTokens } from '../../utils/burger-api';
+import { TAppThunk, TAppDispatch} from '../storeTypes';
 
 export const SET_FORM_VALUE: 'SET_FORM_VALUE' = 'SET_FORM_VALUE';
 export const CLEAR_FORM: 'CLEAR_FORM' = 'CLEAR_FORM';
@@ -44,9 +45,6 @@ export const CLEAR_STATE: 'CLEAR_STATE' = 'CLEAR_STATE';
 export const CLEAR_MESSAGE: 'CLEAR_MESSAGE' = 'CLEAR_MESSAGE';
 export const CLEAR_ERROR: 'CLEAR_ERROR' = 'CLEAR_ERROR';
 
-export const clearState = () => ({ type: CLEAR_STATE });
-export const clearMessage = () => ({ type: CLEAR_MESSAGE });
-export const clearError = () => ({ type: CLEAR_ERROR });
 
 export type TUserActions = TSetFormValue | TClearFrom;
 
@@ -54,6 +52,13 @@ type TFromData = {
   field: string;
   value: string;
 };
+
+type TUser = { 
+  name: string;
+  email: string;
+  accessToken: string;
+  refreshTorken: string;
+}
 
 type TSetFormValue = {
   readonly type: typeof SET_FORM_VALUE;
@@ -63,6 +68,23 @@ type TSetFormValue = {
 type TClearFrom = {
   readonly type: typeof CLEAR_FORM;
 };
+
+type TRegisterRequest = {
+  readonly type: typeof REGISTER_REQUEST;
+}
+type TRegisterRequestSuccess = {
+  readonly type: typeof REGISTER_SUCCESS;
+  readonly payload: TUser
+}
+
+type TRegisterRequestError = {
+  readonly type: typeof REGISTER_ERROR;
+  readonly payload: string
+}
+
+export const clearState = () => ({ type: CLEAR_STATE });
+export const clearMessage = () => ({ type: CLEAR_MESSAGE });
+export const clearError = () => ({ type: CLEAR_ERROR });
 
 export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
   return {
@@ -75,15 +97,15 @@ export const clearForm = (): TClearFrom => ({
   type: CLEAR_FORM,
 });
 
-export const register = () => async (dispatch, getState) => {
-  dispatch({ type: REGISTER_REQUEST });
+export const register = (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+  dispatch((): TRegisterRequest => ({ type: REGISTER_REQUEST }) );
   try {
     const { name, email, password } = getState().auth.form;
     const response = await registerRequeset({ name, email, password });
     setTokens(response);
-    dispatch({ type: REGISTER_SUCCESS, payload: response.user });
-  } catch (error) {
-    dispatch({ type: REGISTER_ERROR, payload: error.message });
+    dispatch((): TRegisterRequestSuccess => ({ type: REGISTER_SUCCESS, payload: response.user }));
+  } catch (error: any) {
+    dispatch((): TRegisterRequestError=>({ type: REGISTER_ERROR, payload: error.message }));
   }
 };
 
@@ -104,7 +126,7 @@ export const logout = () => async (dispatch) => {
   try {
     const response = await logoutRequest();
     dispatch({ type: LOGOUT_SUCCESS, payload: response.message });
-  } catch (error) {
+  } catch (error: any) {
     dispatch({ type: LOGOUT_SUCCESS, payload: error.message });
   }
 };

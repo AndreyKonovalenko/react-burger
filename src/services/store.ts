@@ -13,11 +13,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-export const initStore = (preloadedState) => {
-  const store = createStore(
+export const store = createStore(
     rootReducer,
-    preloadedState,
     composeWithDevTools(applyMiddleware(thunk))
   );
-  return store;
-};
+
+
