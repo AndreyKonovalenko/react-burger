@@ -1,9 +1,9 @@
 import { useDispatch as untypedUseDispatch } from "react-redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { store } from "./store";
-import { TUserActions } from "./auth/auth-actions";
+import { TAuthActions } from "./auth/auth-actions";
 
-type TActions = TUserActions
+type TActions = TAuthActions
 type TRootState = ReturnType<typeof store.getState>
 export type TAppDispatch = ThunkDispatch<TRootState, never, TActions>; 
 

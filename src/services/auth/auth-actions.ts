@@ -1,3 +1,4 @@
+import { StringLiteral } from 'typescript';
 import {
   loginRequeset,
   registerRequeset,
@@ -45,9 +46,6 @@ export const CLEAR_STATE: 'CLEAR_STATE' = 'CLEAR_STATE';
 export const CLEAR_MESSAGE: 'CLEAR_MESSAGE' = 'CLEAR_MESSAGE';
 export const CLEAR_ERROR: 'CLEAR_ERROR' = 'CLEAR_ERROR';
 
-
-export type TUserActions = TSetFormValue | TClearFrom;
-
 type TFromData = {
   field: string;
   value: string;
@@ -60,6 +58,7 @@ type TUser = {
   refreshTorken: string;
 }
 
+
 type TSetFormValue = {
   readonly type: typeof SET_FORM_VALUE;
   readonly payload: TFromData;
@@ -68,6 +67,22 @@ type TSetFormValue = {
 type TClearFrom = {
   readonly type: typeof CLEAR_FORM;
 };
+
+type TFormActions = TSetFormValue | TClearFrom;
+
+type TClearState = {
+  readonly type: typeof CLEAR_STATE
+}
+
+type TClearMessage = {
+  readonly type: typeof CLEAR_MESSAGE
+}
+
+type TClearError = {
+  readonly type: typeof CLEAR_ERROR
+}
+
+type TClearAtcitons = TClearState | TClearMessage | TClearError 
 
 type TRegisterRequest = {
   readonly type: typeof REGISTER_REQUEST;
@@ -82,9 +97,73 @@ type TRegisterRequestError = {
   readonly payload: string
 }
 
-export const clearState = () => ({ type: CLEAR_STATE });
-export const clearMessage = () => ({ type: CLEAR_MESSAGE });
-export const clearError = () => ({ type: CLEAR_ERROR });
+type TRegisterActions = TRegisterRequest | TRegisterRequestSuccess | TRegisterRequestError;
+
+type TLoginRequest = {
+  readonly type: typeof LOGIN_REQUEST;
+}
+type TLoginRequestSuccess = { 
+  readonly type: typeof LOGIN_SUCCESS;
+  readonly payload: TUser
+}
+
+type TLoginRequestError = {
+  readonly type: typeof LOGIN_ERROR;
+  readonly payload: string
+}
+type TLoginActions = TLoginRequest | TLoginRequestSuccess | TLogoutRequestError;
+
+type TLogoutRequest = {
+  readonly type: typeof LOGOUT_REQUEST;
+}
+
+type TLogoutRequestSuccess = {
+  readonly type: typeof LOGOUT_SUCCESS;
+  readonly payload: string;
+}
+
+type TLogoutRequestError = {
+  readonly type: typeof LOGOUT_ERROR;
+  readonly payload: string;
+}
+
+type TLogoutActions = TLogoutRequest  | TLogoutRequestSuccess | TLoginRequestError; 
+
+type TRecoveryRequest = {
+  readonly type: typeof RECOVERY_REQUEST;
+}
+
+type TRecoveryRequestSuccess = {
+  readonly type: typeof RECOVERY_SUCCESS;
+  readonly payload: string;
+}
+
+type TRecoveryRequestError = { 
+  readonly type: typeof RECOVERY_ERROR;
+  readonly payload: string
+}
+
+type TRecoveryActions = TRecoveryRequest | TRecoveryRequestSuccess | TRecoveryRequestError;
+
+type TRefreshRequest = {
+  readonly type: typeof REFRESH_ACCESS_REQUEST;
+}
+
+type TRefreshRequestSuccess = { 
+  readonly type: typeof REFRESH_ACCESS_SUCCESS
+}
+
+type TRefreshRequestError = {
+  readonly type: typeof REFRESH_ACCESS_ERROR;
+  readonly payload: string;
+}
+type TRefreshActions = TRefreshRequest | TRefreshRequestSuccess | TRefreshRequestError;
+
+export type TAuthActions =  TFormActions | TClearAtcitons | TRegisterActions | TLoginActions | TLogoutActions | TRecoveryActions | TRefreshActions;
+
+export const clearState = (): TClearState => ({ type: CLEAR_STATE });
+export const clearMessage = (): TClearMessage => ({ type: CLEAR_MESSAGE });
+export const clearError = (): TClearError => ({ type: CLEAR_ERROR });
 
 export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
   return {
@@ -94,7 +173,7 @@ export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
 };
 
 export const clearForm = (): TClearFrom => ({
-  type: CLEAR_FORM,
+  type: CLEAR_FORM
 });
 
 export const register = (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
@@ -109,47 +188,47 @@ export const register = (): TAppThunk => async (dispatch: TAppDispatch, getState
   }
 };
 
-export const login = () => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_REQUEST });
+export const login = (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+  dispatch((): TLoginRequest => ({ type: LOGIN_REQUEST }));
   try {
     const { email, password } = getState().auth.form;
     const response = await loginRequeset({ email, password });
     setTokens(response);
-    dispatch({ type: LOGIN_SUCCESS, payload: response.user });
-  } catch (error) {
-    dispatch({ type: LOGIN_ERROR, payload: error.message });
+    dispatch((): TLoginRequestSuccess => ({ type: LOGIN_SUCCESS, payload: response.user }));
+  } catch (error: any) {
+    dispatch((): TLoginRequestError => ({ type: LOGIN_ERROR, payload: error.message }));
   }
 };
 
-export const logout = () => async (dispatch) => {
-  dispatch({ type: LOGOUT_REQUEST });
+export const logout = (): TAppThunk => async (dispatch: TAppDispatch) => {
+  dispatch((): TLogoutRequest => ({ type: LOGOUT_REQUEST }));
   try {
     const response = await logoutRequest();
-    dispatch({ type: LOGOUT_SUCCESS, payload: response.message });
+    dispatch((): TLogoutRequestSuccess => ({ type: LOGOUT_SUCCESS, payload: response.message }));
   } catch (error: any) {
-    dispatch({ type: LOGOUT_SUCCESS, payload: error.message });
+    dispatch((): TLogoutRequestError => ({ type: LOGOUT_ERROR, payload: error.message }));
   }
 };
 
-export const rocoverPassword = () => async (dispatch, getState) => {
-  dispatch({ type: RECOVERY_REQUEST });
+export const rocoverPassword = (): TAppThunk => async (dispatch, getState) => {
+  dispatch((): TRecoveryRequest => ({ type: RECOVERY_REQUEST }));
   try {
     const { email } = getState().auth.form;
     const response = await recoveryRequest({ email });
-    dispatch({ type: RECOVERY_SUCCESS, payload: response.message });
-  } catch (error) {
-    dispatch({ type: RECOVERY_SUCCESS, payload: error.message });
+    dispatch((): TRecoveryRequestSuccess => ({ type: RECOVERY_SUCCESS, payload: response.message }));
+  } catch (error: any) {
+    dispatch((): TRecoveryRequestError => ({ type: RECOVERY_ERROR, payload: error.message }));
   }
 };
 
-export const refreshAccessToken = () => async (dispatch) => {
-  dispatch({ type: REFRESH_ACCESS_REQUEST });
+export const refreshAccessToken = (): TAppThunk => async (dispatch: TAppDispatch) => {
+  dispatch((): TRefreshRequest => ({ type: REFRESH_ACCESS_REQUEST }));
   try {
     const resposne = await refreshAccessTokenRequest();
     setTokens(resposne);
-    dispatch({ type: REFRESH_ACCESS_SUCCESS });
-  } catch (error) {
-    dispatch({ type: REFRESH_ACCESS_ERROR, payload: error.message });
+    dispatch((): TRefreshRequestSuccess => ({ type: REFRESH_ACCESS_SUCCESS }));
+  } catch (error: any) {
+    dispatch((): TRefreshRequestError => ({ type: REFRESH_ACCESS_ERROR, payload: error.message }));
   }
 };
 
