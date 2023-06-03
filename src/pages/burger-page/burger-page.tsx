@@ -1,4 +1,4 @@
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import styles from './burger-page.module.css';
@@ -8,7 +8,7 @@ import Modal from '../../components/modal/modal';
 import ErrorBage from '../../components/error-bage/error-bage';
 import LoadingBage from '../../components/loading-bage/loading-bage';
 import OrederDetails from '../../components/order-details/order-details';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { getUiState } from '../../services/ui/ui-selectors';
 import { hideOrderDetails } from '../../services/ui/ui-actions';
 
@@ -38,7 +38,7 @@ const BurgerPage = (): JSX.Element => {
         )}
       </main>
       {orderIsShown && (
-        <Modal handleModalClose={()=>dispatch(hideOrderDetails())}>
+        <Modal handleModalClose={() => dispatch(hideOrderDetails())}>
           <OrederDetails />
         </Modal>
       )}

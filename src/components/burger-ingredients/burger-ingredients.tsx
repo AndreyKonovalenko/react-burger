@@ -6,7 +6,7 @@ import styles from './burger-ingredients.module.css';
 import { BUN, SAUCE, MAIN } from '../../utils/ui-constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIngredientCollection } from '../../services/ui/ui-actions';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../utils/types';
 
 const BurgerIngredients = () => {

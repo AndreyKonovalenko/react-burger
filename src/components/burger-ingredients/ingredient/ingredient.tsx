@@ -7,7 +7,7 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { selectIngredient } from '../../../services/ui/ui-actions';
-import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import { getBurgerState } from '../../../services/burger-constructor/burger-constructor-selectors';
 import { TIngredient } from '../../../utils/types';
 import styles from './ingredient.module.css';
 

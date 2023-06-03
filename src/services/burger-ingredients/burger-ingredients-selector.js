@@ -1,1 +1,1 @@
-export const getBurgerState = (state) => state.burger;
+export const getIngredientsState = (state) => state.ingredients;

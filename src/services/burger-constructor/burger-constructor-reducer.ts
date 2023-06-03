@@ -1,6 +1,6 @@
+import { TIngredient } from '../../utils/types';
 import {
   ADD_BUN,
-  REMOVE_BUN,
   REMOVE_MAIN_AND_SAUCE,
   ADD_MAIN_AND_SAUCE,
   FILL_ORDER,
@@ -10,7 +10,46 @@ import {
   REORDER_BURGER_INGREDIENTS,
 } from './burger-constructor-actions';
 
-const intialState = {
+import { TBurgerActions } from './burger-constructor-actions';
+
+export type TInvoice = {
+  success: boolean;
+  name: string;
+  order: {
+    ingredients: Array<TIngredient>;
+    _id: string;
+    owner: {
+      name: string;
+      email: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+    status: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    number: number;
+    price: number;
+  };
+};
+
+export type TMAsElement = {
+  id: string;
+  ingredientId: string;
+  price: number;
+};
+
+export type TBurger = {
+  bun: TMAsElement | null;
+  mainAndSauce: Array<TMAsElement> | [];
+  total: number;
+  order: Array<string> | [];
+  invoice: TInvoice | null;
+  loading: boolean;
+  error: string;
+};
+
+const intialState: TBurger = {
   bun: null,
   mainAndSauce: [],
   total: 0,
@@ -19,7 +58,10 @@ const intialState = {
   loading: false,
   error: '',
 };
-export const burgerConstructorReducer = (state = intialState, action) => {
+export const burgerConstructorReducer = (
+  state = intialState,
+  action: TBurgerActions
+): TBurger => {
   switch (action.type) {
     case ADD_BUN:
       return {
@@ -31,11 +73,9 @@ export const burgerConstructorReducer = (state = intialState, action) => {
         },
         total:
           state.total -
-          (state.bun ? state.bun.price * 2 : 0) +
+          (Boolean(state.bun) ? state.bun!.price * 2 : 0) +
           action.payload.price * 2,
       };
-    case REMOVE_BUN:
-      return { ...state, bun: null };
     case ADD_MAIN_AND_SAUCE:
       return {
         ...state,
@@ -57,7 +97,7 @@ export const burgerConstructorReducer = (state = intialState, action) => {
         ),
         total:
           state.total -
-          state.mainAndSauce.find((element) => element.id === action.payload)
+          state.mainAndSauce.find((element) => element.id === action.payload)!
             .price,
       };
     case FILL_ORDER:

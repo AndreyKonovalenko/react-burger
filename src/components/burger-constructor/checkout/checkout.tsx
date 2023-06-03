@@ -7,13 +7,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import styles from './checkout.module.css';
 import { showOrderDetails } from '../../../services/ui/ui-actions';
-import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import { getBurgerState } from '../../../services/burger-constructor/burger-constructor-selectors';
 import { getUserState } from '../../../services/auth/auth-selectors';
 
 const Checkout = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { bun,total } = useSelector(getBurgerState);
+  const { bun, total } = useSelector(getBurgerState);
   const user = useSelector(getUserState);
 
   const handleOnCheckout = useCallback(() => {
@@ -30,9 +30,9 @@ const Checkout = (): JSX.Element => {
         htmlType='button'
         type='primary'
         size='large'
-        disabled={bun? false: true}
+        disabled={bun ? false : true}
         onClick={handleOnCheckout}>
-          Оформить заказ
+        Оформить заказ
       </Button>
     </div>
   );

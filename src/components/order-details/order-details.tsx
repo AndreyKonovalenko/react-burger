@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import styles from './order-details.module.css';
 import ErrorBage from '../error-bage/error-bage';
 import LoadingBage from '../loading-bage/loading-bage';
 import DoneImage from '../../images/graphics.svg';
 import { postOrder } from '../../services/burger-constructor/burger-constructor-actions';
-import { getBurgerState } from '../../services/burger-ingredients/burger-ingredients-selector';
+import { getBurgerState } from '../../services/burger-constructor/burger-constructor-selectors';
 
 const OrederDetails = (): JSX.Element | null => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const { invoice, loading, error } = useSelector(getBurgerState);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { useEffect } from 'react';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import { selectIngredient } from '../../services/ui/ui-actions';
