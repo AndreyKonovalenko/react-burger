@@ -190,7 +190,7 @@ export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: new Date(-1) });
 };
 
-export const fetchWithRefresh = async (request: any, data: any) => {
+export const fetchWithRefresh = async (request: any, data?: any) => {
   //data is optional argument
   try {
     return await request(data);

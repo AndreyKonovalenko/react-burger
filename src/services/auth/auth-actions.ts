@@ -1,4 +1,3 @@
-import { StringLiteral } from 'typescript';
 import {
   loginRequeset,
   registerRequeset,
@@ -10,8 +9,9 @@ import {
   getUserRequest,
   fetchWithRefresh,
 } from '../../utils/burger-api';
+import { TUser } from './auth-reducer';
 import { setTokens } from '../../utils/burger-api';
-import { TAppThunk, TAppDispatch} from '../storeTypes';
+import { TAppThunk, TAppDispatch } from '../storeTypes';
 
 export const SET_FORM_VALUE: 'SET_FORM_VALUE' = 'SET_FORM_VALUE';
 export const CLEAR_FORM: 'CLEAR_FORM' = 'CLEAR_FORM';
@@ -46,126 +46,179 @@ export const CLEAR_STATE: 'CLEAR_STATE' = 'CLEAR_STATE';
 export const CLEAR_MESSAGE: 'CLEAR_MESSAGE' = 'CLEAR_MESSAGE';
 export const CLEAR_ERROR: 'CLEAR_ERROR' = 'CLEAR_ERROR';
 
-type TFromData = {
+type TFromFieldData = {
   field: string;
   value: string;
 };
 
-type TUser = { 
-  name: string;
-  email: string;
-  accessToken: string;
-  refreshTorken: string;
-}
-
-
 type TSetFormValue = {
   readonly type: typeof SET_FORM_VALUE;
-  readonly payload: TFromData;
+  readonly payload: TFromFieldData;
 };
 
 type TClearFrom = {
   readonly type: typeof CLEAR_FORM;
 };
 
-type TFormActions = TSetFormValue | TClearFrom;
-
 type TClearState = {
-  readonly type: typeof CLEAR_STATE
-}
+  readonly type: typeof CLEAR_STATE;
+};
 
 type TClearMessage = {
-  readonly type: typeof CLEAR_MESSAGE
-}
+  readonly type: typeof CLEAR_MESSAGE;
+};
 
 type TClearError = {
-  readonly type: typeof CLEAR_ERROR
-}
-
-type TClearAtcitons = TClearState | TClearMessage | TClearError 
+  readonly type: typeof CLEAR_ERROR;
+};
 
 type TRegisterRequest = {
   readonly type: typeof REGISTER_REQUEST;
-}
+};
 type TRegisterRequestSuccess = {
   readonly type: typeof REGISTER_SUCCESS;
-  readonly payload: TUser
-}
+  readonly payload: TUser;
+};
 
 type TRegisterRequestError = {
   readonly type: typeof REGISTER_ERROR;
-  readonly payload: string
-}
-
-type TRegisterActions = TRegisterRequest | TRegisterRequestSuccess | TRegisterRequestError;
+  readonly payload: string;
+};
 
 type TLoginRequest = {
   readonly type: typeof LOGIN_REQUEST;
-}
-type TLoginRequestSuccess = { 
+};
+type TLoginRequestSuccess = {
   readonly type: typeof LOGIN_SUCCESS;
-  readonly payload: TUser
-}
+  readonly payload: TUser;
+};
 
 type TLoginRequestError = {
   readonly type: typeof LOGIN_ERROR;
-  readonly payload: string
-}
-type TLoginActions = TLoginRequest | TLoginRequestSuccess | TLogoutRequestError;
+  readonly payload: string;
+};
 
 type TLogoutRequest = {
   readonly type: typeof LOGOUT_REQUEST;
-}
+};
 
 type TLogoutRequestSuccess = {
   readonly type: typeof LOGOUT_SUCCESS;
   readonly payload: string;
-}
+};
 
 type TLogoutRequestError = {
   readonly type: typeof LOGOUT_ERROR;
   readonly payload: string;
-}
-
-type TLogoutActions = TLogoutRequest  | TLogoutRequestSuccess | TLoginRequestError; 
+};
 
 type TRecoveryRequest = {
   readonly type: typeof RECOVERY_REQUEST;
-}
+};
 
 type TRecoveryRequestSuccess = {
   readonly type: typeof RECOVERY_SUCCESS;
   readonly payload: string;
-}
+};
 
-type TRecoveryRequestError = { 
+type TRecoveryRequestError = {
   readonly type: typeof RECOVERY_ERROR;
-  readonly payload: string
-}
-
-type TRecoveryActions = TRecoveryRequest | TRecoveryRequestSuccess | TRecoveryRequestError;
+  readonly payload: string;
+};
 
 type TRefreshRequest = {
   readonly type: typeof REFRESH_ACCESS_REQUEST;
-}
+};
 
-type TRefreshRequestSuccess = { 
-  readonly type: typeof REFRESH_ACCESS_SUCCESS
-}
+type TRefreshRequestSuccess = {
+  readonly type: typeof REFRESH_ACCESS_SUCCESS;
+};
 
 type TRefreshRequestError = {
   readonly type: typeof REFRESH_ACCESS_ERROR;
   readonly payload: string;
-}
-type TRefreshActions = TRefreshRequest | TRefreshRequestSuccess | TRefreshRequestError;
+};
 
-export type TAuthActions =  TFormActions | TClearAtcitons | TRegisterActions | TLoginActions | TLogoutActions | TRecoveryActions | TRefreshActions;
+type TResetPasswordRequeset = {
+  readonly type: typeof RESET_PASS_REQUEST;
+};
+
+type TResetPasswordSuccess = {
+  readonly type: typeof RESET_PASS_SUCCESS;
+  readonly payload: string;
+};
+
+type TResetPasswordError = {
+  readonly type: typeof RESET_PASS_ERROR;
+  readonly payload: string;
+};
+type TGetUserRequest = {
+  readonly type: typeof GET_USER_REQUEST;
+};
+
+type TGetUserSuccess = {
+  readonly type: typeof GET_USER_SUCCESS;
+  readonly payload: TUser;
+};
+
+type TGetUserError = {
+  readonly type: typeof GET_USER_ERROR;
+  readonly payload: string;
+};
+
+type TUpdateUserRequest = {
+  readonly type: typeof UPDATE_USER_REQUEST;
+};
+
+type TUpdateUserSuccess = {
+  readonly type: typeof UPDATE_USER_SUCCESS;
+  readonly payload: TUser;
+};
+
+type TUpdateUserError = {
+  readonly type: typeof UPDATE_USER_ERROR;
+  readonly payload: string;
+};
+
+export type TAuthActions =
+  | TSetFormValue
+  | TClearFrom
+  | TClearState
+  | TClearMessage
+  | TClearError
+  | TRegisterRequest
+  | TRegisterRequestSuccess
+  | TRegisterRequestError
+  | TLoginRequest
+  | TLoginRequestSuccess
+  | TLoginRequestError
+  | TLogoutRequest
+  | TLogoutRequestSuccess
+  | TLogoutRequestError
+  | TRecoveryRequest
+  | TRecoveryRequestSuccess
+  | TRecoveryRequestError
+  | TRefreshRequest
+  | TRefreshRequestSuccess
+  | TRefreshRequestError
+  | TResetPasswordRequeset
+  | TResetPasswordSuccess
+  | TResetPasswordError
+  | TGetUserRequest
+  | TGetUserSuccess
+  | TGetUserError
+  | TUpdateUserRequest
+  | TUpdateUserSuccess
+  | TUpdateUserError;
 
 export const clearState = (): TClearState => ({ type: CLEAR_STATE });
 export const clearMessage = (): TClearMessage => ({ type: CLEAR_MESSAGE });
 export const clearError = (): TClearError => ({ type: CLEAR_ERROR });
 
-export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
+export const setFormValue = ({
+  field,
+  value,
+}: TFromFieldData): TSetFormValue => {
   return {
     type: SET_FORM_VALUE,
     payload: { field: field, value: value },
@@ -173,99 +226,181 @@ export const setFormValue = ({ field, value }: TFromData): TSetFormValue => {
 };
 
 export const clearForm = (): TClearFrom => ({
-  type: CLEAR_FORM
+  type: CLEAR_FORM,
 });
 
-export const register = (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
-  dispatch((): TRegisterRequest => ({ type: REGISTER_REQUEST }) );
-  try {
-    const { name, email, password } = getState().auth.form;
-    const response = await registerRequeset({ name, email, password });
-    setTokens(response);
-    dispatch((): TRegisterRequestSuccess => ({ type: REGISTER_SUCCESS, payload: response.user }));
-  } catch (error: any) {
-    dispatch((): TRegisterRequestError=>({ type: REGISTER_ERROR, payload: error.message }));
-  }
-};
+export const register =
+  (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+    dispatch(((): TRegisterRequest => ({ type: REGISTER_REQUEST }))());
+    try {
+      const { name, email, password } = getState().auth.form;
+      const response = await registerRequeset({ name, email, password });
+      setTokens(response);
+      dispatch(
+        ((): TRegisterRequestSuccess => ({
+          type: REGISTER_SUCCESS,
+          payload: response.user,
+        }))()
+      );
+    } catch (error: any) {
+      dispatch(
+        ((): TRegisterRequestError => ({
+          type: REGISTER_ERROR,
+          payload: error.message,
+        }))()
+      );
+    }
+  };
 
-export const login = (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
-  dispatch((): TLoginRequest => ({ type: LOGIN_REQUEST }));
-  try {
-    const { email, password } = getState().auth.form;
-    const response = await loginRequeset({ email, password });
-    setTokens(response);
-    dispatch((): TLoginRequestSuccess => ({ type: LOGIN_SUCCESS, payload: response.user }));
-  } catch (error: any) {
-    dispatch((): TLoginRequestError => ({ type: LOGIN_ERROR, payload: error.message }));
-  }
-};
+export const login =
+  (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+    dispatch(((): TLoginRequest => ({ type: LOGIN_REQUEST }))());
+    try {
+      const { email, password } = getState().auth.form;
+      const response = await loginRequeset({ email, password });
+      setTokens(response);
+      dispatch(
+        ((): TLoginRequestSuccess => ({
+          type: LOGIN_SUCCESS,
+          payload: response.user,
+        }))()
+      );
+    } catch (error: any) {
+      dispatch(
+        ((): TLoginRequestError => ({
+          type: LOGIN_ERROR,
+          payload: error.message,
+        }))()
+      );
+    }
+  };
 
 export const logout = (): TAppThunk => async (dispatch: TAppDispatch) => {
-  dispatch((): TLogoutRequest => ({ type: LOGOUT_REQUEST }));
+  dispatch(((): TLogoutRequest => ({ type: LOGOUT_REQUEST }))());
   try {
     const response = await logoutRequest();
-    dispatch((): TLogoutRequestSuccess => ({ type: LOGOUT_SUCCESS, payload: response.message }));
+    dispatch(
+      ((): TLogoutRequestSuccess => ({
+        type: LOGOUT_SUCCESS,
+        payload: response.message,
+      }))()
+    );
   } catch (error: any) {
-    dispatch((): TLogoutRequestError => ({ type: LOGOUT_ERROR, payload: error.message }));
+    dispatch(
+      ((): TLogoutRequestError => ({
+        type: LOGOUT_ERROR,
+        payload: error.message,
+      }))()
+    );
   }
 };
 
 export const rocoverPassword = (): TAppThunk => async (dispatch, getState) => {
-  dispatch((): TRecoveryRequest => ({ type: RECOVERY_REQUEST }));
+  dispatch(((): TRecoveryRequest => ({ type: RECOVERY_REQUEST }))());
   try {
     const { email } = getState().auth.form;
     const response = await recoveryRequest({ email });
-    dispatch((): TRecoveryRequestSuccess => ({ type: RECOVERY_SUCCESS, payload: response.message }));
+    dispatch(
+      ((): TRecoveryRequestSuccess => ({
+        type: RECOVERY_SUCCESS,
+        payload: response.message,
+      }))()
+    );
   } catch (error: any) {
-    dispatch((): TRecoveryRequestError => ({ type: RECOVERY_ERROR, payload: error.message }));
+    dispatch(
+      ((): TRecoveryRequestError => ({
+        type: RECOVERY_ERROR,
+        payload: error.message,
+      }))()
+    );
   }
 };
 
-export const refreshAccessToken = (): TAppThunk => async (dispatch: TAppDispatch) => {
-  dispatch((): TRefreshRequest => ({ type: REFRESH_ACCESS_REQUEST }));
-  try {
-    const resposne = await refreshAccessTokenRequest();
-    setTokens(resposne);
-    dispatch((): TRefreshRequestSuccess => ({ type: REFRESH_ACCESS_SUCCESS }));
-  } catch (error: any) {
-    dispatch((): TRefreshRequestError => ({ type: REFRESH_ACCESS_ERROR, payload: error.message }));
-  }
-};
+export const refreshAccessToken =
+  (): TAppThunk => async (dispatch: TAppDispatch) => {
+    dispatch(((): TRefreshRequest => ({ type: REFRESH_ACCESS_REQUEST }))());
+    try {
+      const resposne = await refreshAccessTokenRequest();
+      setTokens(resposne);
+      dispatch(
+        ((): TRefreshRequestSuccess => ({ type: REFRESH_ACCESS_SUCCESS }))()
+      );
+    } catch (error: any) {
+      dispatch(
+        ((): TRefreshRequestError => ({
+          type: REFRESH_ACCESS_ERROR,
+          payload: error.message,
+        }))()
+      );
+    }
+  };
 
-export const resetPassword = () => async (dispatch, getState) => {
-  dispatch({ type: RESET_PASS_REQUEST });
-  try {
-    const { password, token } = getState().auth.form;
-    const response = await resetPasswordRequest({ password, token });
-    dispatch({ type: RESET_PASS_SUCCESS, payload: response.message });
-  } catch (error) {
-    dispatch({ type: RESET_PASS_ERROR, payload: error.message });
-  }
-};
+export const resetPassword =
+  (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+    dispatch(((): TResetPasswordRequeset => ({ type: RESET_PASS_REQUEST }))());
+    try {
+      const { password, token } = getState().auth.form;
+      const response = await resetPasswordRequest({ password, token });
+      dispatch(
+        ((): TResetPasswordSuccess => ({
+          type: RESET_PASS_SUCCESS,
+          payload: response.message,
+        }))()
+      );
+    } catch (error: any) {
+      dispatch(
+        ((): TResetPasswordError => ({
+          type: RESET_PASS_ERROR,
+          payload: error.message,
+        }))()
+      );
+    }
+  };
 
-export const getUser = () => async (dispatch) => {
-  dispatch({ type: GET_USER_REQUEST });
+export const getUser = (): TAppThunk => async (dispatch: TAppDispatch) => {
+  dispatch(((): TGetUserRequest => ({ type: GET_USER_REQUEST }))());
   try {
     const response = await fetchWithRefresh(getUserRequest);
-    dispatch({ type: GET_USER_SUCCESS, payload: response.user });
-  } catch (error) {
-    dispatch({ type: GET_USER_ERROR, payload: error.message });
+    dispatch(
+      ((): TGetUserSuccess => ({
+        type: GET_USER_SUCCESS,
+        payload: response.user,
+      }))()
+    );
+  } catch (error: any) {
+    dispatch(
+      ((): TGetUserError => ({
+        type: GET_USER_ERROR,
+        payload: error.message,
+      }))()
+    );
   }
 };
 
-export const updateUserData = () => async (dispatch, getState) => {
-  dispatch({ type: UPDATE_USER_REQUEST });
-  try {
-    const form = getState().auth.form;
-    let data = {};
-    for (const element in form) {
-      if (form[element] !== '') {
-        data = { ...data, [element]: form[element] };
+export const updateUserData =
+  (): TAppThunk => async (dispatch: TAppDispatch, getState) => {
+    dispatch(((): TUpdateUserRequest => ({ type: UPDATE_USER_REQUEST }))());
+    try {
+      const form: { [key: string]: string } = getState().auth.form;
+      let data = {};
+      for (const element in form) {
+        if (form[element] !== '') {
+          data = { ...data, [element]: form[element] };
+        }
       }
+      const response = await fetchWithRefresh(updateUserDataRequest, data);
+      dispatch(
+        ((): TUpdateUserSuccess => ({
+          type: UPDATE_USER_SUCCESS,
+          payload: response.user,
+        }))()
+      );
+    } catch (error: any) {
+      dispatch(
+        ((): TUpdateUserError => ({
+          type: UPDATE_USER_ERROR,
+          payload: error.message,
+        }))()
+      );
     }
-    const response = await fetchWithRefresh(updateUserDataRequest, data);
-    dispatch({ type: UPDATE_USER_SUCCESS, payload: response.user });
-  } catch (error) {
-    dispatch({ type: UPDATE_USER_ERROR, payload: error.message });
-  }
-};
+  };

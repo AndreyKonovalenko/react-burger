@@ -29,8 +29,31 @@ import {
   CLEAR_MESSAGE,
   CLEAR_ERROR,
 } from './auth-actions';
+import { TAuthActions } from './auth-actions';
 
-const initialState = {
+export type TUser = {
+  name: string;
+  email: string;
+  accessToken: string;
+  refreshTorken: string;
+};
+
+export type TAuthForm = {
+  name: string;
+  email: string;
+  password: string;
+  token: string;
+};
+
+export type TAuth = {
+  user: TUser | null;
+  loading: boolean;
+  error: string;
+  message: string;
+  form: TAuthForm;
+};
+
+const initialState: TAuth = {
   user: null,
   loading: false,
   error: '',
@@ -43,7 +66,10 @@ const initialState = {
   },
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (
+  state = initialState,
+  action: TAuthActions
+): TAuth => {
   switch (action.type) {
     case CLEAR_STATE: {
       return initialState;

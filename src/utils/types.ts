@@ -1,4 +1,3 @@
-
 export type TIngredient = {
   _id: string;
   name: string;
@@ -14,14 +13,13 @@ export type TIngredient = {
   __v: number;
 };
 
-export type TBurger = { 
+export type TBurger = {
   bun: {
     id: string;
     ingredientId: string;
     price: number;
-  },
+  };
   mainAndSauce: string[];
   totol: number;
   order: string[];
 };
-
