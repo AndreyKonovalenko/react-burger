@@ -6,15 +6,23 @@ import {
   SELECT_INGREDIET_COLLECTION,
 } from './ui-actions';
 import { BUN } from '../../utils/ui-constants';
+import { TUiActions } from './ui-actions';
+import { TIngredient } from '../../utils/types';
 
-const intialState = {
+type TUi = {
+  ingredient: TIngredient | null;
+  orderIsShown: boolean;
+  dragging: boolean;
+  collection: string;
+};
+const intialState: TUi = {
   ingredient: null,
   orderIsShown: false,
   dragging: false,
   collection: BUN,
 };
 
-export const uiReducer = (state = intialState, action) => {
+export const uiReducer = (state = intialState, action: TUiActions): TUi => {
   switch (action.type) {
     case SELECT_INGREDIENT: {
       return {

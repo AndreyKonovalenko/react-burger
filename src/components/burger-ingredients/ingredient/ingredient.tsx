@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../../services/storeTypes';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import {
@@ -12,7 +13,7 @@ import { TIngredient } from '../../../utils/types';
 import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient: TIngredient): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const location = useLocation();
 
   const { name, image_large, price, _id, type } = ingredient;

@@ -4,12 +4,19 @@ const KEY_NAME_ESC = 'Escape';
 const KEY_EVENT_TYPE = 'keyup';
 
 type TDocumet = {
-  removeEventListener(type: 'keyup' , listener: (event: KeyboardEvent) => any, options?: boolean | EventListenerOptions): void;
-  addEventListener(type: 'keyup' , listener: (event: KeyboardEvent) => any, options?: boolean | EventListenerOptions): void;
-}
+  removeEventListener(
+    type: 'keyup',
+    listener: (event: KeyboardEvent) => any,
+    options?: boolean | EventListenerOptions
+  ): void;
+  addEventListener(
+    type: 'keyup',
+    listener: (event: KeyboardEvent) => any,
+    options?: boolean | EventListenerOptions
+  ): void;
+};
 
 export const useEscapeKey = (handleCloseModal: () => void): void => {
-
   const handleEscKey = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === KEY_NAME_ESC) {
@@ -20,9 +27,17 @@ export const useEscapeKey = (handleCloseModal: () => void): void => {
   );
 
   useEffect(() => {
-    (document as TDocumet).addEventListener(KEY_EVENT_TYPE, handleEscKey, false);
+    (document as TDocumet).addEventListener(
+      KEY_EVENT_TYPE,
+      handleEscKey,
+      false
+    );
     return () => {
-      (document as TDocumet).removeEventListener(KEY_EVENT_TYPE, handleEscKey, false);
+      (document as TDocumet).removeEventListener(
+        KEY_EVENT_TYPE,
+        handleEscKey,
+        false
+      );
     };
   }, [handleEscKey]);
 };

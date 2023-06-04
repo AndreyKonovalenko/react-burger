@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../../services/storeTypes';
 import {
   Button,
   CurrencyIcon,
@@ -11,7 +12,7 @@ import { getBurgerState } from '../../../services/burger-constructor/burger-cons
 import { getUserState } from '../../../services/auth/auth-selectors';
 
 const Checkout = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const navigate = useNavigate();
   const { bun, total } = useSelector(getBurgerState);
   const user = useSelector(getUserState);

@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import styles from './profile-page.module.css';
 
 import LoadingBage from '../../components/loading-bage/loading-bage';
@@ -10,11 +11,13 @@ import ErrorBage from '../../components/error-bage/error-bage';
 import ProfileNav from '../../components/profile-nav/profile-nav';
 
 const ProfilePage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const { loading, message, error } = useSelector(getAuthState);
 
   useEffect(() => {
-    return () => Boolean(message) && dispatch(clearMessage());
+    return () => {
+      Boolean(message) && dispatch(clearMessage());
+    };
   }, [message, dispatch]);
 
   const content = (

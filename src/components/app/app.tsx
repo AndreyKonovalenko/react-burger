@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../layout/layout';
 import BurgerPage from '../../pages/burger-page/burger-page';
@@ -29,7 +29,7 @@ import { getCookie } from '../../utils/burger-api';
 import { loadIngerdients } from '../../services/burger-ingredients/burger-ingredients-actions';
 
 const App = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -45,7 +45,7 @@ const App = (): JSX.Element => {
   useEffect(() => {
     dispatch(loadIngerdients());
   }, [dispatch]);
-  
+
   return (
     <>
       <Routes location={background || location}>
@@ -76,10 +76,12 @@ const App = (): JSX.Element => {
           <Route
             path={`${TO_INGREDIENTS}/:id`}
             element={
-              <Modal title={'Детали ингредиета'} handleModalClose={()=> navigate(-1)}>
+              <Modal
+                title={'Детали ингредиета'}
+                handleModalClose={() => navigate(-1)}>
                 <IngredientDetails />
               </Modal>
-            }        
+            }
           />
         </Routes>
       )}

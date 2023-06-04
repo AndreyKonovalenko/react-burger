@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {useForm} from '../../components/hooks/use-form';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
+import { useForm } from '../../components/hooks/use-form';
 import styles from './register-page.module.css';
 import { LOGIN, REGISTER, REGISTRATION } from '../../utils/ui-constants';
 import {
@@ -21,7 +22,8 @@ import ErrorBage from '../../components/error-bage/error-bage';
 
 const RegisterPage = (): JSX.Element => {
   const navigate = useNavigate();
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
+
   const handleChange = useForm();
   const { name, email, password } = useSelector(getFormState);
   const { loading, user, error } = useSelector(getAuthState);
@@ -39,7 +41,9 @@ const RegisterPage = (): JSX.Element => {
       dispatch(clearForm());
       navigate('/');
     }
-    return () => Boolean(error) && dispatch(clearError());
+    return () => {
+      Boolean(error) && dispatch(clearError());
+    };
   }, [user, navigate, dispatch, error]);
 
   const content = (
@@ -58,7 +62,11 @@ const RegisterPage = (): JSX.Element => {
           name={'email'}
           placeholder='E-mail'
         />
-        <PasswordInput onChange={handleChange} value={password} name={'password'} />
+        <PasswordInput
+          onChange={handleChange}
+          value={password}
+          name={'password'}
+        />
         <Button htmlType='submit' type='primary' size='medium'>
           {REGISTRATION}
         </Button>

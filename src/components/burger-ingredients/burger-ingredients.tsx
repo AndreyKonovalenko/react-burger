@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { typedUseDispatch } from '../../services/storeTypes';
 import Ingredient from './ingredient/ingredient';
 import TabBar from './tab-bar/tab-bar';
 import Collection from './collection/collection';
 import styles from './burger-ingredients.module.css';
 import { BUN, SAUCE, MAIN } from '../../utils/ui-constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectIngredientCollection } from '../../services/ui/ui-actions';
 import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../utils/types';
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const { ingredients } = useSelector(getIngredientsState);
 
   const bunRef = useRef<HTMLDivElement>(null);

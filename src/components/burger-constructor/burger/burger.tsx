@@ -45,7 +45,7 @@ const Burger = (): JSX.Element => {
             <BurgerElement
               key={mAsElement.id}
               id={mAsElement.id}
-              ingredient={ingredient}
+              ingredient={ingredient!}
               index={index}
             />
           );

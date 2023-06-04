@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
+import { typedUseDispatch } from '../../services/storeTypes';
 import styles from './burger-page.module.css';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
@@ -13,7 +14,7 @@ import { getUiState } from '../../services/ui/ui-selectors';
 import { hideOrderDetails } from '../../services/ui/ui-actions';
 
 const BurgerPage = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const { error, loading } = useSelector(getIngredientsState);
   const { orderIsShown } = useSelector(getUiState);
 
