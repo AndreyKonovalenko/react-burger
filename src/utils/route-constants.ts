@@ -5,3 +5,4 @@ export const TO_PROFILE = '/profile';
 export const TO_RESET_PASSWORD = '/reset-password';
 export const TO_INGREDIENTS = '/ingredients';
 export const TO_ORDERS = '/orders';
+export const TO_FEED = '/feed';

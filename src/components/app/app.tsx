@@ -14,6 +14,7 @@ import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredien
 import ProfileUserForm from '../profile-user-form/profile-user-form';
 import ProfileOrders from '../profile-order/profile-order';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import FeedPage from '../../pages/feed-page/feed-page';
 import Modal from '../modal/modal';
 import {
   TO_LOGIN,
@@ -23,6 +24,7 @@ import {
   TO_RESET_PASSWORD,
   TO_INGREDIENTS,
   TO_ORDERS,
+  TO_FEED
 } from '../../utils/route-constants';
 import { getUser } from '../../services/auth/auth-actions';
 import { getCookie } from '../../utils/burger-api';
@@ -51,6 +53,7 @@ const App = (): JSX.Element => {
       <Routes location={background || location}>
         <Route path='/' element={<Layout />}>
           <Route index element={<BurgerPage />} />
+          <Route path={TO_FEED} element={<FeedPage/>} />
           <Route path={TO_LOGIN} element={<LoginPage />} />
           <Route path={TO_REGISTER} element={<RegisterPage />} />
           <Route path={TO_FORGOT_PASSWORD} element={<ForgetPasswordPage />} />
