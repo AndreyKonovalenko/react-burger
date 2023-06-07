@@ -9,9 +9,9 @@ import {
   getUserRequest,
   fetchWithRefresh,
 } from '../../utils/burger-api';
-import { TUser } from './auth-reducer';
+import type { TUser } from './auth-reducer';
 import { setTokens } from '../../utils/burger-api';
-import { TAppThunk, TAppDispatch } from '../storeTypes';
+import type { TAppThunk, TAppDispatch } from '../storeTypes';
 
 export const SET_FORM_VALUE: 'SET_FORM_VALUE' = 'SET_FORM_VALUE';
 export const CLEAR_FORM: 'CLEAR_FORM' = 'CLEAR_FORM';

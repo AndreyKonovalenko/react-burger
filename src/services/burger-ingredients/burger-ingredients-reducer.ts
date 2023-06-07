@@ -3,8 +3,8 @@ import {
   GET_INGREDIENTS_ERROR,
   GET_INGREDIENTS_SUCCESS,
 } from './burger-ingredients-actions';
-import { TIngredient } from '../../utils/types';
-import { TBurgerIngredientsActions } from './burger-ingredients-actions';
+import type { TIngredient } from '../../utils/types';
+import type { TBurgerIngredientsActions } from './burger-ingredients-actions';
 
 type TIngredients = {
   ingredients: Array<TIngredient>;

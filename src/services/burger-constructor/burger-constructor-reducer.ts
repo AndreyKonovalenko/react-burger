@@ -1,4 +1,4 @@
-import { TIngredient } from '../../utils/types';
+import type { TIngredient } from '../../utils/types';
 import {
   ADD_BUN,
   REMOVE_MAIN_AND_SAUCE,

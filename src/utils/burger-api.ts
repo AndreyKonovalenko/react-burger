@@ -1,6 +1,7 @@
 import { CookieSerializeOptions } from 'cookie';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
+export const WS_NORMA_API_URL = 'wss://norma.nomoreparties.space/orders';
 
 const errorHandler = (status: number) => {
   throw new Error(`Ошибка ${status}`);

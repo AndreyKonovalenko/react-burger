@@ -6,8 +6,8 @@ import {
   SELECT_INGREDIET_COLLECTION,
 } from './ui-actions';
 import { BUN } from '../../utils/ui-constants';
-import { TUiActions } from './ui-actions';
-import { TIngredient } from '../../utils/types';
+import type { TUiActions } from './ui-actions';
+import type { TIngredient } from '../../utils/types';
 
 type TUi = {
   ingredient: TIngredient | null;
