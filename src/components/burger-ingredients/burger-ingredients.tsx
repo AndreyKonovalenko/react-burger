@@ -10,7 +10,7 @@ import { selectIngredientCollection } from '../../services/ui/ui-actions';
 import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../utils/types';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = (): JSX.Element => {
   const dispatch = typedUseDispatch();
   const { ingredients } = useSelector(getIngredientsState);
 

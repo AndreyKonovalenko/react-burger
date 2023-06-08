@@ -5,14 +5,14 @@ import {
   WS_GET_MESSAGE,
 } from './ws-actions';
 
-import type { TIngredient } from '../../utils/types';
 import type { TWSActions } from './ws-actions';
 
-type TOrder = {
-  orders: Array<TIngredient>;
+export type TOrder = {
+  ingredients: Array<string>;
   _id: string;
-  status: boolean;
+  status: string;
   number: number;
+  name: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -26,13 +26,13 @@ export type TMessage = {
 
 type TWSState = {
   wsConnected: boolean;
-  messages: Array<TMessage>;
+  message: TMessage | null;
   error?: Event;
 };
 
 const initialState: TWSState = {
   wsConnected: false,
-  messages: [],
+  message: null,
 };
 
 export const wsReducer = (
@@ -65,7 +65,7 @@ export const wsReducer = (
       return {
         ...state,
         error: undefined,
-        messages: [...state.messages, action.payload],
+        message: action.payload,
       };
     default:
       return state;

@@ -1,0 +1,88 @@
+.wrapper {
+  width: 100%;
+  border-radius: 40px;
+  background: #1c1c21;
+}
+.container {
+  margin: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 24px;
+}
+
+.numberContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.headingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 8x;
+}
+
+.staus {
+  height: 24px;
+}
+
+.burgerPreview {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+.illustrationsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+.overflowContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+.imageContainer {
+  width: 112px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.imageBorder {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%) border-box;
+  border-radius: 50em;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
