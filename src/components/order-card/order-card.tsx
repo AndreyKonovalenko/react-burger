@@ -22,8 +22,13 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
     if (ingredientsList.length > 0 && ingredients.length > 0 && index <= 5) {
       const ingredient = ingredientsList.find((element) => element._id === id);
       total = total + ingredient!.price;
+      const margin = -24;
+      margin.toString();
       return (
-        <div className={styles.imageContainer} key={crypto.randomUUID()}>
+        <div
+          className={styles.imageContainer}
+          style={{ marginRight: `${margin}px`, zIndex: 1000 - index }}
+          key={crypto.randomUUID()}>
           <div className={styles.imageBorder}>
             <img
               src={ingredient!.image}
