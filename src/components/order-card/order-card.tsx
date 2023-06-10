@@ -1,10 +1,15 @@
-import styles from './order-card.module.css';
+import { Link } from 'react-router-dom';
+import { useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+import { typedUseDispatch } from '../../services/storeTypes';
 import { useSelector } from 'react-redux';
 import type { TOrder } from '../../services/ws/ws-reducer';
 import {
   FormattedDate,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import styles from './order-card.module.css';
+import { selectOrder } from '../../services/ui/ui-actions';
 import { getIngredientsList } from '../../services/burger-ingredients/burger-ingredients-selector';
 
 type TOrderCard = {
@@ -14,9 +19,17 @@ type TOrderCard = {
 
 const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   const ingredientsList = useSelector(getIngredientsList);
-  const { name, number, status, updatedAt, ingredients } = order;
-
+  const dispatch = typedUseDispatch();
+  const location = useLocation();
+  const { name, number, status, updatedAt, ingredients, _id } = order;
   let total: number = 0;
+
+  const handleOnOrderClick = useCallback(
+    (order: TOrder): void => {
+      dispatch(selectOrder(order));
+    },
+    [dispatch]
+  );
 
   const illustrations = ingredients.map((id, index) => {
     if (ingredientsList.length > 0 && ingredients.length > 0 && index <= 5) {
@@ -27,7 +40,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
           className={styles.imageContainer}
           style={{
             transform: `translate(${-20 * index}px, 0px)`,
-            zIndex: 1000 - index,
+            zIndex: 98 - index,
           }}
           key={crypto.randomUUID()}>
           <div className={styles.imageBorder}>
@@ -53,7 +66,11 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   });
 
   return (
-    <div className={styles.wrapper}>
+    <Link
+      className={styles.wrapper}
+      to={`/feed/${_id}`}
+      state={{ background: location }}
+      onClick={() => handleOnOrderClick(order)}>
       <div className={styles.container}>
         <div className={styles.numberContainer}>
           <div>
@@ -96,7 +113,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

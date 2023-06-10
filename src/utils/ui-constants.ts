@@ -16,3 +16,6 @@ export const BURGER_CONSTRUCTOR = 'Конструктор';
 export const ORDER_FEED = 'Лента заказов';
 export const USER_ACCOUNT = 'Личный кабинет';
 export const FEED = 'Лента заказов';
+export const COMPOUND = 'Состав:';
+export const DONE = 'Выполнен';
+export const IN_PROGRESS = 'Готовится';

@@ -8,7 +8,7 @@ import BurgerIngredients from '../../components/burger-ingredients/burger-ingred
 import Modal from '../../components/modal/modal';
 import ErrorBage from '../../components/error-bage/error-bage';
 import LoadingBage from '../../components/loading-bage/loading-bage';
-import OrederDetails from '../../components/order-details/order-details';
+import OrederInfo from '../../components/order-info/order-info';
 import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { getUiState } from '../../services/ui/ui-selectors';
 import { hideOrderDetails } from '../../services/ui/ui-actions';
@@ -40,7 +40,7 @@ const BurgerPage = (): JSX.Element => {
       </main>
       {orderIsShown && (
         <Modal handleModalClose={() => dispatch(hideOrderDetails())}>
-          <OrederDetails />
+          <OrederInfo />
         </Modal>
       )}
     </>

@@ -63,6 +63,8 @@ export const setTokens = (data: any) => {
 
 export const getIngerdients = () => request('ingredients');
 
+export const getOrderById = (id: string) => request(`orders/:${id}`);
+
 export const sendOrder = (ingredients: Array<string>) => {
   const token = getCookie('accessToken');
   return request('orders', {

@@ -7,11 +7,13 @@ import styles from './modal.module.css';
 
 type TModal = {
   title?: string;
+  titleStyle?: string;
   handleModalClose: () => void;
 };
 const Modal = ({
   handleModalClose,
   title,
+  titleStyle,
   children,
 }: PropsWithChildren<TModal>): JSX.Element => {
   useEscapeKey(handleModalClose);
@@ -27,7 +29,10 @@ const Modal = ({
       <div className={`${styles.container} p-10`}>
         <div className={styles.info}>
           <div>
-            <p className='text text_type_main-large'>{title}</p>
+            <p
+              className={titleStyle ? titleStyle : 'text text_type_main-large'}>
+              {title}
+            </p>
           </div>
           <div onClick={handleModalClose} className={styles.backDoor}>
             <CloseIcon type='primary' />

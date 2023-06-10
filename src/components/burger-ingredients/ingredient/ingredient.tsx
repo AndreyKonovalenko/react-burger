@@ -15,7 +15,6 @@ import styles from './ingredient.module.css';
 const Ingredient = (ingredient: TIngredient): JSX.Element => {
   const dispatch = typedUseDispatch();
   const location = useLocation();
-
   const { name, image_large, price, _id, type } = ingredient;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
   const [{ isDragging }, drag] = useDrag<
