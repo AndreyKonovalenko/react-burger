@@ -45,14 +45,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: start;
-}
-.overflowContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-  width: 100%;
+  justify-content: flex-start;
 }
 
 .priceContainer {
@@ -68,13 +61,13 @@
   height: 22px;
 }
 .imageContainer {
-  width: 112px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 .imageBorder {
+  position: relative;
   width: 64px;
   height: 64px;
   background: linear-gradient(#131316, #131316) padding-box,
@@ -85,4 +78,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.counter {
+  position: absolute;
+  margin: auto;
 }

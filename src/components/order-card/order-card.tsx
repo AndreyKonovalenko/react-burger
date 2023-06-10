@@ -22,18 +22,26 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
     if (ingredientsList.length > 0 && ingredients.length > 0 && index <= 5) {
       const ingredient = ingredientsList.find((element) => element._id === id);
       total = total + ingredient!.price;
-      const margin = -24;
-      margin.toString();
       return (
         <div
           className={styles.imageContainer}
-          style={{ marginRight: `${margin}px`, zIndex: 1000 - index }}
+          style={{
+            transform: `translate(${-20 * index}px, 0px)`,
+            zIndex: 1000 - index,
+          }}
           key={crypto.randomUUID()}>
           <div className={styles.imageBorder}>
+            {ingredients.length > 6 && index === 5 ? (
+              <div className={styles.counter}>
+                <p className='text text_type_main-default'>
+                  +{ingredients.length - 6}
+                </p>
+              </div>
+            ) : null}
             <img
               src={ingredient!.image}
               width={112}
-              height={64}
+              height={56}
               alt={ingredient!.name}
             />
           </div>
@@ -68,14 +76,15 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
           )}
         </div>
         <div className={styles.burgerPreview}>
-          <div className={styles.illustrationsContainer}>
-            <div
-              className={styles.overflowContainer}
-              style={{
-                width: illustrations.length < 6 ? '150px' : '300px',
-              }}>
-              {illustrations}
-            </div>
+          <div
+            className={styles.illustrationsContainer}
+            style={{
+              width:
+                illustrations.length < 6
+                  ? `${48 * illustrations.length}px`
+                  : '304px',
+            }}>
+            {illustrations}
           </div>
           <div className={styles.priceContainer}>
             <div>
