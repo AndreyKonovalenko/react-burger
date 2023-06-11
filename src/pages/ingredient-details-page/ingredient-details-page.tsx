@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import { useParams } from 'react-router-dom';
-import { getIngredientsState } from '../../services/burger-constructor/burger-constructor-selectors';
+import { getIngredientsState } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { useEffect } from 'react';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import { selectIngredient } from '../../services/ui/ui-actions';
@@ -8,8 +9,8 @@ import { getUiState } from '../../services/ui/ui-selectors';
 import styles from './ingredient-details-page.module.css';
 import { TIngredient } from '../../utils/types';
 
-const IngredientDetailsPage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+const IngredientDetailsPage = (): JSX.Element | null => {
+  const dispatch = typedUseDispatch();
   const { id } = useParams();
   const { ingredients } = useSelector(getIngredientsState);
   const { ingredient } = useSelector(getUiState);
@@ -19,7 +20,7 @@ const IngredientDetailsPage = (): JSX.Element => {
       const ingredient = ingredients.find(
         (element: TIngredient) => element._id === id
       );
-      dispatch(selectIngredient(ingredient));
+      dispatch(selectIngredient(ingredient!));
     }
   }, [dispatch, id, ingredients]);
 

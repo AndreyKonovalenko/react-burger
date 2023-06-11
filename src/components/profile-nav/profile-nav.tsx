@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import { NavLink } from 'react-router-dom';
 import styles from './profile-nav.module.css';
 import { PROFILE, ORDER_HISTORY, EXIT } from '../../utils/ui-constants';
@@ -8,8 +8,7 @@ import { logout, clearState } from '../../services/auth/auth-actions';
 import { deleteCookie } from '../../utils/burger-api';
 
 const ProfileNav = () => {
-  const dispatch = useDispatch() as any;
-
+  const dispatch = typedUseDispatch();
   const onLogout = useCallback(() => {
     dispatch(logout());
     dispatch(clearState());

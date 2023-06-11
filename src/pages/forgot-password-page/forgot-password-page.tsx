@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
+import { useSelector } from 'react-redux';
 import styles from './forgot-password-page.module.css';
 import { LOGIN, PASWORD_RESTORATION, RECOVER } from '../../utils/ui-constants';
 import {
@@ -23,7 +24,7 @@ import {
 import { TO_RESET_PASSWORD } from '../../utils/route-constants';
 
 const ForgetPassowrdPage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const error = useSelector(getAuthError);

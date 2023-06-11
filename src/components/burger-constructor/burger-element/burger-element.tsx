@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { typedUseDispatch } from '../../../services/storeTypes';
 import {
   DragIcon,
   ConstructorElement,
@@ -26,7 +26,7 @@ const BurgerElement = ({
 }: TBurgerEelement): JSX.Element => {
   const ref = useRef<HTMLDivElement>(null);
   const { name, price, image } = ingredient;
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const [, drop] = useDrop<TMovableElement, unknown>({
     accept: 'burger-element',
     collect(monitor) {

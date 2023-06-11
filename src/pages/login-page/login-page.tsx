@@ -1,7 +1,8 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCallback, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {useForm} from '../../components/hooks/use-form';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
+import { useForm } from '../../components/hooks/use-form';
 import styles from './login-page.module.css';
 import {
   LOGIN,
@@ -17,14 +18,10 @@ import {
 import LoadingBage from '../../components/loading-bage/loading-bage';
 import ErrorBage from '../../components/error-bage/error-bage';
 import { getAuthState, getFormState } from '../../services/auth/auth-selectors';
-import {
-  login,
-  clearForm,
-  clearError,
-} from '../../services/auth/auth-actions';
+import { login, clearForm, clearError } from '../../services/auth/auth-actions';
 
 const LoginPage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const handleChange = useForm();
@@ -44,7 +41,9 @@ const LoginPage = (): JSX.Element => {
       dispatch(clearForm());
       navigate(location?.state?.from || '/');
     }
-    return () => dispatch(clearError());
+    return () => {
+      dispatch(clearError());
+    };
   }, [dispatch, navigate, user, location]);
 
   const content = (
@@ -57,7 +56,11 @@ const LoginPage = (): JSX.Element => {
           name={'email'}
           placeholder='E-mail'
         />
-        <PasswordInput onChange={handleChange} value={password} name={'password'} />
+        <PasswordInput
+          onChange={handleChange}
+          value={password}
+          name={'password'}
+        />
         <Button htmlType='submit' type='primary' size='medium'>
           {LOGIN}
         </Button>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
+import { useSelector } from 'react-redux';
 import {
   Input,
   PasswordInput,
@@ -17,7 +18,7 @@ import { SAVE } from '../../utils/ui-constants';
 import styles from './prfile-use-form.module.css';
 
 const ProfileUserForm = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const { name, email, password } = useSelector(getFormState);
   const { user } = useSelector(getAuthState);
   const handleChange = useForm();
@@ -40,14 +41,23 @@ const ProfileUserForm = (): JSX.Element => {
 
   return (
     <form onSubmit={onSave} className={styles.form}>
-      <Input onChange={handleChange} value={name} name={'name'} placeholder='Имя' />
+      <Input
+        onChange={handleChange}
+        value={name}
+        name={'name'}
+        placeholder='Имя'
+      />
       <EmailInput
         onChange={handleChange}
         value={email}
         name={'email'}
         placeholder='E-mail'
       />
-      <PasswordInput onChange={handleChange} value={password} name={'password'} />
+      <PasswordInput
+        onChange={handleChange}
+        value={password}
+        name={'password'}
+      />
       <Button htmlType='submit' type='primary' size='medium'>
         {SAVE}
       </Button>

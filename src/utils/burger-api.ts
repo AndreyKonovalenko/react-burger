@@ -1,14 +1,15 @@
 import { CookieSerializeOptions } from 'cookie';
 
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
+export const WS_NORMA_API_URL = 'wss://norma.nomoreparties.space/orders';
 
 const errorHandler = (status: number) => {
   throw new Error(`Ошибка ${status}`);
 };
 
 type TForm = {
-  [key: string]: string; 
-}
+  [key: string]: string;
+};
 
 const checkResponse = (response: Response) => {
   if (response.ok) {
@@ -24,13 +25,16 @@ const checkSuccess = (response: any) => {
   if (response && response.success) {
     return response;
   }
-  if (!response.success){
+  if (!response.success) {
     errorHandler(response.status);
   }
   return Promise.reject(`Ответ не success: ${response}`);
 };
 
-const request = (endpoint: string, options?: RequestInit | undefined): Promise<any> => {
+const request = (
+  endpoint: string,
+  options?: RequestInit | undefined
+): Promise<any> => {
   return fetch(`${BURGER_API_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
@@ -50,82 +54,86 @@ const options: RequestInit = {
 };
 
 export const setTokens = (data: any) => {
-  const accessToken = data.accessToken.split("Bearer ")[1];
+  const accessToken = data.accessToken.split('Bearer ')[1];
   if (accessToken) {
-    setCookie("accessToken", accessToken);
+    setCookie('accessToken', accessToken);
   }
-  sessionStorage.setItem("refreshToken", data.refreshToken);
+  sessionStorage.setItem('refreshToken', data.refreshToken);
 };
 
-export const getIngerdients = () => request("ingredients");
+export const getIngerdients = () => request('ingredients');
+
+export const getOrderByOrderNumber = (number: string) =>
+  request(`orders/${number}`);
 
 export const sendOrder = (ingredients: Array<string>) => {
   const token = getCookie('accessToken');
-  return  request("orders", {
+  return request('orders', {
     ...options,
     method: 'POST',
     headers: {
       ...options.headers,
       Authorization: 'Bearer ' + token,
     },
-    body: JSON.stringify(ingredients),});
-}
+    body: JSON.stringify(ingredients),
+  });
+};
 
 export const registerRequeset = (form: TForm) => {
-return request("auth/register",  {
+  return request('auth/register', {
     ...options,
     method: 'POST',
-    body: JSON.stringify(form)
-  })
-}
+    body: JSON.stringify(form),
+  });
+};
 
 export const loginRequeset = (form: TForm) => {
-  return request("auth/login", {
-    ...options,
-    method: 'POST',
-    body: JSON.stringify(form),
-  } )
-}
-
-export const recoveryRequest = (form: TForm)=> {
-  return request("password-reset", {
+  return request('auth/login', {
     ...options,
     method: 'POST',
     body: JSON.stringify(form),
   });
-}
+};
+
+export const recoveryRequest = (form: TForm) => {
+  return request('password-reset', {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(form),
+  });
+};
 
 export const resetPasswordRequest = (form: TForm) => {
-  return request("password-reset/reset", {
+  return request('password-reset/reset', {
     ...options,
     method: 'POST',
     body: JSON.stringify(form),
   });
-}
+};
 
 export const refreshAccessTokenRequest = () => {
-  return request("auth/token", {
+  return request('auth/token', {
     ...options,
     method: 'POST',
     body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
-  } )
-}
+  });
+};
 
 export const getUserRequest = () => {
   const token = getCookie('accessToken');
-  return request("auth/user", {
+  return request('auth/user', {
     ...options,
     method: 'GET',
     headers: {
       ...options.headers,
       Authorization: 'Bearer ' + token,
     },
-  })
-}
+  });
+};
 
-export const updateUserDataRequest = (form:TForm) => {
+export const updateUserDataRequest = (form: TForm) => {
   const token = getCookie('accessToken');
-  return request("auth/user", {
+  return request('auth/user', {
     ...options,
     method: 'PATCH',
     headers: {
@@ -133,16 +141,16 @@ export const updateUserDataRequest = (form:TForm) => {
       Authorization: 'Bearer ' + token,
     },
     body: JSON.stringify(form),
-  })
-}
+  });
+};
 
 export const logoutRequest = () => {
-  return request("auth/logout", {
+  return request('auth/logout', {
     ...options,
     method: 'POST',
     body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
-  } )
-}
+  });
+};
 
 export const getCookie = (name: string): string | undefined => {
   const matches = document.cookie.match(
@@ -186,7 +194,7 @@ export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: new Date(-1) });
 };
 
-export const fetchWithRefresh = async (request: any, data: any) => {
+export const fetchWithRefresh = async (request: any, data?: any) => {
   //data is optional argument
   try {
     return await request(data);

@@ -1,29 +1,108 @@
 .container {
-  width: 520px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 32px;
-}
-.orderIdText {
-  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
-    0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+  gap: 48px;
 }
 
-.iconContainer {
-  width: 120px;
-  height: 120px;
+.infoContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ingredientsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+}
+.cardContaienr {
+  width: 608px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-10px, 0px);
+}
+.imageBorder {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(#131316, #131316) padding-box,
+    linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%) border-box;
+  border-radius: 50em;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.messageContainer {
+.scrollbar {
+  height: 312px;
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.srollbar::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.scrollArea {
+  width: 632px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.summaryContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+.totalPriceContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.imgAndTextContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
   gap: 8px;
 }

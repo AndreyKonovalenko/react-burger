@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../../services/storeTypes';
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import {
@@ -7,14 +8,13 @@ import {
   Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { selectIngredient } from '../../../services/ui/ui-actions';
-import { getBurgerState } from '../../../services/burger-ingredients/burger-ingredients-selector';
+import { getBurgerState } from '../../../services/burger-constructor/burger-constructor-selectors';
 import { TIngredient } from '../../../utils/types';
 import styles from './ingredient.module.css';
 
 const Ingredient = (ingredient: TIngredient): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = typedUseDispatch();
   const location = useLocation();
-
   const { name, image_large, price, _id, type } = ingredient;
   const { bun, mainAndSauce } = useSelector(getBurgerState);
   const [{ isDragging }, drag] = useDrag<

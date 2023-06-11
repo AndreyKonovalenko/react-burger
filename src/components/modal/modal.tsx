@@ -7,10 +7,15 @@ import styles from './modal.module.css';
 
 type TModal = {
   title?: string;
+  titleStyle?: string;
   handleModalClose: () => void;
-}
-const Modal = ({handleModalClose, title, children } : PropsWithChildren<TModal>): JSX.Element => {
-
+};
+const Modal = ({
+  handleModalClose,
+  title,
+  titleStyle,
+  children,
+}: PropsWithChildren<TModal>): JSX.Element => {
   useEscapeKey(handleModalClose);
   useEffect(() => {
     document.body.classList.add(styles.hideOverflowInBody);
@@ -24,7 +29,8 @@ const Modal = ({handleModalClose, title, children } : PropsWithChildren<TModal>)
       <div className={`${styles.container} p-10`}>
         <div className={styles.info}>
           <div>
-            <p className='text text_type_main-large'>
+            <p
+              className={titleStyle ? titleStyle : 'text text_type_main-large'}>
               {title}
             </p>
           </div>
@@ -37,7 +43,7 @@ const Modal = ({handleModalClose, title, children } : PropsWithChildren<TModal>)
       <ModelOverlay onClose={handleModalClose} />
     </>
   );
-  return createPortal(modal, document.getElementById("modals")!);
+  return createPortal(modal, document.getElementById('modals')!);
 };
 
 export default Modal;

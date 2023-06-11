@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { typedUseDispatch } from '../../services/storeTypes';
 import styles from './profile-page.module.css';
 
 import LoadingBage from '../../components/loading-bage/loading-bage';
@@ -8,14 +9,24 @@ import { getAuthState } from '../../services/auth/auth-selectors';
 import { clearMessage } from '../../services/auth/auth-actions';
 import ErrorBage from '../../components/error-bage/error-bage';
 import ProfileNav from '../../components/profile-nav/profile-nav';
+import { conntectToAUser, disconnect } from '../../services/ws/ws-actions';
 
 const ProfilePage = (): JSX.Element => {
-  const dispatch = useDispatch() as any;
+  const dispatch = typedUseDispatch();
   const { loading, message, error } = useSelector(getAuthState);
 
   useEffect(() => {
-    return () => Boolean(message) && dispatch(clearMessage());
+    return () => {
+      Boolean(message) && dispatch(clearMessage());
+    };
   }, [message, dispatch]);
+
+  useEffect(() => {
+    dispatch(conntectToAUser());
+    return () => {
+      dispatch(disconnect());
+    };
+  }, [dispatch]);
 
   const content = (
     <div className={styles.wrapper}>

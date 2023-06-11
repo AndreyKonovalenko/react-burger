@@ -1,0 +1,25 @@
+.container {
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scrollbar {
+  height: 812px;
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.srollbar::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}

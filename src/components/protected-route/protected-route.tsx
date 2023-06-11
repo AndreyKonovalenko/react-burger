@@ -17,7 +17,7 @@ const ProtectedRoute = ({ element }: TProps): JSX.Element => {
   const { user, loading } = useSelector(getAuthState);
 
   useEffect(() => {
-    if (!user) {
+    if (!Boolean(user)) {
       navigate(TO_LOGIN, { state: { from: pathname }, replace: true });
     }
   }, [navigate, pathname, user]);
@@ -26,7 +26,7 @@ const ProtectedRoute = ({ element }: TProps): JSX.Element => {
     return <LoadingBage />;
   }
 
-  return user && element;
+  return Boolean(user) ? element : <></>;
 };
 
 export default ProtectedRoute;
