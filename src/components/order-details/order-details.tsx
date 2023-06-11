@@ -15,7 +15,7 @@ import {
 
 const OrderDetails = (): JSX.Element | null => {
   const dispatch = typedUseDispatch();
-  const { id } = useParams();
+  const { number } = useParams();
   const ingredientsList = useSelector(getIngredientsList);
   const { order } = useSelector(getUiState);
   const { message } = useSelector(getWSState);
@@ -23,55 +23,60 @@ const OrderDetails = (): JSX.Element | null => {
 
   useEffect(() => {
     if (message && message.orders.length > 0) {
-      const order = message.orders.find((element) => element._id === id);
+      const order = message.orders.find(
+        (element) => element.number.toString() === number
+      );
       dispatch(selectOrder(order!));
     }
-  }, [dispatch, id, message, order]);
+  }, [dispatch, number, message, order]);
 
   type TRepetition = { [key: string]: number };
 
-  const repetition = order?.ingredients.reduce(
-    (acc: TRepetition, value) => ({
-      ...acc,
-      [value]: (acc[value as keyof TRepetition] || 0) + 1,
-    }),
-    {}
-  );
-
   const ingredientCards = [];
 
-  for (const property in repetition) {
-    const ingredient = ingredientsList.find(
-      (element) => element._id === property
+  if (Boolean(order) && ingredientsList.length > 0) {
+    const repetition = order!.ingredients.reduce(
+      (acc: TRepetition, value) => ({
+        ...acc,
+        [value]: (acc[value as keyof TRepetition] || 0) + 1,
+      }),
+      {}
     );
-    total = total + ingredient!.price * repetition[property];
-    ingredientCards.push(
-      <div key={property} className={styles.cardContaienr}>
-        <div className={styles.imgAndTextContainer}>
-          <div className={styles.imageContainer}>
-            <div className={styles.imageBorder}>
-              <img
-                src={ingredient!.image}
-                width={112}
-                height={56}
-                alt={ingredient!.name}
-              />
+
+    for (const property in repetition) {
+      const ingredient = ingredientsList.find(
+        (element) => element._id === property
+      );
+
+      total = total + ingredient!.price * repetition[property];
+      ingredientCards.push(
+        <div key={property} className={styles.cardContaienr}>
+          <div className={styles.imgAndTextContainer}>
+            <div className={styles.imageContainer}>
+              <div className={styles.imageBorder}>
+                <img
+                  src={ingredient!.image}
+                  width={112}
+                  height={56}
+                  alt={ingredient!.name}
+                />
+              </div>
+            </div>
+            <div className={styles.text}>
+              <p className='text text_type_main-default'>{ingredient!.name}</p>
             </div>
           </div>
-          <div className={styles.text}>
-            <p className='text text_type_main-default'>{ingredient!.name}</p>
+          <div className={styles.totalPriceContainer}>
+            <div>
+              <p className='text text_type_digits-default'>{`${repetition[property]} x ${ingredient?.price}`}</p>
+            </div>
+            <div className={styles.icon}>
+              <CurrencyIcon type='primary' />
+            </div>
           </div>
         </div>
-        <div className={styles.totalPriceContainer}>
-          <div>
-            <p className='text text_type_digits-default'>{`${repetition[property]} x ${ingredient?.price}`}</p>
-          </div>
-          <div className={styles.icon}>
-            <CurrencyIcon type='primary' />
-          </div>
-        </div>
-      </div>
-    );
+      );
+    }
   }
 
   return Boolean(order) ? (

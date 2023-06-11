@@ -1,7 +1,7 @@
 import { TIngredient } from '../../utils/types';
 import { TOrder } from '../ws/ws-reducer';
 import { TAppThunk, TAppDispatch } from '../storeTypes';
-import { getOrderById } from '../../utils/burger-api';
+import { getOrderByOrderNumber } from '../../utils/burger-api';
 
 export const SELECT_INGREDIENT: 'SELECT_INGREDIENT' = 'SELECT_INGREDIENT';
 export const UNSELECT_INGREDIENT: 'UNSELECT_INGREDIENT' = 'UNSELECT_INGREDIENT';
@@ -107,18 +107,17 @@ export const selectIngredientCollection = (
 });
 
 export const loadOrderById =
-  (id: string): TAppThunk =>
+  (number: string): TAppThunk =>
   async (dispatch: TAppDispatch) => {
     dispatch(((): TGetOrderRequest => ({ type: GET_ORDER_REQUEST }))());
     try {
-      const response = await getOrderById(id);
+      const response = await getOrderByOrderNumber(number);
       dispatch(
         ((): TGetOrderSuccess => ({
           type: GET_ORDER_SUCCESS,
           payload: response.orders[0],
         }))()
       );
-      console.log(response);
     } catch (error: any) {
       dispatch(
         ((): TGetOrderError => ({

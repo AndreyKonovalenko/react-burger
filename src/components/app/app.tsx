@@ -67,7 +67,7 @@ const App = (): JSX.Element => {
             path={`${TO_INGREDIENTS}/:id`}
             element={<IngredientDetailsPage />}
           />
-          <Route path={`${TO_FEED}/:id`} element={<OrederDetailsPage />} />
+          <Route path={`${TO_FEED}/:number`} element={<OrederDetailsPage />} />
           <Route
             path={TO_PROFILE}
             element={<ProtectedRoute element={<ProfilePage />} />}>
@@ -93,7 +93,7 @@ const App = (): JSX.Element => {
             }
           />
           <Route
-            path={`${TO_FEED}/:id`}
+            path={`${TO_FEED}/:number`}
             element={
               <Modal
                 title={`#${order?.number}`}

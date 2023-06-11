@@ -21,7 +21,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   const ingredientsList = useSelector(getIngredientsList);
   const dispatch = typedUseDispatch();
   const location = useLocation();
-  const { name, number, status, updatedAt, ingredients, _id } = order;
+  const { name, number, status, updatedAt, ingredients } = order;
   let total: number = 0;
 
   const handleOnOrderClick = useCallback(
@@ -68,7 +68,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   return (
     <Link
       className={styles.wrapper}
-      to={`/feed/${_id}`}
+      to={`/feed/${number}`}
       state={{ background: location }}
       onClick={() => handleOnOrderClick(order)}>
       <div className={styles.container}>
