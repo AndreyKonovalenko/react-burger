@@ -20,3 +20,7 @@ export const COMPOUND = 'Состав:';
 export const DONE = 'Выполнен';
 export const IN_PROGRESS = 'Готовится';
 export const CONNECTION_ERROR_WARNING = 'Ошибка соединения!';
+export const COMPLETED_ALL_THE_TIME = 'Выполено за все время:';
+export const COMPLETED_TODAY = 'Выполнено за сегодня:';
+export const COMPLETED = 'Готовы:';
+export const ORDERS_IN_PROGRESS = 'В работе:';

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { typedUseDispatch } from '../../services/storeTypes';
 import { conntectToAll, disconnect } from '../../services/ws/ws-actions';
 import Feed from '../../components/feed/feed';
+import FeedStatusPanel from '../../components/feed-status-panel/feed-status-panel';
 import { FEED } from '../../utils/ui-constants';
 import LoadingBage from '../../components/loading-bage/loading-bage';
 import ErrorBage from '../../components/error-bage/error-bage';
@@ -30,7 +31,12 @@ const FeedPage = (): JSX.Element => {
   }
 
   if (wsConnected && message?.success) {
-    content = <Feed />;
+    content = (
+      <div className={styles.container}>
+        <Feed />
+        <FeedStatusPanel />
+      </div>
+    );
   }
 
   return (
@@ -38,7 +44,7 @@ const FeedPage = (): JSX.Element => {
       <div className={styles.heading}>
         <p className='text text_type_main-large'>{FEED}</p>
       </div>
-      <div className={styles.container}>{content}</div>
+      {content}
     </main>
   );
 };
