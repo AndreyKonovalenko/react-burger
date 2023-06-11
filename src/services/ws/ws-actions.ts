@@ -22,7 +22,7 @@ export type TWSConnectionSuccessAction = {
 
 export type TWSConnectionErrorAction = {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: Event;
+  readonly payload: string;
 };
 
 export type TWSConnectionClosedAction = {

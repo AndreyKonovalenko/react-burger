@@ -19,3 +19,4 @@ export const FEED = 'Лента заказов';
 export const COMPOUND = 'Состав:';
 export const DONE = 'Выполнен';
 export const IN_PROGRESS = 'Готовится';
+export const CONNECTION_ERROR_WARNING = 'Ошибка соединения!';

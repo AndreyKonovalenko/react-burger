@@ -2,6 +2,7 @@ import type { Middleware, MiddlewareAPI } from 'redux';
 import type { TWSMethodsActions } from './ws-actions';
 import type { TAppDispatch, TRootState, TActions } from '../storeTypes';
 import type { TMessage } from './ws-reducer';
+import { CONNECTION_ERROR_WARNING } from '../../utils/ui-constants';
 
 export const socketMiddleware = (wsActions: TWSMethodsActions): Middleware => {
   return ((store: MiddlewareAPI<TAppDispatch, TRootState>) => {
@@ -24,7 +25,7 @@ export const socketMiddleware = (wsActions: TWSMethodsActions): Middleware => {
         };
 
         socket.onerror = (event) => {
-          dispatch({ type: onError, payload: event });
+          dispatch({ type: onError, payload: CONNECTION_ERROR_WARNING });
         };
 
         socket.onmessage = (event) => {

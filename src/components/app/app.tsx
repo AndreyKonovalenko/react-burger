@@ -12,7 +12,7 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
 import ProfileUserForm from '../profile-user-form/profile-user-form';
-import ProfileOrders from '../profile-order/profile-order';
+import ProfileOrders from '../profile-order/profile-orders';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import FeedPage from '../../pages/feed-page/feed-page';
 import Modal from '../modal/modal';
@@ -69,6 +69,10 @@ const App = (): JSX.Element => {
           />
           <Route path={`${TO_FEED}/:number`} element={<OrederDetailsPage />} />
           <Route
+            path={`${TO_PROFILE}${TO_ORDERS}/:number`}
+            element={<ProtectedRoute element={<OrederDetailsPage />} />}
+          />
+          <Route
             path={TO_PROFILE}
             element={<ProtectedRoute element={<ProfilePage />} />}>
             <Route index element={<ProfileUserForm />} />
@@ -101,6 +105,21 @@ const App = (): JSX.Element => {
                 handleModalClose={() => navigate(-1)}>
                 <OrderDetails />
               </Modal>
+            }
+          />
+          <Route
+            path={`${TO_PROFILE}${TO_ORDERS}/:number`}
+            element={
+              <ProtectedRoute
+                element={
+                  <Modal
+                    title={`#${order?.number}`}
+                    titleStyle={'text text_type_digits-default'}
+                    handleModalClose={() => navigate(-1)}>
+                    <OrderDetails />
+                  </Modal>
+                }
+              />
             }
           />
         </Routes>

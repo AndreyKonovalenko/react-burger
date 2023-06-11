@@ -22,7 +22,7 @@ const OrderDetails = (): JSX.Element | null => {
   let total = 0;
 
   useEffect(() => {
-    if (message && message.orders.length > 0) {
+    if (message?.success && message.orders.length > 0) {
       const order = message.orders.find(
         (element) => element.number.toString() === number
       );

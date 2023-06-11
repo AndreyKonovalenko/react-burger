@@ -22,12 +22,13 @@ export type TMessage = {
   orders: Array<TOrder>;
   total: number;
   totalToday: number;
+  message?: string;
 };
 
 type TWSState = {
   wsConnected: boolean;
   message: TMessage | null;
-  error?: Event;
+  error?: string;
 };
 
 const initialState: TWSState = {

@@ -11,6 +11,7 @@ import {
 import styles from './order-card.module.css';
 import { selectOrder } from '../../services/ui/ui-actions';
 import { getIngredientsList } from '../../services/burger-ingredients/burger-ingredients-selector';
+import { DONE, IN_PROGRESS } from '../../utils/ui-constants';
 
 type TOrderCard = {
   order: TOrder;
@@ -21,6 +22,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   const ingredientsList = useSelector(getIngredientsList);
   const dispatch = typedUseDispatch();
   const location = useLocation();
+  const { pathname } = location;
   const { name, number, status, updatedAt, ingredients } = order;
   let total: number = 0;
 
@@ -68,7 +70,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
   return (
     <Link
       className={styles.wrapper}
-      to={`/feed/${number}`}
+      to={`${pathname}/${number}`}
       state={{ background: location }}
       onClick={() => handleOnOrderClick(order)}>
       <div className={styles.container}>
@@ -82,13 +84,17 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
             </p>
           </div>
         </div>
-        <div className={styles.heeadingContainer}>
+        <div className={styles.headingContainer}>
           <div>
             <p className=' text text_type_main-medium'>{name}</p>
           </div>
           {statusInfo && (
             <div className={styles.status}>
-              <p className='text text_type_main-default'>{status}</p>
+              <p
+                className='text text_type_main-default'
+                style={status === 'done' ? { color: '#00CCCC' } : undefined}>
+                {status === 'done' ? DONE : IN_PROGRESS}
+              </p>
             </div>
           )}
         </div>

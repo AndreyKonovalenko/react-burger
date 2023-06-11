@@ -27,7 +27,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 8x;
+  gap: 8px;
 }
 
 .staus {
