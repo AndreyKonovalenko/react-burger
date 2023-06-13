@@ -3,6 +3,13 @@ import { CookieSerializeOptions } from 'cookie';
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
 export const WS_NORMA_API_URL = 'wss://norma.nomoreparties.space/orders';
 
+export const getRefreshToken = (): string => {
+  return JSON.stringify({ token: sessionStorage.getItem('refreshToken') });
+};
+const setRefreshTokent = (token: string): void => {
+  localStorage.setItem('refreshToken', token);
+};
+
 const errorHandler = (status: number) => {
   throw new Error(`Ошибка ${status}`);
 };
@@ -58,7 +65,7 @@ export const setTokens = (data: any) => {
   if (accessToken) {
     setCookie('accessToken', accessToken);
   }
-  sessionStorage.setItem('refreshToken', data.refreshToken);
+  setRefreshTokent(data.refreshToken);
 };
 
 export const getIngerdients = () => request('ingredients');
@@ -115,7 +122,7 @@ export const refreshAccessTokenRequest = () => {
   return request('auth/token', {
     ...options,
     method: 'POST',
-    body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
+    body: getRefreshToken(),
   });
 };
 
@@ -148,7 +155,7 @@ export const logoutRequest = () => {
   return request('auth/logout', {
     ...options,
     method: 'POST',
-    body: JSON.stringify({ token: sessionStorage.getItem('refreshToken') }),
+    body: getRefreshToken(),
   });
 };
 

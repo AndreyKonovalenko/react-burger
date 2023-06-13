@@ -43,7 +43,7 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     const accessToken = getCookie('accessToken');
-    const refreshToken = sessionStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem('refreshToken');
     if (accessToken && refreshToken) {
       dispatch(getUser());
     }
