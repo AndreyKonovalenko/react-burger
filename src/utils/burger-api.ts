@@ -3,7 +3,7 @@ import { CookieSerializeOptions } from 'cookie';
 const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
 export const WS_NORMA_API_URL = 'wss://norma.nomoreparties.space/orders';
 
-export const getRefreshToken = (): string => {
+const getRefreshToken = (): string => {
   return JSON.stringify({ token: sessionStorage.getItem('refreshToken') });
 };
 const setRefreshTokent = (token: string): void => {
