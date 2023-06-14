@@ -3,7 +3,7 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { burgerConstructorReducer } from './burger-constructor/burger-constructor-reducer';
 import { uiReducer } from './ui/ui-reducer';
-import { burgerIngreintsReducer } from './burger-ingredients/burger-ingredients-reducer';
+import { burgerIngredientsReducer } from './burger-ingredients/burger-ingredients-reducer';
 import { authReducer } from './auth/auth-reducer';
 import { socketMiddleware } from './ws/socket-middleware';
 import { wsReducer } from './ws/ws-reducer';
@@ -19,7 +19,7 @@ import {
 } from './ws/ws-actions';
 
 const rootReducer = combineReducers({
-  ingredients: burgerIngreintsReducer,
+  ingredients: burgerIngredientsReducer,
   burger: burgerConstructorReducer,
   ui: uiReducer,
   auth: authReducer,

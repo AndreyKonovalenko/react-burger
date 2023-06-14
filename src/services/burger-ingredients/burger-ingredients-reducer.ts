@@ -18,7 +18,7 @@ const initialState: TIngredients = {
   loading: false,
 };
 
-export const burgerIngreintsReducer = (
+export const burgerIngredientsReducer = (
   state = initialState,
   action: TBurgerIngredientsActions
 ): TIngredients => {
