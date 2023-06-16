@@ -7,6 +7,7 @@ import {
   COMPLETED_TODAY,
   ORDERS_IN_PROGRESS,
 } from '../../utils/ui-constants';
+import uniqid from 'uniqid';
 
 const FeedStatusPanel = (): JSX.Element => {
   const { wsConnected, message } = useSelector(getWSState);
@@ -45,7 +46,7 @@ const FeedStatusPanel = (): JSX.Element => {
     doneColumn = chunk(done, 5).map((element: JSX.Element[]) => {
       return (
         <div
-          key={crypto.randomUUID()}
+          key={uniqid()}
           className={styles.column}
           style={{ color: '#00CCCC' }}>
           {element}
@@ -55,7 +56,7 @@ const FeedStatusPanel = (): JSX.Element => {
 
     inProgressColumn = chunk(progress, 5).map((element: JSX.Element[]) => {
       return (
-        <div key={crypto.randomUUID()} className={styles.column}>
+        <div key={uniqid()} className={styles.column}>
           {element}
         </div>
       );

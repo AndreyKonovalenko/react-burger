@@ -12,6 +12,7 @@ import styles from './order-card.module.css';
 import { selectOrder } from '../../services/ui/ui-actions';
 import { getIngredientsList } from '../../services/burger-ingredients/burger-ingredients-selector';
 import { DONE, IN_PROGRESS } from '../../utils/ui-constants';
+import uniqid from 'uniqid';
 
 type TOrderCard = {
   order: TOrder;
@@ -44,7 +45,7 @@ const OrderCard = ({ order, statusInfo }: TOrderCard): JSX.Element => {
             transform: `translate(${-20 * index}px, 0px)`,
             zIndex: 98 - index,
           }}
-          key={crypto.randomUUID()}>
+          key={uniqid()}>
           <div className={styles.imageBorder}>
             {ingredients.length > 6 && index === 5 ? (
               <div className={styles.counter}>

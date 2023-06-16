@@ -23,13 +23,13 @@ const FeedPage = (): JSX.Element => {
 
   let content;
 
-  if (!wsConnected && !message) {
+  if (!wsConnected) {
     content = <LoadingBage />;
   }
 
-  if (!message?.success) {
-    content = <ErrorBage error={message?.message as string} />;
-  }
+  // if (!wsConnected && !message?.success) {
+  //   content = <ErrorBage error={message?.message as string} />;
+  // }
 
   if (wsConnected && message?.success) {
     content = (

@@ -33,7 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-ya.cloud": "npm run build && scp -r ./build/* admin@158.160.102.230:/home/admin/stellar-frontend" 
+    "deploy-ya.cloud": "npm run build && scp -r ./build/* admin@158.160.102.230:/home/admin/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -52,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/uniqid": "^5.3.2"
   }
 }
