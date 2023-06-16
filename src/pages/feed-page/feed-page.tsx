@@ -16,6 +16,7 @@ const FeedPage = (): JSX.Element => {
   useEffect(() => {
     dispatch(conntectToAll());
     return () => {
+      console.log('fires disconect!');
       dispatch(disconnect());
     };
   }, [dispatch]);
