@@ -60,9 +60,7 @@ export const conntectToAll = (): TWSConnectionStart => ({
   payload: `${WS_NORMA_API_URL}/all`,
 });
 
-const token = getCookie('accessToken');
-
-export const conntectToAUser = (): TWSConnectionStart => ({
+export const conntectToAUser = (token: string): TWSConnectionStart => ({
   type: WS_CONNECTION_START,
   payload: `${WS_NORMA_API_URL}?token=${token}`,
 });
