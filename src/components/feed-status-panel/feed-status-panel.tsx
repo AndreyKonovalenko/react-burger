@@ -42,8 +42,7 @@ const FeedStatusPanel = (): JSX.Element => {
         );
       }
     }
-
-    doneColumn = chunk(done, 5).map((element: JSX.Element[]) => {
+    doneColumn = chunk(done.slice(0, 15), 5).map((element: JSX.Element[]) => {
       return (
         <div
           key={uniqid()}

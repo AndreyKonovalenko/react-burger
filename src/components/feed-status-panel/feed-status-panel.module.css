@@ -26,8 +26,8 @@
 }
 
 .column {
-  width: 140px;
-  height: 152px;
+  width: 90px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -41,6 +41,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .completedContainer {
