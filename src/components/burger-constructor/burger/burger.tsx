@@ -5,10 +5,17 @@ import { useDrop } from 'react-dnd';
 import styles from './burger.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerElement from '../burger-element/burger-element';
+import Placeholder from './placeholder/placeholder';
 import { addIngredient } from '../../../services/burger-constructor/burger-constructor-actions';
 import { getBurgerState } from '../../../services/burger-constructor/burger-constructor-selectors';
 import { getIngredientsState } from '../../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../../utils/types';
+import {
+  BUN,
+  SAUCE,
+  MAIN,
+  DROP_INGREDIENTS_HERE,
+} from '../../../utils/ui-constants';
 
 const Burger = (): JSX.Element => {
   const dispatch = typedUseDispatch();
@@ -52,33 +59,52 @@ const Burger = (): JSX.Element => {
         })
       : null;
 
+  let content = (
+    <div className={styles.placeholder}>
+      <Placeholder type='top' text={BUN} />
+      <Placeholder text={MAIN} />
+      <Placeholder text={DROP_INGREDIENTS_HERE} textStyle />
+      <Placeholder text={SAUCE} />
+      <Placeholder type='bottom' text={BUN} />
+    </div>
+  );
+
+  if (bunElement || restIngredients) {
+    content = (
+      <>
+        {' '}
+        {bunElement && (
+          <div className={`${styles.itemContainer} pr-4`}>
+            <ConstructorElement
+              type='top'
+              isLocked={true}
+              text={`${bunElement.name} (верх)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+            />
+          </div>
+        )}
+        <div className={`${styles.middle} pr-2`}>{restIngredients}</div>
+        {bunElement && (
+          <div className={`${styles.itemContainer} pr-4`}>
+            <ConstructorElement
+              type='bottom'
+              isLocked={true}
+              text={`${bunElement.name} (низ)`}
+              price={bunElement.price}
+              thumbnail={bunElement.image}
+            />
+          </div>
+        )}
+      </>
+    );
+  }
+
   return (
     <div
       className={`${styles.container} ${isHover && styles.droppable} mt-25`}
       ref={drop}>
-      {bunElement && (
-        <div className={`${styles.itemContainer} pr-4`}>
-          <ConstructorElement
-            type='top'
-            isLocked={true}
-            text={`${bunElement.name} (верх)`}
-            price={bunElement.price}
-            thumbnail={bunElement.image}
-          />
-        </div>
-      )}
-      <div className={`${styles.middle} pr-2`}>{restIngredients}</div>
-      {bunElement && (
-        <div className={`${styles.itemContainer} pr-4`}>
-          <ConstructorElement
-            type='bottom'
-            isLocked={true}
-            text={`${bunElement.name} (низ)`}
-            price={bunElement.price}
-            thumbnail={bunElement.image}
-          />
-        </div>
-      )}
+      {content}
     </div>
   );
 };

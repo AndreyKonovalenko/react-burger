@@ -24,3 +24,4 @@ export const COMPLETED_ALL_THE_TIME = 'Выполнено за все время
 export const COMPLETED_TODAY = 'Выполнено за сегодня:';
 export const COMPLETED = 'Готовы:';
 export const ORDERS_IN_PROGRESS = 'В работе:';
+export const DROP_INGREDIENTS_HERE = 'Перетащите сюда ингредиенты';

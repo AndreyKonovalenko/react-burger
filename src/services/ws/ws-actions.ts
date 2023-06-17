@@ -1,6 +1,5 @@
 import { WS_NORMA_API_URL } from '../../utils/burger-api';
 import { TMessage } from './ws-reducer';
-import { getCookie } from '../../utils/burger-api';
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' =
   'WS_CONNECTION_SUCCESS';
