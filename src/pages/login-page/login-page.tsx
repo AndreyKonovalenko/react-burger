@@ -71,13 +71,13 @@ const LoginPage = (): JSX.Element => {
       </form>
       <div className={styles.linkContainer}>
         <span className='text text_type_main-default text_color_inactive'>
-          {ARE_YOU_A_NEW_USER}
+          {ARE_YOU_A_NEW_USER}{' '}
           <Link className={styles.link} to='/register'>
             {REGISTER}
           </Link>
         </span>
         <span className='text text_type_main-default text_color_inactive'>
-          {FORGOT_YOUR_PASSWORD}
+          {FORGOT_YOUR_PASSWORD}{' '}
           <Link className={styles.link} to='/forgot-password'>
             {RESTORE_PASSWORD}
           </Link>
