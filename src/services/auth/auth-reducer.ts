@@ -30,6 +30,7 @@ import {
   CLEAR_ERROR,
 } from './auth-actions';
 import { TAuthActions } from './auth-actions';
+import { USER_DATA_UPDATED_SUCCESSFULLY } from '../../utils/ui-constants';
 
 export type TUser = {
   name: string;
@@ -268,7 +269,7 @@ export const authReducer = (
         user: action.payload,
         loading: false,
         error: '',
-        message: 'Двнные пользователя успешно обновлены!',
+        message: USER_DATA_UPDATED_SUCCESSFULLY,
       };
     }
 

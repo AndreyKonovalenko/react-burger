@@ -25,3 +25,8 @@ export const COMPLETED_TODAY = 'Выполнено за сегодня:';
 export const COMPLETED = 'Готовы:';
 export const ORDERS_IN_PROGRESS = 'В работе:';
 export const DROP_INGREDIENTS_HERE = 'Перетащите сюда ингредиенты';
+export const SOMETHING_WENT_WRONG = 'Kажется что-то пошло не так';
+export const USER_DATA_UPDATED_SUCCESSFULLY =
+  'Данные пользователя обновлены успешно!';
+export const ARE_YOU_A_NEW_USER = 'Вы - новый пользователь?';
+export const FORGOT_YOUR_PASSWORD = 'Забыли пароль?';

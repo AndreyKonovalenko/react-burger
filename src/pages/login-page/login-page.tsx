@@ -3,6 +3,10 @@ import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { typedUseDispatch } from '../../services/storeTypes';
 import { useForm } from '../../components/hooks/use-form';
+import {
+  FORGOT_YOUR_PASSWORD,
+  ARE_YOU_A_NEW_USER,
+} from '../../utils/ui-constants';
 import styles from './login-page.module.css';
 import {
   LOGIN,
@@ -67,13 +71,13 @@ const LoginPage = (): JSX.Element => {
       </form>
       <div className={styles.linkContainer}>
         <span className='text text_type_main-default text_color_inactive'>
-          Вы - новй пользователь?{' '}
+          {ARE_YOU_A_NEW_USER}
           <Link className={styles.link} to='/register'>
             {REGISTER}
           </Link>
         </span>
         <span className='text text_type_main-default text_color_inactive'>
-          Забыли пароль?{' '}
+          {FORGOT_YOUR_PASSWORD}
           <Link className={styles.link} to='/forgot-password'>
             {RESTORE_PASSWORD}
           </Link>
