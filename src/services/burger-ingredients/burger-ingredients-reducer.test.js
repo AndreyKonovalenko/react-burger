@@ -1,15 +1,15 @@
-import { burgerIngredientsReducer } from './burger-ingredients-reducer';
-import * as types from './burger-ingredients-actions';
+import { burgerIngredientsReducer } from "./burger-ingredients-reducer";
+import * as types from "./burger-ingredients-actions";
 
-describe('burger-ingredients-reducer', () => {
-  it('should return the initial state', () => {
+describe("burger-ingredients-reducer", () => {
+  it("should return the initial state", () => {
     expect(burgerIngredientsReducer(undefined, {})).toEqual({
       ingredients: [],
-      error: '',
+      error: "",
       loading: false,
     });
   });
-  it('should handle loading', () => {
+  it("should handle loading", () => {
     expect(
       burgerIngredientsReducer(
         {},
@@ -21,21 +21,21 @@ describe('burger-ingredients-reducer', () => {
       loading: true,
     });
   });
-  it('should handle error', () => {
+  it("should handle error", () => {
     expect(
       burgerIngredientsReducer(
         {},
-        { type: types.GET_INGREDIENTS_ERROR, payload: 'Something went wrong!' }
+        { type: types.GET_INGREDIENTS_ERROR, payload: "Something went wrong!" }
       )
-    ).toEqual({ loading: false, error: 'Something went wrong!' });
+    ).toEqual({ loading: false, error: "Something went wrong!" });
   });
 
-  it('should handle ingredients request', () => {
+  it("should handle ingredients request", () => {
     expect(
       burgerIngredientsReducer(
         {},
         { type: types.GET_INGREDIENTS_SUCCESS, payload: [{}, {}, {}] }
       )
-    ).toEqual({ loading: false, ingredients: [{}, {}, {}], error: '' });
+    ).toEqual({ loading: false, ingredients: [{}, {}, {}], error: "" });
   });
 });
