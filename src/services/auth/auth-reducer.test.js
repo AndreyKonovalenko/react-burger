@@ -1,5 +1,6 @@
 import { authReducer } from "./auth-reducer";
 import * as types from "./auth-actions";
+import { USER_DATA_UPDATED_SUCCESSFULLY } from "../../utils/ui-constants";
 
 describe("auth-reducer", () => {
   it("should return the initial state", () => {
@@ -63,6 +64,39 @@ describe("auth-reducer", () => {
     });
   });
 
+  it("should clear specific state", () => {
+    expect(
+      authReducer(
+        {
+          form: {
+            name: "name",
+            email: "email",
+            password: "adsfasdf3",
+            token: "adsfasdf432",
+          },
+        },
+        {
+          type: types.CLEAR_FORM,
+        }
+      )
+    ).toEqual({
+      form: { name: "", email: "", password: "", token: "" },
+    });
+
+    expect(
+      authReducer(
+        {
+          message: "some text",
+        },
+        {
+          type: types.CLEAR_MESSAGE,
+        }
+      )
+    ).toEqual({
+      message: "",
+    });
+  });
+
   it("should set loading to true", () => {
     expect(authReducer({}, { type: types.REGISTER_REQUEST })).toEqual({
       loading: true,
@@ -79,7 +113,7 @@ describe("auth-reducer", () => {
     expect(authReducer({}, { type: types.REFRESH_ACCESS_REQUEST })).toEqual({
       loading: true,
     });
-    expect(authReducer({}, { type: types.LOGIN_REQUEST })).toEqual({
+    expect(authReducer({}, { type: types.LOGOUT_REQUEST })).toEqual({
       loading: true,
     });
     expect(authReducer({}, { type: types.GET_USER_REQUEST })).toEqual({
@@ -107,7 +141,7 @@ describe("auth-reducer", () => {
       authReducer({}, { type: types.REFRESH_ACCESS_ERROR, payload: "404" })
     ).toEqual({ loading: false, error: "404" });
     expect(
-      authReducer({}, { type: types.LOGIN_ERROR, payload: "404" })
+      authReducer({}, { type: types.LOGOUT_ERROR, payload: "404" })
     ).toEqual({ loading: false, error: "404" });
     expect(
       authReducer({}, { type: types.GET_USER_ERROR, payload: "404" })
@@ -126,8 +160,6 @@ describe("auth-reducer", () => {
           payload: {
             name: "name",
             email: "email",
-            accessToken: "454135145dfadsf",
-            refreshTeken: " adsfdasf342545",
           },
         }
       )
@@ -137,8 +169,116 @@ describe("auth-reducer", () => {
       user: {
         name: "name",
         email: "email",
-        accessToken: "454135145dfadsf",
-        refreshTeken: " adsfdasf342545",
+      },
+    });
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.LOGIN_SUCCESS,
+          payload: {
+            name: "name",
+            email: "email",
+          },
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+      user: {
+        name: "name",
+        email: "email",
+      },
+    });
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.RECOVERY_SUCCESS,
+          payload: "Reset email sent",
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+      message: "Reset email sent",
+    });
+
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.RESET_PASS_SUCCESS,
+          payload: "your password have been reset",
+        }
+      )
+    ).toEqual({
+      message: "your password have been reset",
+      loading: false,
+      error: "",
+    });
+
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.REFRESH_ACCESS_SUCCESS,
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+    });
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.LOGOUT_SUCCESS,
+          payload: "Successful logout",
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+      message: "Successful logout",
+    });
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.GET_USER_SUCCESS,
+          payload: {
+            name: "name",
+            email: "email",
+          },
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+      user: {
+        name: "name",
+        email: "email",
+      },
+    });
+    expect(
+      authReducer(
+        {},
+        {
+          type: types.UPDATE_USER_SUCCESS,
+          payload: {
+            name: "name",
+            email: "email",
+          },
+        }
+      )
+    ).toEqual({
+      loading: false,
+      error: "",
+      message: USER_DATA_UPDATED_SUCCESSFULLY,
+      user: {
+        name: "name",
+        email: "email",
       },
     });
   });
