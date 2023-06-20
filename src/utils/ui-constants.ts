@@ -30,3 +30,4 @@ export const USER_DATA_UPDATED_SUCCESSFULLY =
   'Данные пользователя обновлены успешно!';
 export const ARE_YOU_A_NEW_USER = 'Вы - новый пользователь?';
 export const FORGOT_YOUR_PASSWORD = 'Забыли пароль?';
+export const HERE_YOU_CAN_CHANGE_YOUR_PERSONAL_DATA = 'В этом разделе вы можете изменить свои персональные данные'

@@ -6,6 +6,7 @@ import { PROFILE, ORDER_HISTORY, EXIT } from '../../utils/ui-constants';
 import { TO_PROFILE, TO_ORDERS } from '../../utils/route-constants';
 import { logout, clearState } from '../../services/auth/auth-actions';
 import { deleteCookie } from '../../utils/burger-api';
+import { HERE_YOU_CAN_CHANGE_YOUR_PERSONAL_DATA } from '../../utils/ui-constants';
 
 const ProfileNav = () => {
   const dispatch = typedUseDispatch();
@@ -58,7 +59,7 @@ const ProfileNav = () => {
       </div>
       <div className={styles.textContaienr}>
         <span className='text text_type_main-default text_color_inactive'>
-          В этом разделе вы может изменить свои персональные данные
+         {HERE_YOU_CAN_CHANGE_YOUR_PERSONAL_DATA}
         </span>
       </div>
     </div>

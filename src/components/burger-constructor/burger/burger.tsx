@@ -11,9 +11,6 @@ import { getBurgerState } from '../../../services/burger-constructor/burger-cons
 import { getIngredientsState } from '../../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../../utils/types';
 import {
-  BUN,
-  SAUCE,
-  MAIN,
   DROP_INGREDIENTS_HERE,
 } from '../../../utils/ui-constants';
 
@@ -61,11 +58,9 @@ const Burger = (): JSX.Element => {
 
   let content = (
     <div className={styles.placeholder}>
-      <Placeholder type='top' text={BUN} />
-      <Placeholder text={MAIN} />
+      <Placeholder type='top' />
       <Placeholder text={DROP_INGREDIENTS_HERE} textStyle />
-      <Placeholder text={SAUCE} />
-      <Placeholder type='bottom' text={BUN} />
+      <Placeholder type='bottom' />
     </div>
   );
 
