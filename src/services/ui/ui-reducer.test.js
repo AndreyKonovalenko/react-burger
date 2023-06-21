@@ -1,7 +1,7 @@
 import { uiReducer } from "./ui-reducer";
 import * as types from "./ui-actions";
 import { BUN } from "../../utils/ui-constants";
-describe("ui reducer", () => {
+describe("ui-reducer", () => {
   it("should create initial state", () => {
     expect(uiReducer(undefined, {})).toEqual({
       ingredient: null,
