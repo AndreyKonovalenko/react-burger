@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { getWSState } from '../../services/ws/ws-selector';
 import OrderCard from '../order-card/order-card';
-import ErrorBage from '../error-bage/error-bage';
 import LoadingBage from '../loading-bage/loading-bage';
 import styles from './prolile-orders.module.css';
 
@@ -12,10 +11,6 @@ const ProfileOrders = (): JSX.Element => {
 
   if (!wsConnected && !message) {
     return <LoadingBage />;
-  }
-
-  if (!message?.success) {
-    return <ErrorBage error={message?.message as string} />;
   }
 
   if (wsConnected && message?.success) {

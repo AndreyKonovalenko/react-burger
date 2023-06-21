@@ -30,7 +30,7 @@ const ProfilePage = (): JSX.Element => {
     return () => {
       dispatch(disconnect());
     };
-  }, [dispatch]);
+  }, [dispatch, error]);
 
   const content = (
     <div className={styles.wrapper}>

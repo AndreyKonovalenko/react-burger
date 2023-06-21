@@ -7,7 +7,6 @@ import Feed from '../../components/feed/feed';
 import FeedStatusPanel from '../../components/feed-status-panel/feed-status-panel';
 import { FEED } from '../../utils/ui-constants';
 import LoadingBage from '../../components/loading-bage/loading-bage';
-import ErrorBage from '../../components/error-bage/error-bage';
 import { getWSState } from '../../services/ws/ws-selector';
 const FeedPage = (): JSX.Element => {
   const { wsConnected, message } = useSelector(getWSState);
@@ -26,10 +25,6 @@ const FeedPage = (): JSX.Element => {
   if (!wsConnected) {
     content = <LoadingBage />;
   }
-
-  // if (!wsConnected && !message?.success) {
-  //   content = <ErrorBage error={message?.message as string} />;
-  // }
 
   if (wsConnected && message?.success) {
     content = (
