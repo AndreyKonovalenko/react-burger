@@ -33,6 +33,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "cypress:open": "./node_modules/.bin/cypress open",
     "deploy-ya.cloud": "npm run build && scp -r ./build/* admin@158.160.102.230:/home/admin/stellar-frontend"
   },
   "eslintConfig": {
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
-    "@types/uniqid": "^5.3.2"
+    "@types/uniqid": "^5.3.2",
+    "cypress": "^12.15.0"
   }
 }
