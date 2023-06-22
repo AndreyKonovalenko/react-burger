@@ -59,11 +59,13 @@ const LoginPage = (): JSX.Element => {
           value={email}
           name={'email'}
           placeholder='E-mail'
+          data-testid="e-mail_input"
         />
         <PasswordInput
           onChange={handleChange}
           value={password}
           name={'password'}
+          data-testid="password_input"
         />
         <Button htmlType='submit' type='primary' size='medium'>
           {LOGIN}
