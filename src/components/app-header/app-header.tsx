@@ -2,7 +2,11 @@ import NavItem from './nav-item/nav-item';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './app-header.module.css';
-import { BURGER_CONSTRUCTOR, ORDER_FEED, USER_ACCOUNT } from '../../utils/ui-constants';
+import {
+  BURGER_CONSTRUCTOR,
+  ORDER_FEED,
+  USER_ACCOUNT,
+} from '../../utils/ui-constants';
 import { TO_FEED, TO_PROFILE } from '../../utils/route-constants';
 
 const AppHeader = (): JSX.Element => (
@@ -17,7 +21,9 @@ const AppHeader = (): JSX.Element => (
           <Logo />
         </Link>
       </div>
-      <div className={`${styles.itemContainer} ${styles.decorator3}`}>
+      <div
+        className={`${styles.itemContainer} ${styles.decorator3}`}
+        data-testid='user-account'>
         <NavItem option={USER_ACCOUNT} to={TO_PROFILE} />
       </div>
     </nav>

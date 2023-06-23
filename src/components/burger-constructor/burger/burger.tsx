@@ -10,9 +10,7 @@ import { addIngredient } from '../../../services/burger-constructor/burger-const
 import { getBurgerState } from '../../../services/burger-constructor/burger-constructor-selectors';
 import { getIngredientsState } from '../../../services/burger-ingredients/burger-ingredients-selector';
 import { TIngredient } from '../../../utils/types';
-import {
-  DROP_INGREDIENTS_HERE,
-} from '../../../utils/ui-constants';
+import { DROP_INGREDIENTS_HERE } from '../../../utils/ui-constants';
 
 const Burger = (): JSX.Element => {
   const dispatch = typedUseDispatch();
@@ -98,7 +96,8 @@ const Burger = (): JSX.Element => {
   return (
     <div
       className={`${styles.container} ${isHover && styles.droppable} mt-25`}
-      ref={drop}>
+      ref={drop}
+      data-testid='drop-zone'>
       {content}
     </div>
   );
