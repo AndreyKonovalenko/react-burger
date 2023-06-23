@@ -12,7 +12,7 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import ProtectedRoute from '../protected-route/protected-route';
 import IngredientDetailsPage from '../../pages/ingredient-details-page/ingredient-details-page';
 import ProfileUserForm from '../profile-user-form/profile-user-form';
-import ProfileOrders from '../profile-order/profile-orders';
+import ProfileOrders from '../profile-orders/profile-orders';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import FeedPage from '../../pages/feed-page/feed-page';
 import Modal from '../modal/modal';

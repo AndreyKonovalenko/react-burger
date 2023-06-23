@@ -11,9 +11,8 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 60px;
 }
 
 .orderBoardColumn {
@@ -26,8 +25,8 @@
 }
 
 .column {
-  width: 140px;
-  height: 152px;
+  width: 90px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -41,6 +40,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .completedContainer {

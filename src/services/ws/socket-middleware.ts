@@ -24,7 +24,7 @@ export const socketMiddleware = (wsActions: TWSMethodsActions): Middleware => {
           dispatch({ type: onOpen, payload: event });
         };
 
-        socket.onerror = (event) => {
+        socket.onerror = (event: Event) => {
           dispatch({ type: onError, payload: CONNECTION_ERROR_WARNING });
         };
 

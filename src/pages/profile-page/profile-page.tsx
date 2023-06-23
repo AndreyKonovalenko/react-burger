@@ -10,6 +10,7 @@ import { clearMessage } from '../../services/auth/auth-actions';
 import ErrorBage from '../../components/error-bage/error-bage';
 import ProfileNav from '../../components/profile-nav/profile-nav';
 import { conntectToAUser, disconnect } from '../../services/ws/ws-actions';
+import { getCookie } from '../../utils/burger-api';
 
 const ProfilePage = (): JSX.Element => {
   const dispatch = typedUseDispatch();
@@ -22,11 +23,14 @@ const ProfilePage = (): JSX.Element => {
   }, [message, dispatch]);
 
   useEffect(() => {
-    dispatch(conntectToAUser());
+    const token = getCookie('accessToken');
+    if (Boolean(token)) {
+      dispatch(conntectToAUser(token!));
+    }
     return () => {
       dispatch(disconnect());
     };
-  }, [dispatch]);
+  }, [dispatch, error]);
 
   const content = (
     <div className={styles.wrapper}>

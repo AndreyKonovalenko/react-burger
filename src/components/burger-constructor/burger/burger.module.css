@@ -21,7 +21,6 @@
   scrollbar-color: #8585ad #2f2f37;
 }
 
-
 .itemContainer {
   width: 600px;
   display: flex;
@@ -31,6 +30,14 @@
   gap: 8px;
 }
 
+.placeholder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
 
 .droppable {
   background: #1c1c21;

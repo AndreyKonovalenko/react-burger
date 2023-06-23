@@ -32,7 +32,8 @@ const Checkout = (): JSX.Element => {
         type='primary'
         size='large'
         disabled={bun ? false : true}
-        onClick={handleOnCheckout}>
+        onClick={handleOnCheckout}
+        data-testid='checkout'>
         Оформить заказ
       </Button>
     </div>

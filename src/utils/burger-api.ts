@@ -4,7 +4,7 @@ const BURGER_API_URL = 'https://norma.nomoreparties.space/api/';
 export const WS_NORMA_API_URL = 'wss://norma.nomoreparties.space/orders';
 
 const getRefreshToken = (): string => {
-  return JSON.stringify({ token: sessionStorage.getItem('refreshToken') });
+  return JSON.stringify({ token: localStorage.getItem('refreshToken') });
 };
 const setRefreshTokent = (token: string): void => {
   localStorage.setItem('refreshToken', token);
