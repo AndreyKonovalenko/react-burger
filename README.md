@@ -2,6 +2,8 @@
 
 Stellar Burgers is React SPA.
 
+![burger](https://github.com/AndreyKonovalenko/react-burger/assets/16167616/b4155e83-37aa-4877-9c41-aa1fddaa0a03)
+
 ## features
 
 - Constructor page where user can create his own beautiful burger with variety of ingredients by drag and drop any ingredient to constructor aria;
