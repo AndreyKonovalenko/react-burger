@@ -27,4 +27,4 @@ Stellar Burgers is React SPA.
 - e2e tests:
   - cypress.
 
-[View Live](https://stellar-burger.nomoredomains.rocks/)
+[View Live](https://stellar-burgers.onrender.com/)
